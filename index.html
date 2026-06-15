@@ -4,7 +4,104 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Floating Gallery</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #f2ede8;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Georgia', serif;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      perspective: 1000px;
+      perspective-origin: 50% 50%;
+      overflow: hidden;
+      transition: background-color 0.45s ease;
+    }
+
+    .scene.has-hover {
+      background-color: #faf8f5;
+    }
+
+    .item {
+      position: absolute;
+      cursor: pointer;
+      will-change: transform, opacity;
+      opacity: 0; /* JS drives this */
+      transition: filter 0.4s ease;
+    }
+
+    .item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0);
+      transition: background 0.4s ease;
+      pointer-events: none;
+    }
+
+    .scene.has-hover .item:not(.hovered)::after {
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .frame {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      overflow: hidden;
+      box-shadow: 0 4px 28px rgba(0, 0, 0, 0.10);
+    }
+
+    .frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 14px 12px;
+      background: rgba(255, 255, 255, 0.93);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+
+    .item.hovered .label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .label-title {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      line-height: 1.4;
+    }
+
+    .label-sub {
+      font-size: 10px;
+      color: #888;
+      margin-top: 2px;
+      letter-spacing: 0.04em;
+    }
+  </style>
 </head>
 <body>
 
@@ -12,79 +109,172 @@
 
   <!-- 01 · upper left, portrait -->
   <div class="item" style="left:3%;  top:5%;  width:200px; height:285px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+    <div class="frame"><img src="src/img/Albína_Thordarson_Architect.png" alt="Albína Thordarson Architect" /></div>
+    <div class="label"><div class="label-title">Albína Thordarson</div><div class="label-sub">Architect</div></div>
   </div>
 
   <!-- 02 · top center, landscape -->
   <div class="item" style="left:29%; top:2%;  width:310px; height:200px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+    <div class="frame"><img src="src/img/H59_Social_Housing.png" alt="H59 Social Housing" /></div>
+    <div class="label"><div class="label-title">H59</div><div class="label-sub">Social Housing</div></div>
   </div>
 
   <!-- 03 · upper right, portrait -->
   <div class="item" style="left:64%; top:4%;  width:185px; height:265px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+    <div class="frame"><img src="src/img/Gígur_Visitor_Centre.png" alt="Gígur Visitor Centre" /></div>
+    <div class="label"><div class="label-title">Gígur</div><div class="label-sub">Visitor Centre</div></div>
   </div>
 
   <!-- 04 · far right top, small square -->
   <div class="item" style="left:82%; top:13%; width:150px; height:150px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+    <div class="frame"><img src="src/img/Oase_vases.png" alt="Oase Vases" /></div>
+    <div class="label"><div class="label-title">Oase</div><div class="label-sub">Vases</div></div>
   </div>
 
   <!-- 05 · mid left, large portrait -->
   <div class="item" style="left:6%;  top:37%; width:240px; height:325px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+    <div class="frame"><img src="src/img/Dragons_Nest.png" alt="Dragon's Nest" /></div>
+    <div class="label"><div class="label-title">Dragon's Nest</div><div class="label-sub"></div></div>
   </div>
 
   <!-- 06 · center, square -->
   <div class="item" style="left:35%; top:26%; width:270px; height:270px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+    <div class="frame"><img src="src/img/Faux_Fauna.png" alt="Faux Fauna" /></div>
+    <div class="label"><div class="label-title">Faux Fauna</div><div class="label-sub"></div></div>
   </div>
 
   <!-- 07 · center right, landscape -->
   <div class="item" style="left:58%; top:31%; width:250px; height:180px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+    <div class="frame"><img src="src/img/Lauf_Elja_Bike.png" alt="Lauf Elja Bike" /></div>
+    <div class="label"><div class="label-title">Lauf Elja</div><div class="label-sub">Bike</div></div>
   </div>
 
   <!-- 08 · right mid, portrait -->
   <div class="item" style="left:78%; top:39%; width:170px; height:235px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+    <div class="frame"><img src="src/img/Elliðaárstöð_Power_Station.png" alt="Elliðaárstöð Power Station" /></div>
+    <div class="label"><div class="label-title">Elliðaárstöð</div><div class="label-sub">Power Station</div></div>
   </div>
 
   <!-- 09 · bottom left, landscape -->
   <div class="item" style="left:2%;  top:65%; width:280px; height:185px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+    <div class="frame"><img src="src/img/Ranra_2025_Fall.png" alt="Ranra 2025 Fall" /></div>
+    <div class="label"><div class="label-title">Ranra</div><div class="label-sub">2025 Fall</div></div>
   </div>
 
   <!-- 10 · bottom center-left, portrait -->
   <div class="item" style="left:29%; top:59%; width:195px; height:265px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+    <div class="frame"><img src="src/img/Seaweed.png" alt="Seaweed" /></div>
+    <div class="label"><div class="label-title">Seaweed</div><div class="label-sub"></div></div>
   </div>
 
-  <!-- 11 · bottom center, small square -->
-  <div class="item" style="left:49%; top:65%; width:150px; height:150px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
-  </div>
-
-  <!-- 12 · bottom right, landscape -->
-  <div class="item" style="left:61%; top:61%; width:300px; height:200px;">
-    <div class="frame"></div>
-    <div class="label"><div class="label-title">Image Title</div><div class="label-sub">Artist · Year</div></div>
+  <!-- 11 · bottom right, landscape -->
+  <div class="item" style="left:58%; top:62%; width:290px; height:195px;">
+    <div class="frame"><img src="src/img/Stöng_Ruins.png" alt="Stöng Ruins" /></div>
+    <div class="label"><div class="label-title">Stöng</div><div class="label-sub">Ruins</div></div>
   </div>
 
 </div>
 
-<script src="js/script.js"></script>
+<script>
+  const Z_FAR   = -800;   // far away  — items start here (small, near center)
+  const Z_NEAR  =  650;   // close     — items end here   (large, off-screen)
+  const Z_RANGE = Z_NEAR - Z_FAR; // 1450 px total travel
+
+  // Base speed (px/s) and initial Z for each item.
+  // Speed matches the original CSS durations; initial Z matches the original
+  // negative delays so the field is staggered on load.
+  const CONFIG = [
+    { dur: 17, delay:  3 },
+    { dur: 13, delay:  6 },
+    { dur: 19, delay: 10 },
+    { dur: 11, delay:  4 },
+    { dur: 21, delay: 14 },
+    { dur: 15, delay:  7 },
+    { dur: 18, delay:  2 },
+    { dur: 12, delay:  8 },
+    { dur: 16, delay:  1 },
+    { dur: 20, delay: 11 },
+    { dur: 14, delay:  5 },
+  ];
+
+  const items = Array.from(document.querySelectorAll('.item')).map((el, i) => {
+    const { dur, delay } = CONFIG[i];
+    return {
+      el,
+      z:     Z_FAR + (delay / dur) * Z_RANGE, // initial position mid-journey
+      speed: Z_RANGE / dur,                    // px per second at base
+    };
+  });
+
+  const scene = document.querySelector('.scene');
+  let hoveredItem = null;
+
+  items.forEach(item => {
+    item.el.addEventListener('mouseenter', () => {
+      hoveredItem = item;
+      item.el.classList.add('hovered');
+      item.el.style.zIndex = '1000';
+      scene.classList.add('has-hover');
+    });
+    item.el.addEventListener('mouseleave', () => {
+      hoveredItem = null;
+      item.el.classList.remove('hovered');
+      item.el.style.zIndex = '';
+      scene.classList.remove('has-hover');
+    });
+  });
+
+  // scrollVel: boost multiplier on base speed.
+  //   0   = base speed    (no scroll)
+  //   9   = 10× faster    (fast scroll down)
+  //  -0.9 = ~10% speed    (scroll up nearly stops it)
+  let scrollVel = 0;
+
+  window.addEventListener('wheel', e => {
+    scrollVel += e.deltaY * 0.012;
+    scrollVel = Math.max(-0.9, Math.min(9, scrollVel));
+  }, { passive: true });
+
+  window.addEventListener('touchmove', e => {
+    if (e.touches.length === 1) {
+      scrollVel += 0.5;
+      scrollVel = Math.min(9, scrollVel);
+    }
+  }, { passive: true });
+
+  let lastTime = null;
+
+  function tick(now) {
+    if (lastTime === null) lastTime = now;
+    const dt = Math.min((now - lastTime) / 1000, 0.05);
+    lastTime = now;
+
+    if (!hoveredItem) {
+      items.forEach(item => {
+        const effectiveSpeed = item.speed * (1 + scrollVel);
+        item.z += effectiveSpeed * dt;
+
+        if (item.z >= Z_NEAR) item.z = Z_FAR;
+
+        const p = (item.z - Z_FAR) / Z_RANGE;
+        let opacity;
+        if      (p < 0.07) opacity = p / 0.07;
+        else if (p > 0.82) opacity = 1 - (p - 0.82) / 0.18;
+        else               opacity = 1;
+
+        item.el.style.transform = `translateZ(${item.z}px)`;
+        item.el.style.opacity   = Math.max(0, Math.min(1, opacity));
+      });
+    }
+
+    scrollVel *= 0.92;
+    if (Math.abs(scrollVel) < 0.005) scrollVel = 0;
+
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+</script>
 
 </body>
 </html>
