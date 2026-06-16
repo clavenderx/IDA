@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Floating Gallery</title>
   <link href="https://fonts.bunny.net/css?family=switzer:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.bunny.net/css?family=playfair-display:400i&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="src/css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
 
@@ -146,6 +148,150 @@
   <span class="afd-type" id="afdType"></span>
   <span class="afd-value" id="afdValue"></span>
 </div>
+
+<!-- Site title / home button -->
+<button id="site-title">Icelandic Design Awards</button>
+
+<!-- Lauf Elja detail close button -->
+<button id="detail-close">&#x00D7;</button>
+
+<!-- Persistent scroll indicator for detail view -->
+<div id="detail-nav">
+  <span class="dp-mono">Scroll To Explore</span>
+  <div class="detail-nav-track">
+    <span class="dp-mono">[</span>
+    <div class="detail-nav-line">
+      <div class="detail-nav-fill" id="detailNavFill"></div>
+    </div>
+    <span class="dp-mono">]</span>
+  </div>
+</div>
+
+<!-- Lauf Elja horizontal detail view -->
+<div id="lauf-detail">
+  <div class="detail-track">
+
+    <!-- 01 Hero: bg image + 3 tiles + text bottom -->
+    <section class="dp dp-hero">
+      <img class="dp-hero-bg" src="src/img/lauf_elja_page/Lauf_Elja_Bike_start.png" alt="">
+      <div class="dp-hero-feature">
+        <img src="src/img/Lauf_Elja_Bike.png" alt="">
+      </div>
+      <div class="dp-hero-bottom">
+        <h1 class="dp-display dp-hero-title">Where biking passion meets technical<br>engineering and performance</h1>
+        <p class="dp-hero-credit">Elja by Lauf Cycles wins Product of the<br>Year at the 2025 Icelandic Awards</p>
+      </div>
+    </section>
+
+    <!-- 02 Founders: text left, group photo right -->
+    <section class="dp dp-founders">
+      <div class="dp-founders-copy">
+        <p class="dp-body">Háskóli Íslands is their first stop, training in bike full suspension bikes, commuter bikes, racing performance bikes, and everyday until the finest design focused on their love for biking this Iceland's natural lands.</p>
+        <p class="dp-body">Every aspect of the design is guided by the goal of delivering an exceptional riding experience, allowing riders to transition smoothly between different mountain bike terrains, and diverse product materials utilizing comprehensive engineering, and pursuit the best sustainable practice in the bike industry.</p>
+      </div>
+      <div class="dp-founders-media">
+        <img src="src/img/lauf_elja_page/Lauf_Elja_Bike_4.png" alt="">
+      </div>
+    </section>
+
+    <!-- 03 Duo: italic quote + green pixels left, portrait right with names -->
+    <section class="dp dp-duo">
+      <div class="dp-duo-copy">
+        <div class="dp-pixels">
+          <span class="dp-pix" style="top:17%;left:3%"></span>
+          <span class="dp-pix" style="top:19%;left:5%"></span>
+          <span class="dp-pix" style="top:17%;left:7%"></span>
+          <span class="dp-pix" style="top:41%;left:32%"></span>
+          <span class="dp-pix" style="top:43%;left:34%"></span>
+          <span class="dp-pix" style="top:41%;left:36%"></span>
+          <span class="dp-pix" style="top:63%;left:44%"></span>
+          <span class="dp-pix" style="top:65%;left:46%"></span>
+        </div>
+        <h2 class="dp-display dp-duo-title">Meet the duos<br><mark class="dp-mark">redefining</mark><br>and <mark class="dp-mark">rocking</mark><br>the bike industry.</h2>
+      </div>
+      <div class="dp-duo-media">
+        <div class="dp-duo-names">
+          <span class="dp-mono dp-name">Benedikt Skúlason</span>
+          <span class="dp-mono dp-name">Gudberg Björnsson</span>
+        </div>
+        <div class="dp-duo-img">
+          <img src="src/img/lauf_elja_page/Lauf_Elja_Bike_5.png" alt="">
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 Origin: body text left, italic quote center, team photo right -->
+    <section class="dp dp-origin">
+      <div class="dp-origin-copy">
+        <p class="dp-body">Founded in 2011, Lauf began in a garage by two Iðnaðarfráðla, Benedikt Gudberg and Gudberg Björnsson, their journey started based on their love for biking Iceland's natural lands and driven by a dream to create better bikes. Lauf Cycles breakthrewed with the scientific advancement and first car in helping riding experience to the pinnacle of their work. The co-founders was showed by the desire to reinvent for the better and leave a lasting impact in the bike industry.</p>
+        <p class="dp-body">Benedikt Skúlason studies at Master's Degree programme in engineering Composites from Manchester Cylander 2005, He was a bike studying how to make his own carbon bike and thought really came closer to composites face with that information he decided to start from the ground up to make his own.</p>
+      </div>
+      <div class="dp-origin-quote">
+        <div class="dp-pixels">
+          <span class="dp-pix" style="top:20%;left:6%"></span>
+          <span class="dp-pix" style="top:22%;left:8%"></span>
+          <span class="dp-pix" style="top:20%;left:10%"></span>
+          <span class="dp-pix" style="top:58%;right:6%"></span>
+          <span class="dp-pix" style="top:60%;right:4%"></span>
+          <span class="dp-pix" style="top:62%;right:6%"></span>
+        </div>
+        <blockquote class="dp-display dp-origin-q">The <mark class="dp-mark">motivation</mark><br>that keeps<br>us going.</blockquote>
+      </div>
+      <div class="dp-origin-media">
+        <img src="src/img/lauf_elja_page/Lauf_Elja_Bike_6.png" alt="">
+      </div>
+    </section>
+
+    <!-- 05 Testimony: two text cols left, giant quote center, aside right -->
+    <section class="dp dp-testimony">
+      <div class="dp-testimony-cols">
+        <p class="dp-body">It strives with outside-of-the-box thinking when it comes to engineering and creating products that are incredibly fun to play with. We are a company team with their creative appreciation in engineering, and also with the information we produce, we maintain this production qualities and commitment to service production principles and environmental requirements.</p>
+        <p class="dp-body">Being able to produce bikes right at home in Iceland has made a positive impact on the local cycling community. Riders are now able to discover Lauf's technology that is pure and performance focused — Lauf has taken it up a notch, making more possibilities when you have more passion for the topic.</p>
+      </div>
+      <div class="dp-testimony-quote">
+        <blockquote class="dp-display dp-big-q">"You need to do <mark class="dp-mark">a lot of testing</mark> and need to have a lot of hands on experience with material. So that got me thinking, where can I get a job in composites, which led me to work&nbsp;[job] at a nice landscape company..."</blockquote>
+        <cite class="dp-mono dp-cite">[Benedikt Skúlason]</cite>
+      </div>
+      <div class="dp-testimony-aside">
+        <div class="dp-pixels">
+          <span class="dp-pix" style="top:28%;left:8%"></span>
+          <span class="dp-pix" style="top:30%;left:10%"></span>
+          <span class="dp-pix" style="top:28%;left:12%"></span>
+          <span class="dp-pix" style="top:54%;left:20%"></span>
+          <span class="dp-pix" style="top:56%;left:18%"></span>
+        </div>
+        <blockquote class="dp-display dp-aside-q">Our <mark class="dp-mark">legacy</mark> in<br>the bike industry...</blockquote>
+      </div>
+    </section>
+
+    <!-- 06 Action: 4-image grid left, quote panel right -->
+    <section class="dp dp-action">
+      <div class="dp-action-grid">
+        <img class="dp-action-tall" src="src/img/lauf_elja_page/Lauf_Elja_Bike_7.png" alt="">
+        <div class="dp-action-stack">
+          <img src="src/img/lauf_elja_page/Lauf_Elja_Bike_1.png" alt="">
+          <img src="src/img/lauf_elja_page/Lauf_Elja_Bike_2.png" alt="">
+        </div>
+        <img class="dp-action-tall" src="src/img/lauf_elja_page/Lauf_Elja_Bike_8.png" alt="">
+      </div>
+      <div class="dp-action-quote">
+        <blockquote class="dp-display dp-action-q">"...It was <mark class="dp-mark">never a goal in itself</mark> too to go into the biking industry... because I mean there is... <mark class="dp-mark">no bike industry here in Iceland</mark>... it kinda just happens <mark class="dp-mark">as a result of a lifelong passion</mark> for the topic."</blockquote>
+        <cite class="dp-mono dp-cite">[Benedikt Skúlason]</cite>
+        <span class="dp-mono dp-next">[ SEE NEXT PROJECT ]</span>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- Landing page -->
+<div id="landing-overlay">
+  <img src="src/img/landing_page_1.png" alt="Icelandic Design Awards" />
+  <div id="landing-cta">[Click Anywhere to Explore]</div>
+</div>
+
+<!-- Pixel transition squares -->
+<div id="square_container"></div>
 
 <script src="src/js/script.js"></script>
 </body>

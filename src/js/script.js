@@ -168,7 +168,7 @@ const FILTER_DATA = {
     { name: 'Ranra',                         img: I + 'Ranra_2025_Fall.png' },
     { name: 'S.AP Architects',               img: I + 'H59_Social_Housing.png' },
     { name: 'Sp(r)int Studio',               img: null },
-    { name: 'Terta',                         img: null },
+    { name: 'Tetra',                         img: null },
     { name: 'Helga Lilja',                   img: null },
     { name: 'Studio Granda',                 img: I + 'Stöng_Ruins.png' },
     { name: 'Þykjó',                         img: null },
@@ -376,3 +376,118 @@ window.addEventListener('mousemove', e => {
 
 mtInitGrid();
 window.addEventListener('resize', mtInitGrid);
+
+/* ─── Lauf Elja Detail ───────────────────────────────────────────────────────── */
+(function () {
+  const laufDetail   = document.getElementById('lauf-detail');
+  const detailClose  = document.getElementById('detail-close');
+  const detailNav    = document.getElementById('detail-nav');
+  const detailNavFill = document.getElementById('detailNavFill');
+  const track        = laufDetail.querySelector('.detail-track');
+
+  function openLaufDetail() {
+    laufDetail.style.display  = 'block';
+    detailClose.classList.add('open');
+    detailNav.style.display   = 'flex';
+    detailNavFill.style.width = '0%';
+    gsap.fromTo(laufDetail, { opacity: 0 }, { opacity: 1, duration: 0.35 });
+  }
+
+  function closeLaufDetail() {
+    gsap.to(laufDetail, {
+      opacity: 0,
+      duration: 0.25,
+      onComplete: () => {
+        laufDetail.style.display  = 'none';
+        detailClose.classList.remove('open');
+        detailNav.style.display   = 'none';
+        detailNavFill.style.width = '0%';
+        track.scrollLeft = 0;
+      },
+    });
+  }
+
+  track.addEventListener('scroll', () => {
+    const ratio = track.scrollLeft / (track.scrollWidth - track.clientWidth);
+    detailNavFill.style.width = (ratio * 100) + '%';
+  });
+
+  detailClose.addEventListener('click', closeLaufDetail);
+
+  laufDetail.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    track.scrollLeft += e.deltaY * 1.4;
+  }, { passive: false });
+
+  items.forEach(item => {
+    if (item.el.dataset.creator === 'lauf cycles') {
+      item.el.addEventListener('click', () => {
+        if (item.dimTarget === 0) return;
+        openLaufDetail();
+      });
+    }
+  });
+})();
+
+/* ─── Landing Page ───────────────────────────────────────────────────────────── */
+(function () {
+  const overlay   = document.getElementById('landing-overlay');
+  const container = document.getElementById('square_container');
+  const SQ = 100;
+  let squares = [];
+  let transitioning = false;
+
+  function buildSquares() {
+    container.innerHTML = '';
+    squares = [];
+    const cols = Math.ceil(window.innerWidth  / SQ);
+    const rows = Math.ceil(window.innerHeight / SQ);
+    container.style.width  = cols * SQ + 'px';
+    container.style.height = rows * SQ + 'px';
+    for (let i = 0; i < cols * rows; i++) {
+      const sq = document.createElement('div');
+      sq.className = 'square';
+      container.appendChild(sq);
+      squares.push(sq);
+    }
+  }
+
+  document.getElementById('site-title').addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (overlay.style.display === 'none') {
+      transitioning = false;
+      overlay.style.display = 'block';
+      gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+    }
+  });
+
+  overlay.addEventListener('click', () => {
+    if (transitioning) return;
+    transitioning = true;
+    buildSquares();
+
+    gsap.fromTo(squares, { opacity: 0 }, {
+      opacity: 1,
+      delay: 0.5,
+      duration: 0.0005,
+      stagger: { each: 0.004, from: 'random' },
+    });
+
+    gsap.to(squares, {
+      opacity: 0,
+      delay: 1.5,
+      duration: 0.0005,
+      stagger: { each: 0.004, from: 'random' },
+    });
+
+    gsap.to(overlay, {
+      opacity: 0,
+      delay: 1.15,
+      duration: 0.3,
+      onComplete: () => {
+        overlay.style.display = 'none';
+        container.innerHTML   = '';
+      },
+    });
+  });
+})();
