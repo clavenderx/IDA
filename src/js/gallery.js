@@ -233,11 +233,6 @@ function hidePreviews() {
 /* ─── Filter Data ────────────────────────────────────────────────────────────── */
 const I = 'src/img/gallery/';
 const FILTER_DATA = {
-  date: [
-    { name: '2025', img: I + 'Ranra_2025_Fall.png' },
-    { name: '2024', img: null },
-    { name: '2023', img: null },
-  ],
   creator: [
     { name: 'Albína Thordarson',            img: I + 'Albína_Thordarson_Architect.png' },
     { name: 'Dýpi',                          img: null },

@@ -10,7 +10,7 @@
 
 #landing-cta {
   position: absolute;
-  bottom: 52px;
+  bottom: 27px;
   left: 50%;
   transform: translateX(-50%);
   color: var(--color-light-green);
