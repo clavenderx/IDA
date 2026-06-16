@@ -140,3 +140,10 @@ body {
   text-decoration: none;
   pointer-events: auto;
 }
+
+/* ─── Buttons ───────────────────────────────────────────────────────────────── */
+.btn:hover,
+.landing-tag:hover {
+  background-color: var(--color-light-orange);
+  color: var(--color-charcoal);
+}
