@@ -1,298 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Floating Gallery</title>
-  <link href="https://fonts.bunny.net/css?family=switzer:400&display=swap" rel="stylesheet">
-  <link href="https://fonts.bunny.net/css?family=playfair-display:400i&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="src/css/styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Icelandic Design Awards</title>
+    <link rel="stylesheet" href="src/css/global.css" />
+    <link rel="stylesheet" href="src/css/landing.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav id="site-nav">
+      <a href="about.html" class="paragraph-3 nav-link nav-left">[ About ]</a>
+      <a href="index.html" class="paragraph-3 nav-center"
+        >Icelandic Design Awards</a
+      >
+      <a href="jury.html" class="paragraph-3 nav-link nav-right">[ Jury ]</a>
+    </nav>
 
-<!-- Gallery -->
-<div class="scene">
-
-  <!-- 01 · upper left, portrait -->
-  <div class="item" data-creator="albína thordarson" data-category="project" data-date="2024"
-       style="left:3%; top:5%; width:200px; height:285px;">
-    <div class="frame"><img src="src/img/Albína_Thordarson_Architect.png" alt="Albína Thordarson Architect" /></div>
-    <div class="label">
-      <div class="label-title">Albína Thordarson</div>
-      <div class="label-sub">Architect</div>
+    <!-- Landing page -->
+    <div id="landing-overlay">
+      <img src="src/img/landing_page_1.png" alt="Icelandic Design Awards" />
+      <img id="landing-noise" src="src/img/NOISE.png" alt="" />
+      <svg id="landing-lines"></svg>
+      <div id="landing-heading">
+        <span class="landing-line">I<span id="ltr-craft">C</span>ELA<span id="ltr-modern">N</span><span id="ltr-design">D</span>IC</span>
+        <span class="landing-line landing-line-design">
+          <span id="ltr-digital">D</span>ESIGN<span class="landing-year">20<span id="ltr-future">2</span>5</span>
+        </span>
+        <span class="landing-line">A<span id="ltr-innovation">W</span>AR<span id="ltr-technology">D</span>S</span>
+      </div>
+      <a href="#" class="landing-tag heading-4" id="tag-craft" style="left:202px; top:161px;">[ Craft ]</a>
+      <a href="#" class="landing-tag heading-4" id="tag-modern" style="left:516px; top:115px;">[ Modern ]</a>
+      <a href="#" class="landing-tag heading-4" id="tag-design" style="left:860px; top:115px;">[ Design ]</a>
+      <a href="#" class="landing-tag heading-4" id="tag-future" style="left:1116px; top:254px;">[ Future ]</a>
+      <a href="#" class="landing-tag heading-4" id="tag-digital" style="left:236px; top:595px;">[ Digital ]</a>
+      <a href="#" class="landing-tag heading-4" id="tag-innovation" style="left:548px; top:680px;">[ Innovation ]</a>
+      <a href="#" class="landing-tag heading-4" id="tag-technology" style="left:1036px; top:680px;">[ Technology ]</a>
+      <div id="landing-cta" class="paragraph-3">
+        [ Click Anywhere to Explore ]
+      </div>
     </div>
-  </div>
 
-  <!-- 02 · top center, landscape -->
-  <div class="item" data-creator="s.ap architects" data-category="project" data-date="2023"
-       style="left:29%; top:2%; width:310px; height:200px;">
-    <div class="frame"><img src="src/img/H59_Social_Housing.png" alt="H59 Social Housing" /></div>
-    <div class="label">
-      <div class="label-title">H59</div>
-      <div class="label-sub">Social Housing</div>
-    </div>
-  </div>
+    <!-- Pixel transition squares -->
+    <div id="square_container"></div>
 
-  <!-- 03 · upper right, portrait -->
-  <div class="item" data-creator="studio granda" data-category="place" data-date="2024"
-       style="left:64%; top:4%; width:185px; height:265px;">
-    <div class="frame"><img src="src/img/Gígur_Visitor_Centre.png" alt="Gígur Visitor Centre" /></div>
-    <div class="label">
-      <div class="label-title">Gígur</div>
-      <div class="label-sub">Visitor Centre</div>
-    </div>
-  </div>
-
-  <!-- 04 · far right top, small square -->
-  <div class="item" data-creator="fischersund" data-category="product" data-date="2023"
-       style="left:82%; top:13%; width:150px; height:150px;">
-    <div class="frame"><img src="src/img/Oase_vases.png" alt="Oase Vases" /></div>
-    <div class="label">
-      <div class="label-title">Oase</div>
-      <div class="label-sub">Vases</div>
-    </div>
-  </div>
-
-  <!-- 05 · mid left, large portrait -->
-  <div class="item" data-creator="dýpi" data-category="project" data-date="2025"
-       style="left:6%; top:37%; width:240px; height:325px;">
-    <div class="frame"><img src="src/img/Dragons_Nest.png" alt="Dragon's Nest" /></div>
-    <div class="label">
-      <div class="label-title">Dragon's Nest</div>
-      <div class="label-sub"></div>
-    </div>
-  </div>
-
-  <!-- 06 · center, square -->
-  <div class="item" data-creator="johanna seelemann" data-category="product" data-date="2024"
-       style="left:35%; top:26%; width:270px; height:270px;">
-    <div class="frame"><img src="src/img/Faux_Fauna.png" alt="Faux Fauna" /></div>
-    <div class="label">
-      <div class="label-title">Faux Fauna</div>
-      <div class="label-sub"></div>
-    </div>
-  </div>
-
-  <!-- 07 · center right, landscape -->
-  <div class="item" data-creator="lauf cycles" data-category="product" data-date="2025"
-       style="left:58%; top:31%; width:250px; height:180px;">
-    <div class="frame"><img src="src/img/Lauf_Elja_Bike.png" alt="Lauf Elja Bike" /></div>
-    <div class="label">
-      <div class="label-title">Lauf Elja</div>
-      <div class="label-sub">Bike</div>
-    </div>
-  </div>
-
-  <!-- 08 · right mid, portrait -->
-  <div class="item" data-creator="eldjárn & jón helgi hólmsson" data-category="place" data-date="2023"
-       style="left:78%; top:39%; width:170px; height:235px;">
-    <div class="frame"><img src="src/img/Elliðaárstöð_Power_Station.png" alt="Elliðaárstöð Power Station" /></div>
-    <div class="label">
-      <div class="label-title">Elliðaárstöð</div>
-      <div class="label-sub">Power Station</div>
-    </div>
-  </div>
-
-  <!-- 09 · bottom left, landscape -->
-  <div class="item" data-creator="ranra" data-category="project" data-date="2025"
-       style="left:2%; top:65%; width:280px; height:185px;">
-    <div class="frame"><img src="src/img/Ranra_2025_Fall.png" alt="Ranra 2025 Fall" /></div>
-    <div class="label">
-      <div class="label-title">Ranra</div>
-      <div class="label-sub">2025 Fall</div>
-    </div>
-  </div>
-
-  <!-- 10 · bottom center-left, portrait -->
-  <div class="item" data-creator="nature conservation agency" data-category="project" data-date="2024"
-       style="left:29%; top:59%; width:195px; height:265px;">
-    <div class="frame"><img src="src/img/Seaweed.png" alt="Seaweed" /></div>
-    <div class="label">
-      <div class="label-title">Seaweed</div>
-      <div class="label-sub"></div>
-    </div>
-  </div>
-
-  <!-- 11 · bottom right, landscape -->
-  <div class="item" data-creator="studio granda" data-category="place" data-date="2023"
-       style="left:58%; top:62%; width:290px; height:195px;">
-    <div class="frame"><img src="src/img/Stöng_Ruins.png" alt="Stöng Ruins" /></div>
-    <div class="label">
-      <div class="label-title">Stöng</div>
-      <div class="label-sub">Ruins</div>
-    </div>
-  </div>
-
-</div>
-
-<!-- Filter backdrop -->
-<div class="filter-backdrop" id="filterBackdrop"></div>
-
-<!-- Filter overlay -->
-<div class="filter-overlay" id="filterOverlay">
-  <div class="filter-left">
-    <button class="filter-option" data-filter="date">[ Date ]</button>
-    <button class="filter-option" data-filter="creator">[ Creator ]</button>
-    <button class="filter-option" data-filter="category">[ Category ]</button>
-  </div>
-  <div class="filter-right" id="filterRight"></div>
-</div>
-
-<!-- Close button -->
-<button class="filter-close" id="filterClose">&#x00D7;</button>
-
-<!-- Filter toggle + active filter display -->
-<button class="filter-toggle" id="filterToggle">[ ] Filter &amp; Sort</button>
-<div class="active-filter-display" id="activeFilterDisplay">
-  <span class="afd-type" id="afdType"></span>
-  <span class="afd-value" id="afdValue"></span>
-</div>
-
-<!-- Site title / home button -->
-<button id="site-title">Icelandic Design Awards</button>
-
-<!-- Lauf Elja detail close button -->
-<button id="detail-close">&#x00D7;</button>
-
-<!-- Persistent scroll indicator for detail view -->
-<div id="detail-nav">
-  <span class="dp-mono">Scroll To Explore</span>
-  <div class="detail-nav-track">
-    <span class="dp-mono">[</span>
-    <div class="detail-nav-line">
-      <div class="detail-nav-fill" id="detailNavFill"></div>
-    </div>
-    <span class="dp-mono">]</span>
-  </div>
-</div>
-
-<!-- Lauf Elja horizontal detail view -->
-<div id="lauf-detail">
-  <div class="detail-track">
-
-    <!-- 01 Hero: bg image + 3 tiles + text bottom -->
-    <section class="dp dp-hero">
-      <img class="dp-hero-bg" src="src/img/lauf_elja_page/Lauf_Elja_Bike_start.png" alt="">
-      <div class="dp-hero-feature">
-        <img src="src/img/Lauf_Elja_Bike.png" alt="">
-      </div>
-      <div class="dp-hero-bottom">
-        <h1 class="dp-display dp-hero-title">Where biking passion meets technical<br>engineering and performance</h1>
-        <p class="dp-hero-credit">Elja by Lauf Cycles wins Product of the<br>Year at the 2025 Icelandic Awards</p>
-      </div>
-    </section>
-
-    <!-- 02 Founders: text left, group photo right -->
-    <section class="dp dp-founders">
-      <div class="dp-founders-copy">
-        <p class="dp-body">Háskóli Íslands is their first stop, training in bike full suspension bikes, commuter bikes, racing performance bikes, and everyday until the finest design focused on their love for biking this Iceland's natural lands.</p>
-        <p class="dp-body">Every aspect of the design is guided by the goal of delivering an exceptional riding experience, allowing riders to transition smoothly between different mountain bike terrains, and diverse product materials utilizing comprehensive engineering, and pursuit the best sustainable practice in the bike industry.</p>
-      </div>
-      <div class="dp-founders-media">
-        <img src="src/img/lauf_elja_page/Lauf_Elja_Bike_4.png" alt="">
-      </div>
-    </section>
-
-    <!-- 03 Duo: italic quote + green pixels left, portrait right with names -->
-    <section class="dp dp-duo">
-      <div class="dp-duo-copy">
-        <div class="dp-pixels">
-          <span class="dp-pix" style="top:17%;left:3%"></span>
-          <span class="dp-pix" style="top:19%;left:5%"></span>
-          <span class="dp-pix" style="top:17%;left:7%"></span>
-          <span class="dp-pix" style="top:41%;left:32%"></span>
-          <span class="dp-pix" style="top:43%;left:34%"></span>
-          <span class="dp-pix" style="top:41%;left:36%"></span>
-          <span class="dp-pix" style="top:63%;left:44%"></span>
-          <span class="dp-pix" style="top:65%;left:46%"></span>
-        </div>
-        <h2 class="dp-display dp-duo-title">Meet the duos<br><mark class="dp-mark">redefining</mark><br>and <mark class="dp-mark">rocking</mark><br>the bike industry.</h2>
-      </div>
-      <div class="dp-duo-media">
-        <div class="dp-duo-names">
-          <span class="dp-mono dp-name">Benedikt Skúlason</span>
-          <span class="dp-mono dp-name">Gudberg Björnsson</span>
-        </div>
-        <div class="dp-duo-img">
-          <img src="src/img/lauf_elja_page/Lauf_Elja_Bike_5.png" alt="">
-        </div>
-      </div>
-    </section>
-
-    <!-- 04 Origin: body text left, italic quote center, team photo right -->
-    <section class="dp dp-origin">
-      <div class="dp-origin-copy">
-        <p class="dp-body">Founded in 2011, Lauf began in a garage by two Iðnaðarfráðla, Benedikt Gudberg and Gudberg Björnsson, their journey started based on their love for biking Iceland's natural lands and driven by a dream to create better bikes. Lauf Cycles breakthrewed with the scientific advancement and first car in helping riding experience to the pinnacle of their work. The co-founders was showed by the desire to reinvent for the better and leave a lasting impact in the bike industry.</p>
-        <p class="dp-body">Benedikt Skúlason studies at Master's Degree programme in engineering Composites from Manchester Cylander 2005, He was a bike studying how to make his own carbon bike and thought really came closer to composites face with that information he decided to start from the ground up to make his own.</p>
-      </div>
-      <div class="dp-origin-quote">
-        <div class="dp-pixels">
-          <span class="dp-pix" style="top:20%;left:6%"></span>
-          <span class="dp-pix" style="top:22%;left:8%"></span>
-          <span class="dp-pix" style="top:20%;left:10%"></span>
-          <span class="dp-pix" style="top:58%;right:6%"></span>
-          <span class="dp-pix" style="top:60%;right:4%"></span>
-          <span class="dp-pix" style="top:62%;right:6%"></span>
-        </div>
-        <blockquote class="dp-display dp-origin-q">The <mark class="dp-mark">motivation</mark><br>that keeps<br>us going.</blockquote>
-      </div>
-      <div class="dp-origin-media">
-        <img src="src/img/lauf_elja_page/Lauf_Elja_Bike_6.png" alt="">
-      </div>
-    </section>
-
-    <!-- 05 Testimony: two text cols left, giant quote center, aside right -->
-    <section class="dp dp-testimony">
-      <div class="dp-testimony-cols">
-        <p class="dp-body">It strives with outside-of-the-box thinking when it comes to engineering and creating products that are incredibly fun to play with. We are a company team with their creative appreciation in engineering, and also with the information we produce, we maintain this production qualities and commitment to service production principles and environmental requirements.</p>
-        <p class="dp-body">Being able to produce bikes right at home in Iceland has made a positive impact on the local cycling community. Riders are now able to discover Lauf's technology that is pure and performance focused — Lauf has taken it up a notch, making more possibilities when you have more passion for the topic.</p>
-      </div>
-      <div class="dp-testimony-quote">
-        <blockquote class="dp-display dp-big-q">"You need to do <mark class="dp-mark">a lot of testing</mark> and need to have a lot of hands on experience with material. So that got me thinking, where can I get a job in composites, which led me to work&nbsp;[job] at a nice landscape company..."</blockquote>
-        <cite class="dp-mono dp-cite">[Benedikt Skúlason]</cite>
-      </div>
-      <div class="dp-testimony-aside">
-        <div class="dp-pixels">
-          <span class="dp-pix" style="top:28%;left:8%"></span>
-          <span class="dp-pix" style="top:30%;left:10%"></span>
-          <span class="dp-pix" style="top:28%;left:12%"></span>
-          <span class="dp-pix" style="top:54%;left:20%"></span>
-          <span class="dp-pix" style="top:56%;left:18%"></span>
-        </div>
-        <blockquote class="dp-display dp-aside-q">Our <mark class="dp-mark">legacy</mark> in<br>the bike industry...</blockquote>
-      </div>
-    </section>
-
-    <!-- 06 Action: 4-image grid left, quote panel right -->
-    <section class="dp dp-action">
-      <div class="dp-action-grid">
-        <img class="dp-action-tall" src="src/img/lauf_elja_page/Lauf_Elja_Bike_7.png" alt="">
-        <div class="dp-action-stack">
-          <img src="src/img/lauf_elja_page/Lauf_Elja_Bike_1.png" alt="">
-          <img src="src/img/lauf_elja_page/Lauf_Elja_Bike_2.png" alt="">
-        </div>
-        <img class="dp-action-tall" src="src/img/lauf_elja_page/Lauf_Elja_Bike_8.png" alt="">
-      </div>
-      <div class="dp-action-quote">
-        <blockquote class="dp-display dp-action-q">"...It was <mark class="dp-mark">never a goal in itself</mark> too to go into the biking industry... because I mean there is... <mark class="dp-mark">no bike industry here in Iceland</mark>... it kinda just happens <mark class="dp-mark">as a result of a lifelong passion</mark> for the topic."</blockquote>
-        <cite class="dp-mono dp-cite">[Benedikt Skúlason]</cite>
-        <span class="dp-mono dp-next">[ SEE NEXT PROJECT ]</span>
-      </div>
-    </section>
-
-  </div>
-</div>
-
-<!-- Landing page -->
-<div id="landing-overlay">
-  <img src="src/img/landing_page_1.png" alt="Icelandic Design Awards" />
-  <div id="landing-cta">[Click Anywhere to Explore]</div>
-</div>
-
-<!-- Pixel transition squares -->
-<div id="square_container"></div>
-
-<script src="src/js/script.js"></script>
-</body>
+    <script src="src/js/mouseTrail.js"></script>
+    <script src="src/js/landing.js"></script>
+  </body>
 </html>

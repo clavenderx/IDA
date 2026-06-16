@@ -49,12 +49,88 @@ const items = Array.from(document.querySelectorAll('.item')).map((el, i) => {
   };
 });
 
+/* ─── Pixel-square reveal (same effect as the landing page transition) ─────────
+   Fires once on initial load, then re-fires every time an item fades back
+   in after having faded out (the gallery loops items endlessly). ──────────── */
+const TILE = 20;
+
+function spawnPixelReveal(item, delay = 0) {
+  const frame = item.el.querySelector('.frame');
+  if (!frame) return;
+
+  const cols = Math.ceil(frame.offsetWidth / TILE);
+  const rows = Math.ceil(frame.offsetHeight / TILE);
+
+  const cover = document.createElement('div');
+  cover.className = 'pixel-cover';
+
+  const tiles = [];
+  for (let t = 0; t < cols * rows; t++) {
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.style.width  = (100 / cols) + '%';
+    tile.style.height = (100 / rows) + '%';
+    cover.appendChild(tile);
+    tiles.push(tile);
+  }
+  frame.appendChild(cover);
+
+  gsap.set(tiles, { opacity: 1 });
+
+  gsap.to(tiles, {
+    opacity: 0,
+    delay,
+    duration: 0.0005,
+    stagger: { each: 0.004, from: 'random' },
+    onComplete: () => cover.remove(),
+  });
+}
+
+items.forEach((item, i) => {
+  item.wasVisible = true;
+  spawnPixelReveal(item, 0.3 + i * 0.05);
+});
+
+/* ─── Randomize position & timing each time an item cycles out of view ─────────
+   Reposition while fully transparent so the jump is invisible, and vary the
+   cycle speed so items stop reappearing in the same fixed order. ───────────── */
+function randomizeSpawn(item) {
+  const w = item.el.offsetWidth;
+  const h = item.el.offsetHeight;
+  const maxLeft = Math.max(2, 100 - (w / scene.clientWidth)  * 100 - 2);
+  const maxTop  = Math.max(2, 100 - (h / scene.clientHeight) * 100 - 2);
+
+  item.el.style.left = (2 + Math.random() * maxLeft) + '%';
+  item.el.style.top  = (2 + Math.random() * maxTop)  + '%';
+
+  const dur = 10 + Math.random() * 14;
+  item.speed = Z_RANGE / dur;
+}
+
 const scene = document.querySelector('.scene');
 let hoveredItem = null;
 
+/* ─── Scroll / Touch ─────────────────────────────────────────────────────────── */
+// scrollVel: 1 = normal, >1 = faster forward, <0 = reverse
+let scrollVel = 1;
+let isScrolling = false;
+let scrollStopTimer = null;
+
+function markScrolling() {
+  isScrolling = true;
+  if (hoveredItem) {
+    hoveredItem.el.classList.remove('hovered');
+    hoveredItem.el.style.zIndex = '';
+    hoveredItem = null;
+    scene.classList.remove('has-hover');
+  }
+  clearTimeout(scrollStopTimer);
+  scrollStopTimer = setTimeout(() => { isScrolling = false; }, 150);
+}
+
 items.forEach(item => {
   item.el.addEventListener('mouseenter', () => {
-    if (item.dimTarget === 0) return;
+    if (isScrolling || item.dimTarget === 0) return;
     hoveredItem = item;
     item.el.classList.add('hovered');
     item.el.style.zIndex = '1000';
@@ -68,11 +144,8 @@ items.forEach(item => {
   });
 });
 
-/* ─── Scroll / Touch ─────────────────────────────────────────────────────────── */
-// scrollVel: 1 = normal, >1 = faster forward, <0 = reverse
-let scrollVel = 1;
-
 window.addEventListener('wheel', e => {
+  markScrolling();
   scrollVel += e.deltaY * 0.06;
   scrollVel = Math.max(-18, Math.min(18, scrollVel));
 }, { passive: true });
@@ -85,6 +158,7 @@ window.addEventListener('touchstart', e => {
 
 window.addEventListener('touchmove', e => {
   if (e.touches.length === 1 && lastTouchY !== null) {
+    markScrolling();
     const dy = lastTouchY - e.touches[0].clientY;
     scrollVel += dy * 0.12;
     scrollVel = Math.max(-18, Math.min(18, scrollVel));
@@ -123,7 +197,13 @@ function tick(now) {
 
       item.dim += (item.dimTarget - item.dim) * 0.05;
       item.el.style.transform = `translateZ(${item.z}px)`;
-      item.el.style.opacity   = Math.max(0, Math.min(1, opacity)) * item.dim;
+      const finalOpacity = Math.max(0, Math.min(1, opacity)) * item.dim;
+      item.el.style.opacity = finalOpacity;
+
+      const isVisible = finalOpacity > 0.05;
+      if (isVisible && !item.wasVisible) spawnPixelReveal(item);
+      if (!isVisible && item.wasVisible) randomizeSpawn(item);
+      item.wasVisible = isVisible;
     });
   }
 
@@ -179,13 +259,8 @@ function hidePreviews() {
 }
 
 /* ─── Filter Data ────────────────────────────────────────────────────────────── */
-const I = 'src/img/';
+const I = 'src/img/gallery/';
 const FILTER_DATA = {
-  date: [
-    { name: '2025', img: I + 'Ranra_2025_Fall.png' },
-    { name: '2024', img: null },
-    { name: '2023', img: null },
-  ],
   creator: [
     { name: 'Albína Thordarson',            img: I + 'Albína_Thordarson_Architect.png' },
     { name: 'Dýpi',                          img: null },
@@ -347,175 +422,11 @@ filterOptions.forEach(btn => {
   });
 });
 
-/* ─── Mouse Trail ────────────────────────────────────────────────────────────── */
-const MT_GRID = 8, MT_MAX = 50, MT_DUR = 1000;
-let mtGrid = [], mtActive = [], mtPrevX = null, mtPrevY = null;
-
-function mtInitGrid() {
-  mtGrid = [];
-  const cols = Math.floor(window.innerWidth  / MT_GRID);
-  const rows = Math.floor(window.innerHeight / MT_GRID);
-  for (let r = 0; r < rows; r++)
-    for (let c = 0; c < cols; c++)
-      mtGrid.push({
-        x: c * MT_GRID, y: r * MT_GRID,
-        ex: (c + 1) * MT_GRID - 1, ey: (r + 1) * MT_GRID - 1,
-      });
-}
-
-function mtPoints(x1, y1, x2, y2) {
-  const pts = [], dx = x2 - x1, dy = y2 - y1;
-  const steps = Math.max(Math.abs(dx), Math.abs(dy)) / MT_GRID;
-  for (let i = 0; i <= steps; i++) {
-    const t = steps > 0 ? i / steps : 0;
-    pts.push({ x: Math.round(x1 + dx * t), y: Math.round(y1 + dy * t) });
-  }
-  return pts;
-}
-
-function mtDraw(x, y) {
-  if (mtActive.some(e => e.dataset.pos === `${x},${y}`)) return;
-  if (mtActive.length >= MT_MAX) { const o = mtActive.shift(); o.remove(); }
-  const el = document.createElement('div');
-  el.className   = 'mt-block';
-  el.style.left  = x + 'px';
-  el.style.top   = y + 'px';
-  el.dataset.pos = `${x},${y}`;
-  document.body.appendChild(el);
-  mtActive.push(el);
-  setTimeout(() => {
-    el.remove();
-    const i = mtActive.indexOf(el);
-    if (i !== -1) mtActive.splice(i, 1);
-  }, MT_DUR);
-}
-
-window.addEventListener('mousemove', e => {
-  const cx = e.clientX, cy = e.clientY;
-  if (mtPrevX !== null) {
-    mtPoints(mtPrevX, mtPrevY, cx, cy).forEach(({ x, y }) => {
-      const b = mtGrid.find(b => x >= b.x && x <= b.ex && y >= b.y && y <= b.ey);
-      if (b) mtDraw(b.x, b.y);
+items.forEach(item => {
+  if (item.el.dataset.creator === 'lauf cycles') {
+    item.el.addEventListener('click', () => {
+      if (isScrolling || item.dimTarget === 0) return;
+      window.location.href = 'projectLaufElja.html';
     });
   }
-  mtPrevX = cx;
-  mtPrevY = cy;
 });
-
-mtInitGrid();
-window.addEventListener('resize', mtInitGrid);
-
-/* ─── Lauf Elja Detail ───────────────────────────────────────────────────────── */
-(function () {
-  const laufDetail   = document.getElementById('lauf-detail');
-  const detailClose  = document.getElementById('detail-close');
-  const detailNav    = document.getElementById('detail-nav');
-  const detailNavFill = document.getElementById('detailNavFill');
-  const track        = laufDetail.querySelector('.detail-track');
-
-  function openLaufDetail() {
-    laufDetail.style.display  = 'block';
-    detailClose.classList.add('open');
-    detailNav.style.display   = 'flex';
-    detailNavFill.style.width = '0%';
-    gsap.fromTo(laufDetail, { opacity: 0 }, { opacity: 1, duration: 0.35 });
-  }
-
-  function closeLaufDetail() {
-    gsap.to(laufDetail, {
-      opacity: 0,
-      duration: 0.25,
-      onComplete: () => {
-        laufDetail.style.display  = 'none';
-        detailClose.classList.remove('open');
-        detailNav.style.display   = 'none';
-        detailNavFill.style.width = '0%';
-        track.scrollLeft = 0;
-      },
-    });
-  }
-
-  track.addEventListener('scroll', () => {
-    const ratio = track.scrollLeft / (track.scrollWidth - track.clientWidth);
-    detailNavFill.style.width = (ratio * 100) + '%';
-  });
-
-  detailClose.addEventListener('click', closeLaufDetail);
-
-  laufDetail.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    track.scrollLeft += e.deltaY * 1.4;
-  }, { passive: false });
-
-  items.forEach(item => {
-    if (item.el.dataset.creator === 'lauf cycles') {
-      item.el.addEventListener('click', () => {
-        if (item.dimTarget === 0) return;
-        openLaufDetail();
-      });
-    }
-  });
-})();
-
-/* ─── Landing Page ───────────────────────────────────────────────────────────── */
-(function () {
-  const overlay   = document.getElementById('landing-overlay');
-  const container = document.getElementById('square_container');
-  const SQ = 100;
-  let squares = [];
-  let transitioning = false;
-
-  function buildSquares() {
-    container.innerHTML = '';
-    squares = [];
-    const cols = Math.ceil(window.innerWidth  / SQ);
-    const rows = Math.ceil(window.innerHeight / SQ);
-    container.style.width  = cols * SQ + 'px';
-    container.style.height = rows * SQ + 'px';
-    for (let i = 0; i < cols * rows; i++) {
-      const sq = document.createElement('div');
-      sq.className = 'square';
-      container.appendChild(sq);
-      squares.push(sq);
-    }
-  }
-
-  document.getElementById('site-title').addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (overlay.style.display === 'none') {
-      transitioning = false;
-      overlay.style.display = 'block';
-      gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.5 });
-    }
-  });
-
-  overlay.addEventListener('click', () => {
-    if (transitioning) return;
-    transitioning = true;
-    buildSquares();
-
-    gsap.fromTo(squares, { opacity: 0 }, {
-      opacity: 1,
-      delay: 0.5,
-      duration: 0.0005,
-      stagger: { each: 0.004, from: 'random' },
-    });
-
-    gsap.to(squares, {
-      opacity: 0,
-      delay: 1.5,
-      duration: 0.0005,
-      stagger: { each: 0.004, from: 'random' },
-    });
-
-    gsap.to(overlay, {
-      opacity: 0,
-      delay: 1.15,
-      duration: 0.3,
-      onComplete: () => {
-        overlay.style.display = 'none';
-        container.innerHTML   = '';
-      },
-    });
-  });
-})();
