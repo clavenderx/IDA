@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Floating Gallery</title>
+  <link rel="stylesheet" href="src/css/global.css">
+  <link rel="stylesheet" href="src/css/gallery.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="site-nav">
+  <a href="about.html" class="paragraph-3 nav-link nav-left">[ About ]</a>
+  <a href="index.html" class="paragraph-3 nav-center">Icelandic Design Awards</a>
+  <a href="jury.html" class="paragraph-3 nav-link nav-right">[ Jury ]</a>
+</nav>
+
+<!-- Gallery -->
+<div class="scene">
+
+  <!-- 01 · upper left, portrait -->
+  <div class="item" data-creator="albína thordarson" data-category="project" data-date="2024"
+       style="left:3%; top:5%; width:200px; height:285px;">
+    <div class="frame"><img src="src/img/gallery/Albína_Thordarson_Architect.png" alt="Albína Thordarson Architect" /></div>
+    <div class="label">
+      <div class="label-title">Albína Thordarson</div>
+      <div class="label-sub">Architect</div>
+    </div>
+  </div>
+
+  <!-- 02 · top center, landscape -->
+  <div class="item" data-creator="s.ap architects" data-category="project" data-date="2023"
+       style="left:29%; top:2%; width:310px; height:200px;">
+    <div class="frame"><img src="src/img/gallery/H59_Social_Housing.png" alt="H59 Social Housing" /></div>
+    <div class="label">
+      <div class="label-title">H59</div>
+      <div class="label-sub">Social Housing</div>
+    </div>
+  </div>
+
+  <!-- 03 · upper right, portrait -->
+  <div class="item" data-creator="studio granda" data-category="place" data-date="2024"
+       style="left:64%; top:4%; width:185px; height:265px;">
+    <div class="frame"><img src="src/img/gallery/Gígur_Visitor_Centre.png" alt="Gígur Visitor Centre" /></div>
+    <div class="label">
+      <div class="label-title">Gígur</div>
+      <div class="label-sub">Visitor Centre</div>
+    </div>
+  </div>
+
+  <!-- 04 · far right top, small square -->
+  <div class="item" data-creator="fischersund" data-category="product" data-date="2023"
+       style="left:82%; top:13%; width:150px; height:150px;">
+    <div class="frame"><img src="src/img/gallery/Oase_vases.png" alt="Oase Vases" /></div>
+    <div class="label">
+      <div class="label-title">Oase</div>
+      <div class="label-sub">Vases</div>
+    </div>
+  </div>
+
+  <!-- 05 · mid left, large portrait -->
+  <div class="item" data-creator="dýpi" data-category="project" data-date="2025"
+       style="left:6%; top:37%; width:240px; height:325px;">
+    <div class="frame"><img src="src/img/gallery/Dragons_Nest.png" alt="Dragon's Nest" /></div>
+    <div class="label">
+      <div class="label-title">Dragon's Nest</div>
+      <div class="label-sub"></div>
+    </div>
+  </div>
+
+  <!-- 06 · center, square -->
+  <div class="item" data-creator="johanna seelemann" data-category="product" data-date="2024"
+       style="left:35%; top:26%; width:270px; height:270px;">
+    <div class="frame"><img src="src/img/gallery/Faux_Fauna.png" alt="Faux Fauna" /></div>
+    <div class="label">
+      <div class="label-title">Faux Fauna</div>
+      <div class="label-sub"></div>
+    </div>
+  </div>
+
+  <!-- 07 · center right, landscape -->
+  <div class="item" data-creator="lauf cycles" data-category="product" data-date="2025"
+       style="left:58%; top:31%; width:250px; height:180px;">
+    <div class="frame"><img src="src/img/gallery/Lauf_Elja_Bike.png" alt="Lauf Elja Bike" /></div>
+    <div class="label">
+      <div class="label-title">Lauf Elja</div>
+      <div class="label-sub">Bike</div>
+    </div>
+  </div>
+
+  <!-- 08 · right mid, portrait -->
+  <div class="item" data-creator="eldjárn & jón helgi hólmsson" data-category="place" data-date="2023"
+       style="left:78%; top:39%; width:170px; height:235px;">
+    <div class="frame"><img src="src/img/gallery/Elliðaárstöð_Power_Station.png" alt="Elliðaárstöð Power Station" /></div>
+    <div class="label">
+      <div class="label-title">Elliðaárstöð</div>
+      <div class="label-sub">Power Station</div>
+    </div>
+  </div>
+
+  <!-- 09 · bottom left, landscape -->
+  <div class="item" data-creator="ranra" data-category="project" data-date="2025"
+       style="left:2%; top:65%; width:280px; height:185px;">
+    <div class="frame"><img src="src/img/gallery/Ranra_2025_Fall.png" alt="Ranra 2025 Fall" /></div>
+    <div class="label">
+      <div class="label-title">Ranra</div>
+      <div class="label-sub">2025 Fall</div>
+    </div>
+  </div>
+
+  <!-- 10 · bottom center-left, portrait -->
+  <div class="item" data-creator="nature conservation agency" data-category="project" data-date="2024"
+       style="left:29%; top:59%; width:195px; height:265px;">
+    <div class="frame"><img src="src/img/gallery/Seaweed.png" alt="Seaweed" /></div>
+    <div class="label">
+      <div class="label-title">Seaweed</div>
+      <div class="label-sub"></div>
+    </div>
+  </div>
+
+  <!-- 11 · bottom right, landscape -->
+  <div class="item" data-creator="studio granda" data-category="place" data-date="2023"
+       style="left:58%; top:62%; width:290px; height:195px;">
+    <div class="frame"><img src="src/img/gallery/Stöng_Ruins.png" alt="Stöng Ruins" /></div>
+    <div class="label">
+      <div class="label-title">Stöng</div>
+      <div class="label-sub">Ruins</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Filter backdrop -->
+<div class="filter-backdrop" id="filterBackdrop"></div>
+
+<!-- Filter overlay -->
+<div class="filter-overlay" id="filterOverlay">
+  <div class="filter-left">
+    <button class="filter-option" data-filter="date">[ Date ]</button>
+    <button class="filter-option" data-filter="creator">[ Creator ]</button>
+    <button class="filter-option" data-filter="category">[ Category ]</button>
+  </div>
+  <div class="filter-right" id="filterRight"></div>
+</div>
+
+<!-- Close button -->
+<button class="filter-close" id="filterClose">&#x00D7;</button>
+
+<!-- Filter toggle + active filter display -->
+<button class="filter-toggle" id="filterToggle">[ ] Filter &amp; Sort</button>
+<div class="active-filter-display" id="activeFilterDisplay">
+  <span class="afd-type" id="afdType"></span>
+  <span class="afd-value" id="afdValue"></span>
+</div>
+
+<script src="src/js/gallery.js"></script>
+</body>
+</html>

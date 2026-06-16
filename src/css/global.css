@@ -1,0 +1,142 @@
+/* ─── Reset ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+body {
+  background: var(--color-charcoal);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Georgia', serif;
+}
+
+/* ─── Fonts ─────────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'PP Eiko';
+  src: url('../fonts/PPEiko-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PP Eiko';
+  src: url('../fonts/PPEiko-LightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Switzer';
+  src: url('../fonts/Switzer-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Switzer';
+  src: url('../fonts/Switzer-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Steps-Mono';
+  src: url('../fonts/Steps-Mono.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ─── Colors ────────────────────────────────────────────────────────────────── */
+:root {
+  --color-charcoal:      #1E1E1E;
+  --color-white:         #ffffff;
+  --color-light-green:   #C3FA95;
+  --color-blue:          #0277B8;
+  --color-light-orange:  #FFCDA9;
+}
+
+/* ─── Typography ────────────────────────────────────────────────────────────── */
+.heading-1 {
+  font-family: 'PP Eiko', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+.heading-2 {
+  font-family: 'PP Eiko', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 32px;
+  line-height: normal;
+}
+
+.heading-3 {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: normal;
+}
+
+.heading-4 {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: normal;
+}
+
+.paragraph-1 {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: normal;
+}
+
+.paragraph-2 {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: normal;
+}
+
+.paragraph-3 {
+  font-family: 'Steps-Mono', monospace;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: normal;
+}
+
+/* ─── Navigation ────────────────────────────────────────────────────────────── */
+#site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  color: var(--color-white);
+  pointer-events: none;
+}
+
+#site-nav .nav-link {
+  color: var(--color-white);
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+#site-nav .nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-white);
+  text-decoration: none;
+  pointer-events: auto;
+}

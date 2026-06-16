@@ -1,0 +1,335 @@
+/* ─── Gallery Scene ─────────────────────────────────────────────────────────── */
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  perspective-origin: 50% 50%;
+  overflow: hidden;
+  transition: background-color 0.45s ease;
+}
+
+.scene.has-hover {
+  background-color: #2a2a2a;
+}
+
+/* ─── Gallery Items ─────────────────────────────────────────────────────────── */
+.item {
+  position: absolute;
+  cursor: pointer;
+  will-change: transform, opacity;
+  opacity: 0;
+  transition: filter 0.4s ease;
+}
+
+.item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0);
+  transition: background 0.4s ease;
+  pointer-events: none;
+}
+
+.scene.has-hover .item:not(.hovered)::after {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.frame {
+  width: 100%;
+  height: 100%;
+  background: var(--color-white);
+  overflow: hidden;
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.10);
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 14px 12px;
+  background: rgba(255, 255, 255, 0.93);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+
+.item.hovered .label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.label-title {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.label-sub {
+  font-size: 10px;
+  color: #888;
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+
+/* ─── Filter Toggle Button ──────────────────────────────────────────────────── */
+.filter-toggle {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  font-family: 'Steps-Mono', 'Courier New', monospace;
+  font-size: 20px;
+  color: var(--color-charcoal);
+  background: var(--color-light-green);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  z-index: 300;
+}
+
+/* ─── Active Filter Display ─────────────────────────────────────────────────── */
+.active-filter-display {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  z-index: 300;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.active-filter-display.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.afd-type,
+.afd-value {
+  font-family: 'Switzer', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+  background: var(--color-white);
+  border: 3px solid var(--color-charcoal);
+  padding: 3px 14px;
+  line-height: 1;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.afd-value {
+  border-left: none;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.afd-value .afd-x {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.afd-value:hover {
+  background: #f0f0f0;
+}
+
+/* ─── Mouse Trail ───────────────────────────────────────────────────────────── */
+.mt-block {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-light-green);
+  animation: mtFade 1s ease-out forwards;
+}
+
+@keyframes mtFade {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ─── Filter Backdrop ───────────────────────────────────────────────────────── */
+.filter-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 199;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.filter-backdrop.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ─── Filter Overlay Panel ──────────────────────────────────────────────────── */
+.filter-overlay {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 200;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.filter-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.filter-left {
+  display: flex;
+  flex-direction: column;
+  width: 278px;
+  flex-shrink: 0;
+  border: 3px solid var(--color-charcoal);
+}
+
+.filter-right {
+  display: none;
+  flex-direction: column;
+  width: 440px;
+  border: 3px solid var(--color-charcoal);
+  border-left: none;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.filter-right.visible {
+  display: flex;
+}
+
+.filter-right::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Filter Buttons ────────────────────────────────────────────────────────── */
+.filter-option,
+.filter-sub-option {
+  font-family: 'Switzer', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-charcoal);
+  background: var(--color-white);
+  border: none;
+  border-bottom: 3px solid var(--color-charcoal);
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.filter-option {
+  padding: 5px 21px;
+  line-height: 1.2;
+}
+
+.filter-sub-option {
+  padding: 5px 21px;
+  line-height: 1.2;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.filter-left .filter-option:last-child,
+.filter-right .filter-sub-option:last-child {
+  border-bottom: none;
+}
+
+.filter-option:hover:not(.active) {
+  background: #f0f0f0;
+}
+
+.filter-sub-option:hover,
+.filter-option.active,
+.filter-sub-option.active {
+  background: var(--color-light-orange);
+  color: var(--color-charcoal);
+}
+
+/* ─── Horizontal Ticker ─────────────────────────────────────────────────────── */
+.sub-label {
+  display: block;
+}
+
+.sub-scroll {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.filter-sub-option:hover .sub-label {
+  opacity: 0;
+}
+
+.filter-sub-option:hover .sub-scroll {
+  opacity: 1;
+  animation: horzTick var(--tick-dur, 4s) linear infinite;
+}
+
+@keyframes horzTick {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ─── Image Previews ────────────────────────────────────────────────────────── */
+.img-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.94;
+  transition: opacity 0.2s ease, scale 0.2s ease;
+}
+
+.img-preview.visible {
+  opacity: 1;
+  scale: 1;
+}
+
+.img-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
