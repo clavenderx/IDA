@@ -1,3 +1,20 @@
+/* ─── Floating Gallery Images ───────────────────────────────────────────────── */
+const FG = 'src/img/Floating _Gallery/';
+const FG_IMAGES = {
+  'albína thordarson':            ['albina_thordarson_1.png','albina_thordarson_2.png'],
+  's.ap architects':              ['sap_architects_1.png','sap_architects_2.png'],
+  'studio granda':                ['studio_granda_1.png','studio_granda_2.png','studio_granda_3.png'],
+  'fischersund':                  ['fischersund_1.png','fischersund_5.png','fichersund_2.png','fichersund_3.png','fichersund_4.png','fichersund_6.png','fichersund_7.png'],
+  'dýpi':                         ['DYPI_1.png','DYPI_2.png','DYPI_3.png','DYPI_4.png','DYPI_5.png'],
+  'johanna seelemann':            ['johanna_seelemann_1.png','johanna_seelemann_2.png','johanna_seelemann_3.png'],
+  'lauf cycles':                  ['lauf_cycling_1.png','lauf_cycling_2.png','lauf_cycling_3.png'],
+  'eldjárn & jón helgi hólmsson': ['image 1095.png','image 1096.png'],
+  'nature conservation agency':   ['nature_conservation_agency_1.png','nature_conservation_agency_2.png','nature_conservation_agency_3.png'],
+  'ranra':                        [],
+};
+
+/* pool index is stored per-item and advanced each time the item wraps */
+
 /* ─── Gallery ────────────────────────────────────────────────────────────────── */
 const Z_FAR   = -800;
 const Z_NEAR  =  650;
@@ -19,8 +36,12 @@ const CONFIG = [
 
 const items = Array.from(document.querySelectorAll('.item')).map((el, i) => {
   const { dur, delay } = CONFIG[i];
+  const pool = FG_IMAGES[el.dataset.creator] || [];
+  const imgEl = el.querySelector('.frame img');
+  let fgIdx = 0;
+  if (pool.length) imgEl.src = FG + pool[0];
   return {
-    el,
+    el, imgEl, pool, fgIdx,
     z:         Z_FAR + (delay / dur) * Z_RANGE,
     speed:     Z_RANGE / dur,
     dim:       1,
@@ -84,8 +105,15 @@ function tick(now) {
       const effectiveSpeed = item.speed * scrollVel * 1.6;
       item.z += effectiveSpeed * dt;
 
-      if      (item.z >= Z_NEAR) item.z = Z_FAR;
-      else if (item.z <  Z_FAR)  item.z = Z_NEAR;
+      if (item.z >= Z_NEAR) {
+        item.z = Z_FAR;
+        if (item.pool.length > 1) {
+          item.fgIdx = (item.fgIdx + 1) % item.pool.length;
+          item.imgEl.src = FG + item.pool[item.fgIdx];
+        }
+      } else if (item.z < Z_FAR) {
+        item.z = Z_NEAR;
+      }
 
       const p = (item.z - Z_FAR) / Z_RANGE;
       let opacity;
