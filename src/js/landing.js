@@ -4,7 +4,7 @@
   if (!svg) return;
 
   const links = [
-    ['tag-craft', 'ltr-craft', 'bottom', { shorten: 25, rotate: -25 }],
+    ['tag-craft', 'ltr-craft', 'bottom', { shorten: 20, rotate: -20 }],
     ['tag-modern', 'ltr-modern', 'bottom', { shiftX: 8, shorten: 40 }],
     ['tag-design', 'ltr-design', 'bottom', { shorten: 35, rotate: 5 }],
     ['tag-future', 'ltr-future', 'bottom', { shorten: 50 }],
@@ -64,6 +64,46 @@
 
   window.addEventListener('load', drawLines);
   window.addEventListener('resize', drawLines);
+
+  /* ─── Mouse parallax on the surrounding tags ───────────────────────────── */
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const map = (x, a, b, c, d) => c + ((x - a) * (d - c)) / (b - a);
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  let winW = window.innerWidth;
+  let winH = window.innerHeight;
+  let mouse = { x: winW / 2, y: winH / 2 };
+
+  const tagItems = links.map(([tagId]) => {
+    const el = document.getElementById(tagId);
+    return el && {
+      el,
+      tx: 0,
+      ty: 0,
+      xRange: rand(8, 16),
+      yRange: rand(8, 16),
+    };
+  }).filter(Boolean);
+
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+  window.addEventListener('resize', () => {
+    winW = window.innerWidth;
+    winH = window.innerHeight;
+  });
+
+  function tick() {
+    tagItems.forEach((item) => {
+      item.tx = lerp(item.tx, map(mouse.x, 0, winW, -item.xRange, item.xRange), 0.06);
+      item.ty = lerp(item.ty, map(mouse.y, 0, winH, -item.yRange, item.yRange), 0.06);
+      item.el.style.transform = `translate(${item.tx}px, ${item.ty}px)`;
+    });
+    drawLines();
+    requestAnimationFrame(tick);
+  }
+  tick();
 })();
 
 /* ─── Landing Page ───────────────────────────────────────────────────────────── */

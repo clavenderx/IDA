@@ -28,12 +28,88 @@ const items = Array.from(document.querySelectorAll('.item')).map((el, i) => {
   };
 });
 
+/* ─── Pixel-square reveal (same effect as the landing page transition) ─────────
+   Fires once on initial load, then re-fires every time an item fades back
+   in after having faded out (the gallery loops items endlessly). ──────────── */
+const TILE = 20;
+
+function spawnPixelReveal(item, delay = 0) {
+  const frame = item.el.querySelector('.frame');
+  if (!frame) return;
+
+  const cols = Math.ceil(frame.offsetWidth / TILE);
+  const rows = Math.ceil(frame.offsetHeight / TILE);
+
+  const cover = document.createElement('div');
+  cover.className = 'pixel-cover';
+
+  const tiles = [];
+  for (let t = 0; t < cols * rows; t++) {
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.style.width  = (100 / cols) + '%';
+    tile.style.height = (100 / rows) + '%';
+    cover.appendChild(tile);
+    tiles.push(tile);
+  }
+  frame.appendChild(cover);
+
+  gsap.set(tiles, { opacity: 1 });
+
+  gsap.to(tiles, {
+    opacity: 0,
+    delay,
+    duration: 0.0005,
+    stagger: { each: 0.004, from: 'random' },
+    onComplete: () => cover.remove(),
+  });
+}
+
+items.forEach((item, i) => {
+  item.wasVisible = true;
+  spawnPixelReveal(item, 0.3 + i * 0.05);
+});
+
+/* ─── Randomize position & timing each time an item cycles out of view ─────────
+   Reposition while fully transparent so the jump is invisible, and vary the
+   cycle speed so items stop reappearing in the same fixed order. ───────────── */
+function randomizeSpawn(item) {
+  const w = item.el.offsetWidth;
+  const h = item.el.offsetHeight;
+  const maxLeft = Math.max(2, 100 - (w / scene.clientWidth)  * 100 - 2);
+  const maxTop  = Math.max(2, 100 - (h / scene.clientHeight) * 100 - 2);
+
+  item.el.style.left = (2 + Math.random() * maxLeft) + '%';
+  item.el.style.top  = (2 + Math.random() * maxTop)  + '%';
+
+  const dur = 10 + Math.random() * 14;
+  item.speed = Z_RANGE / dur;
+}
+
 const scene = document.querySelector('.scene');
 let hoveredItem = null;
 
+/* ─── Scroll / Touch ─────────────────────────────────────────────────────────── */
+// scrollVel: 1 = normal, >1 = faster forward, <0 = reverse
+let scrollVel = 1;
+let isScrolling = false;
+let scrollStopTimer = null;
+
+function markScrolling() {
+  isScrolling = true;
+  if (hoveredItem) {
+    hoveredItem.el.classList.remove('hovered');
+    hoveredItem.el.style.zIndex = '';
+    hoveredItem = null;
+    scene.classList.remove('has-hover');
+  }
+  clearTimeout(scrollStopTimer);
+  scrollStopTimer = setTimeout(() => { isScrolling = false; }, 150);
+}
+
 items.forEach(item => {
   item.el.addEventListener('mouseenter', () => {
-    if (item.dimTarget === 0) return;
+    if (isScrolling || item.dimTarget === 0) return;
     hoveredItem = item;
     item.el.classList.add('hovered');
     item.el.style.zIndex = '1000';
@@ -47,11 +123,8 @@ items.forEach(item => {
   });
 });
 
-/* ─── Scroll / Touch ─────────────────────────────────────────────────────────── */
-// scrollVel: 1 = normal, >1 = faster forward, <0 = reverse
-let scrollVel = 1;
-
 window.addEventListener('wheel', e => {
+  markScrolling();
   scrollVel += e.deltaY * 0.06;
   scrollVel = Math.max(-18, Math.min(18, scrollVel));
 }, { passive: true });
@@ -64,6 +137,7 @@ window.addEventListener('touchstart', e => {
 
 window.addEventListener('touchmove', e => {
   if (e.touches.length === 1 && lastTouchY !== null) {
+    markScrolling();
     const dy = lastTouchY - e.touches[0].clientY;
     scrollVel += dy * 0.12;
     scrollVel = Math.max(-18, Math.min(18, scrollVel));
@@ -95,7 +169,13 @@ function tick(now) {
 
       item.dim += (item.dimTarget - item.dim) * 0.05;
       item.el.style.transform = `translateZ(${item.z}px)`;
-      item.el.style.opacity   = Math.max(0, Math.min(1, opacity)) * item.dim;
+      const finalOpacity = Math.max(0, Math.min(1, opacity)) * item.dim;
+      item.el.style.opacity = finalOpacity;
+
+      const isVisible = finalOpacity > 0.05;
+      if (isVisible && !item.wasVisible) spawnPixelReveal(item);
+      if (!isVisible && item.wasVisible) randomizeSpawn(item);
+      item.wasVisible = isVisible;
     });
   }
 
@@ -322,7 +402,7 @@ filterOptions.forEach(btn => {
 items.forEach(item => {
   if (item.el.dataset.creator === 'lauf cycles') {
     item.el.addEventListener('click', () => {
-      if (item.dimTarget === 0) return;
+      if (isScrolling || item.dimTarget === 0) return;
       window.location.href = 'projectLaufElja.html';
     });
   }
