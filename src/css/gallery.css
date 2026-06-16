@@ -151,22 +151,6 @@
   background: #f0f0f0;
 }
 
-/* ─── Mouse Trail ───────────────────────────────────────────────────────────── */
-.mt-block {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-light-green);
-  animation: mtFade 1s ease-out forwards;
-}
-
-@keyframes mtFade {
-  0%   { opacity: 1; }
-  100% { opacity: 0; }
-}
-
 /* ─── Filter Backdrop ───────────────────────────────────────────────────────── */
 .filter-backdrop {
   position: fixed;
@@ -268,10 +252,7 @@
   border-bottom: none;
 }
 
-.filter-option:hover:not(.active) {
-  background: #f0f0f0;
-}
-
+.filter-option:hover,
 .filter-sub-option:hover,
 .filter-option.active,
 .filter-sub-option.active {
