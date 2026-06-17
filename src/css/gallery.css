@@ -68,34 +68,53 @@
 .label {
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 10px 14px 12px;
-  background: rgba(255, 255, 255, 0.93);
+  left: calc(100% + 10px);
+  width: max-content;
+  max-width: 240px;
   opacity: 0;
-  transform: translateY(4px);
+  transform: translateX(-4px);
   transition: opacity 0.25s ease, transform 0.25s ease;
   pointer-events: none;
 }
 
 .item.hovered .label {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(0);
 }
 
-.label-title {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #1a1a1a;
-  line-height: 1.4;
+.label-award {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: normal;
+  color: var(--color-white);
 }
 
-.label-sub {
-  font-size: 10px;
-  color: #888;
+.label-name {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: normal;
+  color: var(--color-light-green);
   margin-top: 2px;
-  letter-spacing: 0.04em;
+}
+
+/* ─── Category Tag ───────────────────────────────────────────────────────────── */
+.category-tag {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 10px;
+  font-family: 'Steps-Mono', monospace;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: normal;
+  color: var(--color-white);
+  text-transform: capitalize;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(5px);
 }
 
 /* ─── Filter Toggle Button ──────────────────────────────────────────────────── */

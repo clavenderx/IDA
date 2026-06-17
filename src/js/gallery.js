@@ -10,7 +10,7 @@ const FG_IMAGES = {
   'lauf cycles':                  ['lauf_cycling_1.png','lauf_cycling_2.png','lauf_cycling_3.png'],
   'eldjárn & jón helgi hólmsson': ['image 1095.png','image 1096.png'],
   'nature conservation agency':   ['nature_conservation_agency_1.png','nature_conservation_agency_2.png','nature_conservation_agency_3.png'],
-  'ranra':                        [],
+  'ranra':                        ['ranra_1.png','ranra_2.png','ranra_3.png','ranra_4.png','ranra_5.png','ranra_6.png','ranra_7.png','ranra_8.png','ranra_9.png','ranra_10.png'],
 };
 
 /* pool index is stored per-item and advanced each time the item wraps */
@@ -40,8 +40,14 @@ const items = Array.from(document.querySelectorAll('.item')).map((el, i) => {
   const imgEl = el.querySelector('.frame img');
   let fgIdx = 0;
   if (pool.length) imgEl.src = FG + pool[0];
+
+  const tag = document.createElement('div');
+  tag.className = 'category-tag';
+  tag.textContent = `[ ${el.dataset.category || ''} ]`;
+  el.insertBefore(tag, el.querySelector('.frame'));
+
   return {
-    el, imgEl, pool, fgIdx,
+    el, imgEl, pool, fgIdx, tag,
     z:         Z_FAR + (delay / dur) * Z_RANGE,
     speed:     Z_RANGE / dur,
     dim:       1,
@@ -76,6 +82,12 @@ function spawnPixelReveal(item, delay = 0) {
   frame.appendChild(cover);
 
   gsap.set(tiles, { opacity: 1 });
+
+  const tag = item.el.querySelector('.category-tag');
+  if (tag) {
+    gsap.set(tag, { opacity: 0, y: 5 });
+    gsap.to(tag, { opacity: 1, y: 0, duration: 0.4, delay: delay + 0.3, ease: 'power2.out' });
+  }
 
   gsap.to(tiles, {
     opacity: 0,
@@ -202,7 +214,10 @@ function tick(now) {
 
       const isVisible = finalOpacity > 0.05;
       if (isVisible && !item.wasVisible) spawnPixelReveal(item);
-      if (!isVisible && item.wasVisible) randomizeSpawn(item);
+      if (!isVisible && item.wasVisible) {
+        randomizeSpawn(item);
+        gsap.set(item.tag, { opacity: 0, y: 5 });
+      }
       item.wasVisible = isVisible;
     });
   }
