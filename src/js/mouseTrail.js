@@ -57,3 +57,12 @@
   mtInitGrid();
   window.addEventListener('resize', mtInitGrid);
 })();
+
+/* ─── Active nav link ────────────────────────────────────────────────────────── */
+(function () {
+  const current = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('#site-nav a').forEach(a => {
+    const href = a.getAttribute('href').split('/').pop();
+    if (href === current) a.classList.add('nav-active');
+  });
+})();
