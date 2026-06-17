@@ -379,6 +379,7 @@ const animatePreviewGridOut = (preview) => {
       destroyPreviewRing(preview);
       if (preview.id === "preview-2") destroyEvaStory(preview);
       gsap.set(preview, { pointerEvents: "none", autoAlpha: 0 });
+      document.querySelector(".preview-bottom-bar")?.classList.remove("is-visible");
       // Reset for next open
       if (imgs.length)
         gsap.set(imgs, { clearProps: "y,opacity,backgroundPosition" });
@@ -510,6 +511,7 @@ const activatePreviewFromCarousel = (e) => {
       animatePreviewTexts(preview, "in");
       animateBioIn(preview);
       if (preview.id === "preview-2") initEvaStory(preview);
+      document.querySelector(".preview-bottom-bar")?.classList.add("is-visible");
     }, "<+=1.9");
 };
 
@@ -543,6 +545,10 @@ const initEvaStory = (preview) => {
   let currentSlide = 0;
   let animating = false;
 
+  const state = ringStateMap.get(preview);
+  const ringImgs = state ? state.imgs : [];
+  const ringCount = ringImgs.length;
+
   const goToSlide = (index) => {
     if (animating) return;
     animating = true;
@@ -552,13 +558,10 @@ const initEvaStory = (preview) => {
     const isForwardWrap = prevSlide === slideCount - 1 && nextSlide === 0;
     const isBackwardWrap = prevSlide === 0 && nextSlide === slideCount - 1;
 
-    // Update coverflow carousel
-    const state = ringStateMap.get(preview);
-    if (state) {
-      const { imgs } = state;
-      const newIndex = nextSlide === 0 ? 1 : nextSlide <= 3 ? 2 : nextSlide <= 5 ? 3 : 0;
-      applyCoverflowLayout(imgs, newIndex, imgs.length);
-    }
+    if (ringCount) applyCoverflowLayout(ringImgs, (nextSlide + 1) % ringCount, ringCount);
+
+    const fill = document.getElementById("previewScrollFill");
+    if (fill) fill.style.width = `${(nextSlide / (slideCount - 1)) * 100}%`;
 
     if (isForwardWrap) {
       // Clone slide 0 at end so animation continues leftward
@@ -716,6 +719,10 @@ const initEventListeners = () => {
     title.addEventListener("mouseleave", () => {
       gsap.to(chars, { color: "#ffffff", duration: 0.2, stagger: { each: 0.02, from: "end" }, overwrite: "auto" });
     });
+  });
+
+  document.querySelectorAll(".preview__close").forEach((btn) => {
+    btn.addEventListener("click", deactivatePreviewToCarousel);
   });
 };
 
