@@ -349,3 +349,26 @@
     });
   });
 })();
+
+/* ─── Scroll down to reveal about sections ───────────────────────────────── */
+(function () {
+  const overlay = document.getElementById('landing-overlay');
+  if (!overlay) return;
+  let dismissed = false;
+
+  function dismissLanding() {
+    if (dismissed) return;
+    dismissed = true;
+    gsap.to(overlay, {
+      y: '-100%',
+      duration: 0.8,
+      ease: 'power2.inOut',
+      onComplete: () => { overlay.style.pointerEvents = 'none'; },
+    });
+  }
+
+  // document-level so the event fires regardless of which child is under the cursor
+  document.addEventListener('wheel', (e) => {
+    if (!dismissed && e.deltaY > 0) dismissLanding();
+  }, { passive: true });
+})();
