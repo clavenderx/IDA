@@ -38,13 +38,13 @@
   if (!svg) return;
 
   const links = [
-    ['tag-craft', 'ltr-craft', 'bottom', { shorten: 20, rotate: -20, shortenFrac: 0.35 }],
-    ['tag-modern', 'ltr-modern', 'bottom', { shiftX: 8, shorten: 40, shortenFrac: 0.2 }],
-    ['tag-design', 'ltr-design', 'bottom', { shorten: 35, rotate: 5, shortenFrac: 0.35 }],
-    ['tag-future', 'ltr-future', 'bottom', { shorten: 50, shortenFrac: 0.2 }],
-    ['tag-digital', 'ltr-digital', 'top', { shorten: 50, rotate: 7, lengthenFrac: 0.45, shiftX: -28 }],
-    ['tag-innovation', 'ltr-innovation', 'top', { shorten: 55, shiftX: 7, rotate: -10, lengthenFrac: 0.45 }],
-    ['tag-technology', 'ltr-technology', 'top', { shorten: 40, rotate: -10, lengthenFrac: 0.45, endShiftX: 20 }],
+    ['tag-craft',       'ltr-craft',       'bottom', { shorten: 75,  rotate: -25 }],
+    ['tag-modern',      'ltr-modern',      'bottom', { shorten: 85,  shiftX: 8,  rotate: -6 }],
+    ['tag-design',      'ltr-design',      'bottom', { shorten: 75,  rotate: 5 }],
+    ['tag-future',      'ltr-future',      'bottom', { shorten: 72, rotate: 2 }],
+    ['tag-digital',     'ltr-digital',     'top',    { shorten: -5,  rotate: 2 }],
+    ['tag-innovation',  'ltr-innovation',  'top',    { shorten: 5,   shiftX: -13, rotate: -10 }],
+    ['tag-technology',  'ltr-technology',  'top',    { shorten: -3,  rotate: 0 }],
   ];
 
   function drawLines() {
@@ -162,6 +162,32 @@
   const TILE = 75;
 
   document.fonts.ready.then(() => {
+    /* ── auto-centre the staircase block within the container ── */
+    const lines = Array.from(heading.querySelectorAll('.landing-line'));
+    if (lines.length) {
+      const overlay = document.getElementById('landing-overlay');
+      const ow = overlay.offsetWidth;
+      const oh = overlay.offsetHeight;
+      let minL = Infinity, maxR = -Infinity, minT = Infinity, maxB = -Infinity;
+      lines.forEach(l => {
+        const r = l.getBoundingClientRect();
+        minL = Math.min(minL, r.left);
+        maxR = Math.max(maxR, r.right);
+        minT = Math.min(minT, r.top);
+        maxB = Math.max(maxB, r.bottom);
+      });
+      const contentCX = (minL + maxR) / 2;
+      const contentCY = (minT + maxB) / 2;
+      const screenCX  = ow / 2;
+      const screenCY  = oh / 2;
+      const dx = screenCX - contentCX;
+      const dy = screenCY - contentCY;
+      const hRect = heading.getBoundingClientRect();
+      heading.style.left = (hRect.left + hRect.width  / 2 + dx) + 'px';
+      heading.style.top  = (hRect.top  + hRect.height / 2 + dy + 45) + 'px';
+      heading.style.transform = 'translate(-50%, -50%)';
+    }
+
     const W   = heading.offsetWidth;
     const H   = heading.offsetHeight;
     const dpr = window.devicePixelRatio || 1;

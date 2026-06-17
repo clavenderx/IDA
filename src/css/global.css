@@ -118,9 +118,9 @@ body {
   left: 0;
   width: 100%;
   z-index: 3000;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   align-items: center;
-  justify-content: space-between;
   padding: 24px 32px;
   color: var(--color-white);
   pointer-events: none;
@@ -132,13 +132,28 @@ body {
   pointer-events: auto;
 }
 
-#site-nav .nav-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--color-white);
-  text-decoration: none;
-  pointer-events: auto;
+#site-nav a:nth-child(1) { justify-self: start; }
+#site-nav a:nth-child(2) { justify-self: start; }
+#site-nav a:nth-child(3) { justify-self: center; color: var(--color-white); text-decoration: none; pointer-events: auto; }
+#site-nav a:nth-child(4) { justify-self: end; transform: translateX(-45px); }
+#site-nav a:nth-child(5) { justify-self: end; }
+
+#site-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 0 15px;
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+#site-nav a:hover,
+#site-nav a:active,
+#site-nav a.nav-active {
+  background-color: var(--color-light-orange);
+  color: var(--color-charcoal);
+  border: 1px solid var(--color-white);
 }
 
 /* ─── Buttons ───────────────────────────────────────────────────────────────── */

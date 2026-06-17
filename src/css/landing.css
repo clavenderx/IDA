@@ -23,8 +23,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 950px;
-  height: 500px;
+  width: 1400px;
+  height: 560px;
   transform: translate(-50%, -50%);
   pointer-events: auto;
   white-space: nowrap;
