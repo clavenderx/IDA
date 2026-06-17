@@ -156,6 +156,18 @@ body {
   border: 1px solid var(--color-white);
 }
 
+#site-nav a.nav-on-light {
+  color: var(--color-blue);
+}
+
+#site-nav a.nav-on-light:hover,
+#site-nav a.nav-on-light:active,
+#site-nav a.nav-on-light.nav-active {
+  background-color: var(--color-light-orange);
+  color: var(--color-charcoal);
+  border-color: var(--color-blue);
+}
+
 /* ─── Buttons ───────────────────────────────────────────────────────────────── */
 .btn:hover,
 .landing-tag:hover {

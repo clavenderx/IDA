@@ -58,6 +58,59 @@
   window.addEventListener('resize', mtInitGrid);
 })();
 
+/* ─── Nav colour per-link based on element underneath ───────────────────────── */
+(function () {
+  const nav = document.getElementById('site-nav');
+  if (!nav) return;
+
+  const page = location.pathname.split('/').pop();
+  if (page !== 'projectLaufElja.html') return;
+
+  const links = Array.from(nav.querySelectorAll('a'));
+  if (!links.length) return;
+
+  function isLight(el) {
+    while (el && el !== document.documentElement) {
+      const bg = getComputedStyle(el).backgroundColor;
+      const m  = bg.match(/\d+/g);
+      if (!m) { el = el.parentElement; continue; }
+      const [r, g, b, a] = m.map(Number);
+      if ((a === undefined || a > 0) && !(r === 0 && g === 0 && b === 0)) {
+        /* luminance threshold — treat as light if above ~0.5 */
+        const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return lum > 0.6;
+      }
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  function check() {
+    /* temporarily hide nav so elementsFromPoint sees what's underneath */
+    nav.style.pointerEvents = 'none';
+    nav.style.visibility    = 'hidden';
+
+    links.forEach(link => {
+      const r  = link.getBoundingClientRect();
+      const cx = r.left + r.width  / 2;
+      const cy = r.top  + r.height / 2;
+      const els = document.elementsFromPoint(cx, cy);
+      const under = els.find(e => !nav.contains(e) && e !== nav);
+      const light = under ? isLight(under) : false;
+      link.classList.toggle('nav-on-light', light);
+    });
+
+    nav.style.visibility    = '';
+    nav.style.pointerEvents = '';
+  }
+
+  window.addEventListener('scroll', check, { passive: true });
+  const hTrack = document.querySelector('.detail-track');
+  if (hTrack) hTrack.addEventListener('scroll', check, { passive: true });
+  window.addEventListener('resize', check);
+  requestAnimationFrame(check);
+})();
+
 /* ─── Active nav link ────────────────────────────────────────────────────────── */
 (function () {
   const current = location.pathname.split('/').pop() || 'index.html';
