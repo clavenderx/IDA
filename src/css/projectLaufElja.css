@@ -124,22 +124,21 @@
 
 .dp-hero-bottom {
   position: absolute;
-  bottom: 110px;
+  bottom: 64px;
   left: 52px;
   right: 52px;
   z-index: 1;
   color: var(--color-white);
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
 }
 
 .dp-hero-title {
-  font-size: clamp(40px, 5.8vh, 85px);
+  font-size: clamp(36px, 5.2vh, 76px);
   line-height: 1.1;
-  max-width: 72%;
-  margin-left: 80px;
+  max-width: 60%;
 }
 
 .dp-hero-credit {
@@ -148,9 +147,9 @@
   color: rgba(255,255,255,0.85);
   line-height: 1.6;
   text-align: left;
+  flex-shrink: 0;
   max-width: 270px;
-  margin-left: calc(80px + 72% - 220px);
-  margin-top: 45px;
+  padding-bottom: 4px;
 }
 
 /* ─── Panel 2: Founders ──────────────────────────────────────────────────────── */

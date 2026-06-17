@@ -4,13 +4,13 @@
   if (!svg) return;
 
   const links = [
-    ['tag-craft', 'ltr-craft', 'bottom', { shorten: 20, rotate: -20 }],
-    ['tag-modern', 'ltr-modern', 'bottom', { shiftX: 8, shorten: 40 }],
-    ['tag-design', 'ltr-design', 'bottom', { shorten: 35, rotate: 5 }],
-    ['tag-future', 'ltr-future', 'bottom', { shorten: 50 }],
-    ['tag-digital', 'ltr-digital', 'top', { shorten: 50, rotate: 7 }],
-    ['tag-innovation', 'ltr-innovation', 'top', { shorten: 55, shiftX: 7, rotate: -10 }],
-    ['tag-technology', 'ltr-technology', 'top', { shorten: 40, rotate: -10 }],
+    ['tag-craft', 'ltr-craft', 'bottom', { shorten: 20, rotate: -20, shortenFrac: 0.35 }],
+    ['tag-modern', 'ltr-modern', 'bottom', { shiftX: 8, shorten: 40, shortenFrac: 0.2 }],
+    ['tag-design', 'ltr-design', 'bottom', { shorten: 35, rotate: 5, shortenFrac: 0.35 }],
+    ['tag-future', 'ltr-future', 'bottom', { shorten: 50, shortenFrac: 0.2 }],
+    ['tag-digital', 'ltr-digital', 'top', { shorten: 50, rotate: 7, lengthenFrac: 0.45, shiftX: -28 }],
+    ['tag-innovation', 'ltr-innovation', 'top', { shorten: 55, shiftX: 7, rotate: -10, lengthenFrac: 0.45 }],
+    ['tag-technology', 'ltr-technology', 'top', { shorten: 40, rotate: -10, lengthenFrac: 0.45, endShiftX: 20 }],
   ];
 
   function drawLines() {
@@ -22,7 +22,7 @@
       const letter = document.getElementById(letterId);
       if (!tag || !letter) return;
 
-      const { shorten = 0, shiftX = 0, rotate = 0 } = opts || {};
+      const { shorten = 0, shiftX = 0, rotate = 0, shortenFrac = 0, lengthenFrac = 0, endShiftX = 0 } = opts || {};
 
       const tagRect = tag.getBoundingClientRect();
       const letterRect = letter.getBoundingClientRect();
@@ -42,6 +42,20 @@
         }
       }
 
+      if (shortenFrac) {
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        x2 -= dx * shortenFrac;
+        y2 -= dy * shortenFrac;
+      }
+
+      if (lengthenFrac) {
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        x2 += dx * lengthenFrac;
+        y2 += dy * lengthenFrac;
+      }
+
       if (rotate) {
         const a = (rotate * Math.PI) / 180;
         const dx = x2 - x1;
@@ -52,6 +66,7 @@
 
       x1 += shiftX;
       x2 += shiftX;
+      x2 += endShiftX;
 
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
       line.setAttribute('x1', x1);
@@ -104,6 +119,122 @@
     requestAnimationFrame(tick);
   }
   tick();
+})();
+
+/* ─── Pixel Grid Heading Effect ─────────────────────────────────────────────── */
+(function () {
+  const heading = document.getElementById('landing-heading');
+  if (!heading) return;
+  const TILE = 75;
+
+  document.fonts.ready.then(() => {
+    const W   = heading.offsetWidth;
+    const H   = heading.offsetHeight;
+    const dpr = window.devicePixelRatio || 1;
+    const RIGHT_BLEED = 220; /* extra canvas width to capture the PP Eiko italic "5" tail */
+
+    /* 1. append canvas first so its getBoundingClientRect matches the DOM text rects */
+    const canvas = document.createElement('canvas');
+    canvas.width  = (W + RIGHT_BLEED) * dpr;
+    canvas.height = H * dpr;
+    canvas.style.cssText = `position:absolute;top:0;left:0;width:${W + RIGHT_BLEED}px;height:${H}px;pointer-events:auto;`;
+    heading.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    /* 2. offscreen canvas — padded by one tile so boundary tiles never clip/stretch */
+    const off = document.createElement('canvas');
+    off.width  = W + RIGHT_BLEED + TILE;
+    off.height = H + TILE;
+    const oc  = off.getContext('2d');
+    const cRect = canvas.getBoundingClientRect();
+
+    function walkAndDraw(node) {
+      if (node.nodeType === 3) {
+        const text = node.textContent;
+        if (!text.trim()) return;
+        const range = document.createRange();
+        range.selectNode(node);
+        const r = range.getBoundingClientRect();
+        if (r.width === 0) return;
+        const cs = window.getComputedStyle(node.parentElement);
+        const ff = cs.fontFamily.split(',')[0].trim().replace(/['"]/g, '');
+        oc.font         = `${cs.fontStyle !== 'normal' ? cs.fontStyle + ' ' : ''}${cs.fontWeight} ${cs.fontSize} "${ff}"`;
+        oc.fillStyle    = cs.color;
+        oc.textBaseline = 'alphabetic';
+        const m  = oc.measureText(text);
+        const x  = r.left - cRect.left;
+        const y  = r.top  - cRect.top + m.actualBoundingBoxAscent;
+        oc.fillText(text, x, y);
+      } else if (node.nodeType === 1 && node.tagName !== 'CANVAS') {
+        node.childNodes.forEach(walkAndDraw);
+      }
+    }
+    walkAndDraw(heading);
+
+    /* 3. hide DOM text now that offscreen canvas has captured the colors */
+    function hideText(node) {
+      if (node.nodeType === 3 && node.textContent.trim()) {
+        node.parentElement.style.color = 'transparent';
+      } else if (node.nodeType === 1 && node.tagName !== 'CANVAS') {
+        node.childNodes.forEach(hideText);
+      }
+    }
+    hideText(heading);
+
+    /* 4. tile grid */
+    const cols = Math.ceil((W + RIGHT_BLEED) / TILE);
+    const rows = Math.ceil(H / TILE);
+    const tiles = Array.from({ length: cols * rows }, (_, i) => ({
+      c: i % cols, r: Math.floor(i / cols),
+      ox: 0, oy: 0,
+    }));
+
+    let mx = -9999, my = -9999;
+    let prevMx = -9999, prevMy = -9999;
+    let vx = 0, vy = 0;
+
+    canvas.addEventListener('mousemove', e => {
+      const cr = canvas.getBoundingClientRect();
+      mx = e.clientX - cr.left;
+      my = e.clientY - cr.top;
+    });
+    canvas.addEventListener('mouseleave', () => {
+      mx = -9999; my = -9999;
+      prevMx = -9999; prevMy = -9999;
+    });
+
+    (function tick() {
+      if (mx !== -9999) {
+        if (prevMx !== -9999) {
+          vx = mx - prevMx;
+          vy = my - prevMy;
+        }
+        prevMx = mx;
+        prevMy = my;
+      } else {
+        vx *= 0.94;
+        vy *= 0.94;
+      }
+
+      ctx.clearRect(0, 0, W + RIGHT_BLEED, H);
+      tiles.forEach(tile => {
+        const cx   = tile.c * TILE + TILE * 0.5;
+        const cy   = tile.r * TILE + TILE * 0.5;
+        const dist = Math.hypot(cx - mx, cy - my);
+        const infl = Math.max(0, 1 - dist / (TILE * 3.5));
+        const targetX = vx * 5 * infl;
+        const targetY = vy * 5 * infl;
+        tile.ox += (targetX - tile.ox) * 0.055;
+        tile.oy += (targetY - tile.oy) * 0.055;
+        ctx.drawImage(off,
+          tile.c * TILE, tile.r * TILE, TILE, TILE,
+          tile.c * TILE + tile.ox, tile.r * TILE + tile.oy, TILE, TILE
+        );
+      });
+      requestAnimationFrame(tick);
+    })();
+  });
 })();
 
 /* ─── Landing Page ───────────────────────────────────────────────────────────── */

@@ -24,11 +24,14 @@
   top: 50%;
   left: 50%;
   width: 950px;
-  height: 380px;
+  height: 500px;
   transform: translate(-50%, -50%);
-  pointer-events: none;
+  pointer-events: auto;
   white-space: nowrap;
 }
+
+.ltr-clip { display: inline-block; vertical-align: top; }
+.ltr      { display: inline-block; }
 
 .landing-line {
   position: absolute;
@@ -41,17 +44,17 @@
 
 .landing-line:nth-of-type(1) {
   left: 0px;
-  top: 0px;
+  top: 80px;
 }
 
 .landing-line-design {
   left: 101px;
-  top: 123px;
+  top: 203px;
 }
 
 .landing-line:last-of-type {
   left: 262px;
-  top: 244px;
+  top: 324px;
   margin-left: 0.1em;
 }
 
@@ -63,6 +66,7 @@
   line-height: 87.9px;
   color: var(--color-white);
   margin-left: 0em;
+  vertical-align: top;
 }
 
 #landing-overlay img {
