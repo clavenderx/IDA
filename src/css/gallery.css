@@ -234,7 +234,7 @@
 /* ─── Filter Buttons ────────────────────────────────────────────────────────── */
 .filter-option,
 .filter-sub-option {
-  font-family: 'Switzer', sans-serif;
+  font-family: 'Steps-Mono', monospace;
   font-size: 20px;
   font-weight: 400;
   letter-spacing: 0.08em;

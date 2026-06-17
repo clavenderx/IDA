@@ -1,3 +1,37 @@
+/* ─── Tag Hover Background Swap ─────────────────────────────────────────────── */
+(function () {
+  const layers = [
+    document.getElementById('landing-bg-a'),
+    document.getElementById('landing-bg-b'),
+  ];
+  if (!layers[0] || !layers[1]) return;
+  let active = 0;
+
+  const tagImageMap = {
+    'tag-craft':      'src/img/landing_page/craft.png',
+    'tag-modern':     'src/img/landing_page/modern.png',
+    'tag-design':     'src/img/landing_page/design.png',
+    'tag-future':     'src/img/landing_page/future.png',
+    'tag-digital':    'src/img/landing_page/digital.png',
+    'tag-innovation': 'src/img/landing_page/innovation.png',
+    'tag-technology': 'src/img/landing_page/culture.png',
+  };
+
+  function showImage(src) {
+    const next = 1 - active;
+    layers[next].style.backgroundImage = `url(${src})`;
+    layers[next].style.opacity = '1';
+    layers[active].style.opacity = '0';
+    active = next;
+  }
+
+  Object.entries(tagImageMap).forEach(([tagId, imgSrc]) => {
+    const tag = document.getElementById(tagId);
+    if (!tag) return;
+    tag.addEventListener('mouseenter', () => showImage(imgSrc));
+  });
+})();
+
 /* ─── Landing Page Connector Lines ───────────────────────────────────────────── */
 (function () {
   const svg = document.getElementById('landing-lines');
