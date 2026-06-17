@@ -60,6 +60,56 @@ html {
   overflow-x: hidden;
 }
 
+.jury-hero {
+  width: 100%;
+  position: relative;
+}
+
+.jury-hero__img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.jury-hero__heading {
+  position: absolute;
+  bottom: calc(6% + 100px);
+  left: 5%;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.jury-hero__line {
+  display: block;
+  font-family: "Switzer", sans-serif;
+  font-weight: 500;
+  font-size: 9vw;
+  line-height: 0.88;
+  color: var(--color-light-green);
+  text-transform: uppercase;
+}
+
+.jury-hero__line--year {
+  padding-left: 4vw;
+}
+
+
+.jury-hero__year {
+  font-family: "PP Eiko", serif;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--color-white);
+  position: relative;
+  top: -10px;
+}
+
+.jury-hero__jury {
+  position: relative;
+  top: 10px;
+  left: -25px;
+}
+
 body {
   height: 100%;
   width: 100%;
@@ -423,21 +473,41 @@ a {
   padding: 2rem 4vw;
 }
 
+#preview-2 {
+  overflow: hidden;
+  display: block;
+  height: 100vh;
+  padding: 0;
+}
+
+.eva-story__spacer {
+  height: 200px;
+  flex-shrink: 0;
+  width: 100%;
+}
+
 .preview__header {
   position: absolute;
-  top: 6rem;
+  top: calc(8rem - 30px);
   left: 0;
   z-index: 10;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 0.5rem;
   pointer-events: auto;
 }
 
 .preview__header .preview__title {
   text-align: center;
-  margin: 0 auto;
+  margin: 0;
+}
+
+.preview__subtitle {
+  text-align: center;
+  margin: 0;
 }
 
 .preview__bio {
@@ -460,16 +530,18 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  transform-style: preserve-3d;
-  perspective: 2000px;
-  width: 300px;
+  width: 90vw;
+  max-width: 1200px;
   height: 400px;
+  overflow: visible;
+  margin-top: calc(8rem + 60px);
+  transform: scale(0.87);
 }
 
 .ring {
+  position: relative;
   width: 300px;
   height: 400px;
-  position: relative;
   transform-style: preserve-3d;
   cursor: grab;
   user-select: none;
@@ -513,4 +585,125 @@ a {
   font-size: 1rem;
   text-transform: none;
   letter-spacing: 0;
+}
+
+/* Eva horizontal story scroll */
+.eva-story {
+  width: 100vw;
+  overflow-x: clip;
+  overflow-y: visible;
+  position: relative;
+  margin-top: 2rem;
+  transform: translateY(-250px);
+}
+
+.eva-story__track {
+  display: flex;
+  will-change: transform;
+}
+
+.eva-story__slide {
+  width: 100vw;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10vw;
+  text-align: center;
+  text-transform: none;
+}
+
+.eva-story__slide--quote {
+  justify-content: center;
+  padding: 0 8vw;
+}
+
+.eva-story__quote {
+  text-align: left;
+  text-transform: none;
+  max-width: 700px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.eva-story__line {
+  display: block;
+}
+
+.eva-story__line--indent {
+  padding-left: 100px;
+}
+
+.eva-story__body {
+  text-transform: none;
+  max-width: 560px;
+  text-align: left;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.eva-story__slide--img {
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0;
+  overflow: visible;
+}
+
+.eva-story__slide--duo {
+  justify-content: center;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 0;
+  overflow: visible;
+}
+
+.eva-story__duo-img {
+  width: 38%;
+  max-width: 420px;
+  max-height: 260px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: -60px;
+}
+
+.eva-story__duo-img--wide {
+  width: 50%;
+  max-width: 500px;
+}
+
+.eva-story__duo-img--narrow {
+  width: 28%;
+  max-width: 320px;
+}
+
+.eva-story__slide--final {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6vw;
+  padding: 0 10vw;
+}
+
+.eva-story__submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #ffffff;
+  color: var(--color-charcoal);
+  padding: 1rem 2rem;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.eva-story__img {
+  width: 50vw;
+  max-width: 600px;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  margin-bottom: -60px;
 }

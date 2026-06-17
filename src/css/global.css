@@ -90,6 +90,28 @@ body {
   line-height: normal;
 }
 
+.heading-5 {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: normal;
+}
+
+.heading-6 {
+  font-family: 'Switzer', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: normal;
+}
+
+.heading-7 {
+  font-family: 'PP Eiko', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 32px;
+  line-height: normal;
+}
+
 .paragraph-1 {
   font-family: 'Switzer', sans-serif;
   font-weight: 400;

@@ -23,10 +23,25 @@
 
     <!-- MAIN CAROUSELS -->
     <main id="smooth-content">
+      <!-- Jury Landing -->
+      <section class="jury-hero">
+        <img
+          src="src/img/jury/juryPanel.png"
+          alt="Jury Panel"
+          class="jury-hero__img"
+        />
+        <div class="jury-hero__heading">
+          <span class="jury-hero__line">Meet The</span>
+          <span class="jury-hero__line jury-hero__line--year"
+            ><span class="jury-hero__year">2025</span>
+            <span class="jury-hero__jury">Jury</span></span
+          >
+        </div>
+      </section>
       <div class="scene-wrapper">
         <!-- Carousel 1 Sigríður Sigurjónsdóttir -->
         <div class="scene">
-          <h2 class="scene__title" data-speed="0.7">
+          <h2 class="scene__title heading-6" data-speed="0.7">
             <a href="#preview-1"
               ><span>Sigríður Sigurjónsdóttir — Chairman of the Jury</span></a
             >
@@ -60,7 +75,7 @@
         </div>
         <!-- Carousel 2 Eva María Árnadóttir -->
         <div class="scene">
-          <h2 class="scene__title" data-speed="0.7">
+          <h2 class="scene__title heading-6" data-speed="0.7">
             <a href="#preview-2"
               ><span
                 >Eva María Árnadóttir — Director of Community and
@@ -97,7 +112,7 @@
         </div>
         <!-- Carousel 3 Bergur Finnbogason -->
         <div class="scene">
-          <h2 class="scene__title" data-speed="0.7">
+          <h2 class="scene__title heading-6" data-speed="0.7">
             <a href="#preview-3"
               ><span
                 >Bergur Finnbogason — Creative Director of EVE Online</span
@@ -133,7 +148,7 @@
         </div>
         <!-- Carousel 4 Sigurlína Margrét Osuala -->
         <div class="scene">
-          <h2 class="scene__title" data-speed="0.7">
+          <h2 class="scene__title heading-6" data-speed="0.7">
             <a href="#preview-4"
               ><span>Sigurlína Margrét Osuala — Head of Ceramics</span></a
             >
@@ -167,7 +182,7 @@
         </div>
         <!-- Carousel 5 Erling Jóhannesson -->
         <div class="scene">
-          <h2 class="scene__title" data-speed="0.7">
+          <h2 class="scene__title heading-6" data-speed="0.7">
             <a href="#preview-5"
               ><span
                 >Erling Jóhannesson — President of the Icelandic Artists'
@@ -204,7 +219,7 @@
         </div>
         <!-- Carousel 6 Guðrún Sóley Gestsdóttir -->
         <div class="scene">
-          <h2 class="scene__title" data-speed="0.7">
+          <h2 class="scene__title heading-6" data-speed="0.7">
             <a href="#preview-6"
               ><span
                 >Guðrún Sóley Gestsdóttir — Journalist and Media
@@ -241,7 +256,7 @@
         </div>
         <!-- Carousel 7 Tor Inge Hjelmdal -->
         <div class="scene">
-          <h2 class="scene__title" data-speed="0.7">
+          <h2 class="scene__title heading-6" data-speed="0.7">
             <a href="#preview-7"
               ><span>Tor Inge Hjelmdal — Architect and CEO at DOGA</span></a
             >
@@ -283,7 +298,6 @@
           <h2 class="preview__title">
             <span>Sigríður Sigurjónsdóttir — Chairman of the Jury</span>
           </h2>
-          <button class="preview__close">Close ×</button>
         </header>
         <div class="preview-ring-container">
           <div class="ring">
@@ -308,7 +322,6 @@
               data-label="Sigríður Sigurjónsdóttir"
             ></div>
           </div>
-          <p class="preview-ring-hint">drag to rotate</p>
         </div>
         <p class="preview__bio">
           <span
@@ -323,13 +336,10 @@
       <!-- preview-2 Eva María Árnadóttir -->
       <div class="preview" id="preview-2">
         <header class="preview__header">
-          <h2 class="preview__title">
-            <span
-              >Eva María Árnadóttir — Director of Community and
-              Sustainability</span
-            >
-          </h2>
-          <button class="preview__close">Close ×</button>
+          <h2 class="preview__title heading-2">Eva María Árnadóttir</h2>
+          <p class="preview__subtitle heading-6">
+            Threading Icelandic Roots in Fashion
+          </p>
         </header>
         <div class="preview-ring-container">
           <div class="ring">
@@ -354,16 +364,102 @@
               data-label="Eva María Árnadóttir"
             ></div>
           </div>
-          <p class="preview-ring-hint">drag to rotate</p>
         </div>
-        <p class="preview__bio">
-          <span
-            >Eva María Árnadóttir serves as Director of Community and
-            Sustainability at Iceland University of the Arts. Her work focuses
-            on bridging creative education with community engagement and
-            sustainable design practices.</span
-          >
-        </p>
+        <div class="eva-story__spacer"></div>
+        <div class="eva-story">
+          <div class="eva-story__track">
+            <div class="eva-story__slide">
+              <p class="paragraph-1 eva-story__body">
+                As Dean of the School of Architecture, Design and Fine Art at
+                Iceland University of the Arts, she continues to influence the
+                next generation of creatives while advocating for the growth and
+                recognition of Icelandic fashion design.
+              </p>
+            </div>
+            <div class="eva-story__slide eva-story__slide--quote">
+              <div class="eva-story__quote heading-2">
+                <span class="eva-story__line"
+                  >"My journey in fashion began as a</span
+                >
+                <span class="eva-story__line eva-story__line--indent"
+                  >knitwear designer at Ice wear...</span
+                >
+              </div>
+            </div>
+            <div class="eva-story__slide">
+              <p class="paragraph-1 eva-story__body">
+                ...where I developed a deep connection to Icelandic textiles and
+                the craft behind them. Through this experience, I discovered how
+                clothing is not only something we wear but, it can express
+                identity, reflect culture, and carry the stories of the places
+                that inspire us."
+              </p>
+            </div>
+            <div class="eva-story__slide">
+              <p class="paragraph-1 eva-story__body">
+                "I believe Icelandic fashion's originality comes from the
+                challenges of being an island, far from manufacturing and
+                production. These limitations have inspired us to reimagine
+                constraints as opportunities for innovation."
+              </p>
+            </div>
+            <div class="eva-story__slide">
+              <p class="paragraph-1 eva-story__body">
+                "For me, fashion is not defined by a single style, but rather
+                its an ongoing conservation between heritage and
+                experimentation."
+              </p>
+            </div>
+            <div class="eva-story__slide eva-story__slide--img">
+              <img
+                src="src/img/jury/juryInfo_IMG1.png"
+                alt=""
+                class="eva-story__img"
+              />
+            </div>
+            <div class="eva-story__slide">
+              <p class="paragraph-1 eva-story__body">
+                Most recently a part of the round table at the Icelandic Fashion
+                Design Association in 2020 which recognizes designers for their
+                work and contribution to Icelandic fashion design.
+              </p>
+            </div>
+            <div class="eva-story__slide eva-story__slide--duo">
+              <img
+                src="src/img/jury/juryInfo_IMG2.png"
+                alt=""
+                class="eva-story__duo-img"
+              />
+              <img
+                src="src/img/jury/juryInfo_IMG3.png"
+                alt=""
+                class="eva-story__duo-img"
+              />
+            </div>
+            <div class="eva-story__slide eva-story__slide--duo">
+              <img
+                src="src/img/jury/juryInfo_IMG4.png"
+                alt=""
+                class="eva-story__duo-img eva-story__duo-img--wide"
+              />
+              <img
+                src="src/img/jury/juryInfo_IMG5.png"
+                alt=""
+                class="eva-story__duo-img eva-story__duo-img--narrow"
+              />
+            </div>
+            <div class="eva-story__slide eva-story__slide--final">
+              <p class="paragraph-1 eva-story__body">
+                Most recently a part of the round table at the Icelandic Fashion
+                Design Association in 2020 which recognizes designers for their
+                work and contribution to Icelandic fashion design.
+              </p>
+              <a href="#" class="paragraph-3 eva-story__submit"
+                >[ Submit My Work ]</a
+              >
+            </div>
+          </div>
+        </div>
       </div>
       <!-- preview-3 Bergur Finnbogason -->
       <div class="preview" id="preview-3">
@@ -371,7 +467,6 @@
           <h2 class="preview__title">
             <span>Bergur Finnbogason — Creative Director of EVE Online</span>
           </h2>
-          <button class="preview__close">Close ×</button>
         </header>
         <div class="preview-ring-container">
           <div class="ring">
@@ -396,7 +491,6 @@
               data-label="Bergur Finnbogason"
             ></div>
           </div>
-          <p class="preview-ring-hint">drag to rotate</p>
         </div>
         <p class="preview__bio">
           <span
@@ -413,7 +507,6 @@
           <h2 class="preview__title">
             <span>Sigurlína Margrét Osuala — Head of Ceramics</span>
           </h2>
-          <button class="preview__close">Close ×</button>
         </header>
         <div class="preview-ring-container">
           <div class="ring">
@@ -438,7 +531,6 @@
               data-label="Sigurlína Margrét Osuala"
             ></div>
           </div>
-          <p class="preview-ring-hint">drag to rotate</p>
         </div>
         <p class="preview__bio">
           <span
@@ -458,7 +550,6 @@
               Union</span
             >
           </h2>
-          <button class="preview__close">Close ×</button>
         </header>
         <div class="preview-ring-container">
           <div class="ring">
@@ -483,7 +574,6 @@
               data-label="Erling Jóhannesson"
             ></div>
           </div>
-          <p class="preview-ring-hint">drag to rotate</p>
         </div>
         <p class="preview__bio">
           <span
@@ -502,7 +592,6 @@
               >Guðrún Sóley Gestsdóttir — Journalist and Media Personality</span
             >
           </h2>
-          <button class="preview__close">Close ×</button>
         </header>
         <div class="preview-ring-container">
           <div class="ring">
@@ -527,7 +616,6 @@
               data-label="Guðrún Sóley Gestsdóttir"
             ></div>
           </div>
-          <p class="preview-ring-hint">drag to rotate</p>
         </div>
         <p class="preview__bio">
           <span
@@ -544,7 +632,6 @@
           <h2 class="preview__title">
             <span>Tor Inge Hjelmdal — Architect and CEO at DOGA</span>
           </h2>
-          <button class="preview__close">Close ×</button>
         </header>
         <div class="preview-ring-container">
           <div class="ring">
@@ -569,7 +656,6 @@
               data-label="Tor Inge Hjelmdal"
             ></div>
           </div>
-          <p class="preview-ring-hint">drag to rotate</p>
         </div>
         <p class="preview__bio">
           <span

@@ -1,6 +1,8 @@
 // Import utility function for preloading images
 import { preloadImages } from "./utils.js";
 import { initSwirlEffects } from "./swirl.js";
+import { initTypewriter, animateTypewriter } from "./typewriter.js";
+import { initPixelHeading } from "./pixelHeading.js";
 
 // Register the GSAP plugins
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin, SplitText);
@@ -107,24 +109,11 @@ const createScrollAnimation = (carousel) => {
   return carousel._timeline;
 };
 
-/**
- * Initializes SplitText instances on key animated elements
- *
- * @returns {void}
- */
 const initTextsSplit = () => {
-  document
-    .querySelectorAll(
-      ".scene__title span, .preview__title span, .preview__close",
-    )
-    .forEach((span) => {
-      const split = SplitText.create(span, {
-        type: "chars", // Split by characters
-        charsClass: "char", // Assign class to each character
-        autoSplit: true, // Revert and re-split whenever the fonts finish loading
-      });
-      splitMap.set(span, split); // Store split instance for reuse
-    });
+  initTypewriter(
+    document.querySelectorAll(".scene__title span, .preview__title span, .preview__close"),
+    { map: splitMap },
+  );
 };
 
 /**
@@ -290,121 +279,58 @@ const animateGridItems = ({
 };
 
 /**
- * Stores active ring carousel state per preview element.
- * Each entry: { ring, imgs, xPos, dragHandler, dragEndHandler, cleanup }
+ * Stores active coverflow carousel state per preview element.
  */
 const ringStateMap = new Map();
 
 /**
- * Returns the background-position string for parallax effect on ring images
- * @param {Element} ring - The .ring element
- * @param {number} i - Index of the image
- * @param {number} count - Total number of images
- * @returns {string}
+ * Positions coverflow cards based on the current index (supports decimals for smooth drag).
  */
-const getRingBgPos = (ring, i, count) => {
-  const angleStep = 360 / count;
-  const rotY = gsap.getProperty(ring, "rotationY");
-  return (
-    100 -
-    (gsap.utils.wrap(0, 360, rotY - 180 - i * angleStep) / 360) * 500 +
-    "px 0px"
-  );
+const applyCoverflowLayout = (imgs, currentIndex, count) => {
+  const GAP = 500;
+  const SIDE_ROTATE = 20;
+  const SIDE_SCALE = 0.85;
+
+  imgs.forEach((img, i) => {
+    const offset = ((i - currentIndex) % count + count) % count;
+    // Normalize so offset is in range -count/2 to count/2 (wrap around)
+    const wrapped = offset > count / 2 ? offset - count : offset;
+
+    const x = wrapped * GAP;
+    const rotY = wrapped === 0 ? 0 : wrapped > 0 ? -SIDE_ROTATE : SIDE_ROTATE;
+    const scale = Math.abs(wrapped) >= 1 ? SIDE_SCALE : 1;
+    const zIndex = Math.round(10 - Math.abs(wrapped));
+    const opacity = Math.abs(wrapped) > 1.5 ? 0 : 1;
+
+    gsap.set(img, { x, rotateY: rotY, scale, zIndex, opacity });
+  });
 };
 
 /**
- * Initialises the draggable 3D ring carousel inside a preview
+ * Initialises the coverflow carousel inside a preview
  * @param {HTMLElement} preview
  */
 const initPreviewRing = (preview) => {
   const ring = preview.querySelector(".ring");
   if (!ring) return;
-  const imgs = ring.querySelectorAll(".ring-img");
+  const imgs = Array.from(ring.querySelectorAll(".ring-img"));
   const count = imgs.length;
   if (!count) return;
 
-  const angleStep = 360 / count;
-  const radius = Math.round(280 / 2 / Math.tan(Math.PI / count)) + 220;
+  gsap.set(ring, { transformStyle: "preserve-3d", perspective: 1200 });
+  gsap.set(imgs, { transformStyle: "preserve-3d", position: "absolute", top: 0, left: "50%", xPercent: -50 });
 
-  // Position images around the ring
-  gsap.set(imgs, {
-    rotateY: (i) => i * angleStep,
-    transformOrigin: `50% 50% ${radius}px`,
-    z: -radius,
-    backgroundPosition: (i) => getRingBgPos(ring, i, count),
-    backfaceVisibility: "hidden",
-  });
+  let currentIndex = 1;
+  applyCoverflowLayout(imgs, currentIndex, count);
 
-  // Set initial ring rotation so intro animation sweeps in nicely
-  gsap.set(ring, { rotationY: 180 });
-
-  let xPos = 0;
-
-  const drag = (e) => {
-    if (e.touches) e.clientX = e.touches[0].clientX;
-    gsap.to(ring, {
-      rotationY: "-=" + ((Math.round(e.clientX) - xPos) % 360),
-      onUpdate: () => {
-        gsap.set(imgs, {
-          backgroundPosition: (i) => getRingBgPos(ring, i, count),
-        });
-      },
-      ease: "none",
-      duration: 0,
-    });
-    xPos = Math.round(e.clientX);
-  };
-
-  const dragStart = (e) => {
-    if (e.touches) e.clientX = e.touches[0].clientX;
-    xPos = Math.round(e.clientX);
-    gsap.set(ring, { cursor: "grabbing" });
-    window.addEventListener("mousemove", drag);
-    window.addEventListener("touchmove", drag);
-  };
-
-  const dragEnd = () => {
-    window.removeEventListener("mousemove", drag);
-    window.removeEventListener("touchmove", drag);
-    gsap.set(ring, { cursor: "grab" });
-  };
-
-  // Hover dimming: dim others, brighten hovered
-  imgs.forEach((img) => {
-    img.addEventListener("mouseenter", () => {
-      gsap.to(imgs, {
-        opacity: (i, t) => (t === img ? 1 : 0.4),
-        ease: "power3",
-        duration: 0.3,
-      });
-    });
-    img.addEventListener("mouseleave", () => {
-      gsap.to(imgs, { opacity: 1, ease: "power2.inOut", duration: 0.3 });
-    });
-  });
-
-  ring.addEventListener("mousedown", dragStart);
-  ring.addEventListener("touchstart", dragStart);
-  window.addEventListener("mouseup", dragEnd);
-  window.addEventListener("touchend", dragEnd);
-
-  ringStateMap.set(preview, { ring, imgs, dragStart, dragEnd, drag });
+  ringStateMap.set(preview, { ring, imgs });
 };
 
 /**
- * Tears down the ring carousel event listeners for a preview
+ * Tears down the coverflow carousel event listeners for a preview
  * @param {HTMLElement} preview
  */
 const destroyPreviewRing = (preview) => {
-  const state = ringStateMap.get(preview);
-  if (!state) return;
-  const { ring, dragStart, dragEnd, drag } = state;
-  ring.removeEventListener("mousedown", dragStart);
-  ring.removeEventListener("touchstart", dragStart);
-  window.removeEventListener("mouseup", dragEnd);
-  window.removeEventListener("touchend", dragEnd);
-  window.removeEventListener("mousemove", drag);
-  window.removeEventListener("touchmove", drag);
   ringStateMap.delete(preview);
 };
 
@@ -451,6 +377,7 @@ const animatePreviewGridOut = (preview) => {
     stagger: 0.04,
     onComplete: () => {
       destroyPreviewRing(preview);
+      if (preview.id === "preview-2") destroyEvaStory(preview);
       gsap.set(preview, { pointerEvents: "none", autoAlpha: 0 });
       // Reset for next open
       if (imgs.length)
@@ -487,24 +414,7 @@ const getSceneElementsFromPreview = (previewEl) => {
   return { ...getSceneElementsFromTitle(titleEl), titleEl };
 };
 
-/**
- * Animates SplitText character elements in or out
- *
- * @param {HTMLElement[]} chars - Array of character elements to animate
- * @param {'in' | 'out'} direction - Direction of the animation ('in' for fade in, 'out' for fade out)
- * @param {Object} [opts={}] - Optional GSAP config overrides (e.g. scrollTrigger)
- */
-const animateChars = (chars, direction = "in", opts = {}) => {
-  const base = {
-    autoAlpha: direction === "in" ? 1 : 0,
-    duration: 0.02,
-    ease: "none",
-    stagger: { each: 0.04, from: direction === "in" ? "start" : "end" },
-    ...opts,
-  };
-
-  gsap.fromTo(chars, { autoAlpha: direction === "in" ? 0 : 1 }, base);
-};
+const animateChars = animateTypewriter;
 
 /**
  * Animates title and close button characters in a preview
@@ -599,8 +509,117 @@ const activatePreviewFromCarousel = (e) => {
       animatePreviewGridIn(preview);
       animatePreviewTexts(preview, "in");
       animateBioIn(preview);
-      attachScrollToClose(preview);
+      if (preview.id === "preview-2") initEvaStory(preview);
     }, "<+=1.9");
+};
+
+let evaStoryWheelHandler = null;
+
+/**
+ * Tears down Eva's story scroll wheel listener.
+ */
+const destroyEvaStory = (preview) => {
+  if (evaStoryWheelHandler) {
+    preview.removeEventListener("wheel", evaStoryWheelHandler);
+    window.removeEventListener("wheel", evaStoryWheelHandler);
+    evaStoryWheelHandler = null;
+  }
+};
+
+/**
+ * Drives the horizontal text scroll + coverflow rotation for Eva's preview.
+ * Resets to slide 0 on every open and cleans up previous listeners first.
+ */
+const initEvaStory = (preview) => {
+  const track = preview.querySelector(".eva-story__track");
+  if (!track) return;
+
+  // Clean up any previous listener and reset to first slide
+  destroyEvaStory(preview);
+  gsap.set(track, { x: 0 });
+
+  const slides = preview.querySelectorAll(".eva-story__slide");
+  const slideCount = slides.length;
+  let currentSlide = 0;
+  let animating = false;
+
+  const goToSlide = (index) => {
+    if (animating) return;
+    animating = true;
+
+    const prevSlide = currentSlide;
+    const nextSlide = ((index % slideCount) + slideCount) % slideCount;
+    const isForwardWrap = prevSlide === slideCount - 1 && nextSlide === 0;
+    const isBackwardWrap = prevSlide === 0 && nextSlide === slideCount - 1;
+
+    // Update coverflow carousel
+    const state = ringStateMap.get(preview);
+    if (state) {
+      const { imgs } = state;
+      const newIndex = nextSlide === 0 ? 1 : nextSlide <= 3 ? 2 : nextSlide <= 5 ? 3 : 0;
+      applyCoverflowLayout(imgs, newIndex, imgs.length);
+    }
+
+    if (isForwardWrap) {
+      // Clone slide 0 at end so animation continues leftward
+      const clone = slides[0].cloneNode(true);
+      track.appendChild(clone);
+      gsap.to(track, {
+        x: `-${slideCount * 100}vw`,
+        duration: 0.8,
+        ease: "power3.inOut",
+        onComplete: () => {
+          track.removeChild(clone);
+          currentSlide = 0;
+          gsap.set(track, { x: 0 });
+          animating = false;
+        },
+      });
+    } else if (isBackwardWrap) {
+      // Clone slide N-1 at start so animation continues rightward
+      const clone = slides[slideCount - 1].cloneNode(true);
+      track.insertBefore(clone, slides[0]);
+      // Shift track to maintain current visual position after prepend
+      gsap.set(track, { x: `-${(prevSlide + 1) * 100}vw` });
+      gsap.to(track, {
+        x: 0,
+        duration: 0.8,
+        ease: "power3.inOut",
+        onComplete: () => {
+          track.removeChild(clone);
+          currentSlide = slideCount - 1;
+          gsap.set(track, { x: `-${(slideCount - 1) * 100}vw` });
+          animating = false;
+        },
+      });
+    } else {
+      currentSlide = nextSlide;
+      gsap.to(track, {
+        x: `-${currentSlide * 100}vw`,
+        duration: 0.8,
+        ease: "power3.inOut",
+        onComplete: () => { animating = false; },
+      });
+    }
+  };
+
+  let wheelLock = false;
+
+  evaStoryWheelHandler = (e) => {
+    e.preventDefault();
+    if (wheelLock) return;
+    wheelLock = true;
+    setTimeout(() => { wheelLock = false; }, 900);
+
+    if (e.deltaY > 0 || e.deltaX > 0) {
+      goToSlide(currentSlide + 1);
+    } else {
+      goToSlide(currentSlide - 1);
+    }
+  };
+
+  preview.addEventListener("wheel", evaStoryWheelHandler, { passive: false });
+  window.addEventListener("wheel", evaStoryWheelHandler, { passive: false });
 };
 
 /**
@@ -616,7 +635,6 @@ const deactivatePreviewToCarousel = (e) => {
   const preview = closeBtn?.closest(".preview");
   if (!preview) return;
 
-  detachScrollToClose(preview);
   // Disable the close button immediately to prevent double-firing
   gsap.set(closeBtn, { pointerEvents: "none" });
 
@@ -679,80 +697,6 @@ const deactivatePreviewToCarousel = (e) => {
 /**
  * Scroll-to-close state per preview
  */
-const scrollCloseMap = new Map();
-
-/**
- * Attaches a wheel/touch listener so scrolling down closes the active preview.
- *
- * Listens on the preview element itself (not window) so ScrollSmoother's
- * interception of window wheel events doesn't swallow the gesture.
- * Also guards against closing when the user is scrolling back up through
- * preview content that has already been scrolled down.
- *
- * @param {HTMLElement} preview
- */
-const attachScrollToClose = (preview) => {
-  // Clean up any existing listener first
-  detachScrollToClose(preview);
-
-  let touchStartY = 0;
-
-  const triggerClose = () => {
-    detachScrollToClose(preview);
-    deactivatePreviewToCarousel({
-      currentTarget: preview.querySelector(".preview__close"),
-    });
-  };
-
-  const onWheel = (e) => {
-    // Only close when scrolling down AND the preview is already scrolled to
-    // the very top (so the user isn't mid-content scrolling)
-    if (e.deltaY > 30 && preview.scrollTop <= 0) {
-      triggerClose();
-    }
-  };
-
-  const onTouchStart = (e) => {
-    touchStartY = e.touches[0].clientY;
-  };
-
-  const onTouchEnd = (e) => {
-    const dy = touchStartY - e.changedTouches[0].clientY;
-    if (dy > 40 && preview.scrollTop <= 0) {
-      triggerClose();
-    }
-  };
-
-  // Listen on the preview element so we catch events that ScrollSmoother
-  // may intercept at the window level. Use { passive: true } so we don't
-  // block any default browser scroll behaviour.
-  preview.addEventListener("wheel", onWheel, { passive: true });
-  preview.addEventListener("touchstart", onTouchStart, { passive: true });
-  preview.addEventListener("touchend", onTouchEnd, { passive: true });
-
-  // Also listen on window as a fallback for cases where the preview has
-  // overflow:hidden and events don't reach it directly.
-  window.addEventListener("wheel", onWheel, { passive: true });
-
-  scrollCloseMap.set(preview, { onWheel, onTouchStart, onTouchEnd });
-};
-
-/**
- * Removes the scroll-to-close listeners for a preview
- * @param {HTMLElement} preview
- */
-const detachScrollToClose = (preview) => {
-  const handlers = scrollCloseMap.get(preview);
-  if (!handlers) return;
-  // Remove from both preview element and window (mirrors attachScrollToClose)
-  preview.removeEventListener("wheel", handlers.onWheel);
-  preview.removeEventListener("touchstart", handlers.onTouchStart);
-  preview.removeEventListener("touchend", handlers.onTouchEnd);
-  window.removeEventListener("wheel", handlers.onWheel);
-  window.removeEventListener("touchstart", handlers.onTouchStart);
-  window.removeEventListener("touchend", handlers.onTouchEnd);
-  scrollCloseMap.delete(preview);
-};
 
 /**
  * Adds click event listeners to scene titles and preview close buttons
@@ -760,14 +704,18 @@ const detachScrollToClose = (preview) => {
  * @returns {void}
  */
 const initEventListeners = () => {
-  // When a scene title is clicked, activate the preview
   document.querySelectorAll(".scene__title").forEach((title) => {
     title.addEventListener("click", activatePreviewFromCarousel);
-  });
 
-  // When a preview close button is clicked, deactivate the preview
-  document.querySelectorAll(".preview__close").forEach((btn) => {
-    btn.addEventListener("click", deactivatePreviewToCarousel);
+    const span = title.querySelector("span");
+    const chars = splitMap.get(span)?.chars || [];
+
+    title.addEventListener("mouseenter", () => {
+      gsap.to(chars, { color: "#C3FA95", duration: 0.2, stagger: { each: 0.02, from: "start" }, overwrite: "auto" });
+    });
+    title.addEventListener("mouseleave", () => {
+      gsap.to(chars, { color: "#ffffff", duration: 0.2, stagger: { each: 0.02, from: "end" }, overwrite: "auto" });
+    });
   });
 };
 
@@ -896,5 +844,6 @@ const init = () => {
 preloadImages(".card__face").then(() => {
   document.body.classList.remove("loading"); // Remove loading state from body
   init(); // Begin initialization
+  initPixelHeading(document.querySelector(".jury-hero__heading"));
   preloadImages(".ring-img"); // Preload preview ring images in background
 });
