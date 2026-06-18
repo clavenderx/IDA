@@ -1,16 +1,26 @@
 /* ─── Floating Gallery Images ───────────────────────────────────────────────── */
 const FG = 'src/img/Floating _Gallery/';
 const FG_IMAGES = {
-  'albína thordarson':            ['albina_thordarson_1.png','albina_thordarson_2.png'],
+  'albína thordarson':            ['albina_thordarson_1.png','albina_thordarson_2.png','albina_thordarson_3.png','albina_thordarson_4.png','albina_thordarson_5.png','albina_thordarson_6.png'],
   's.ap architects':              ['sap_architects_1.png','sap_architects_2.png','sap_architects_3.png','sap_architects_4.png'],
   'studio granda':                ['studio_granda_1.png','studio_granda_2.png','studio_granda_3.png'],
-  'fischersund':                  ['fischersund_1.png','fischersund_5.png','fichersund_2.png','fichersund_3.png','fichersund_4.png','fichersund_6.png','fichersund_7.png'],
+  'fischersund':                  ['fischersund_1.png','fischersund_2.png','fischersund_3.png','fischersund_4.png','fischersund_5.png','fischersund_6.png','fischersund_7.png'],
   'dýpi':                         ['DYPI_1.png','DYPI_2.png','DYPI_3.png','DYPI_4.png','DYPI_5.png'],
   'johanna seelemann':            ['johanna_seelemann_1.png','johanna_seelemann_2.png','johanna_seelemann_3.png'],
-  'lauf cycles':                  ['lauf_cycling_1.png','lauf_cycling_2.png','lauf_cycling_3.png'],
+  'lauf cycles':                  ['lauf_cycling_1.png','lauf_cycling_2.png','lauf_cycling_3.png','lauf_cycling_4.png','lauf_cycling_5.png','lauf_cycling_6.png','lauf_cycling_7.png'],
   'eldjárn & jón helgi hólmsson': ['eldjan_jon_helgi_1.png','eldjan_jon_helgi_2.png','eldjan_jon_helgi_3.png'],
   'nature conservation agency':   ['nature_conservation_agency_1.png','nature_conservation_agency_2.png','nature_conservation_agency_3.png'],
   'ranra':                        ['ranra_1.png','ranra_2.png','ranra_3.png','ranra_4.png','ranra_5.png','ranra_6.png','ranra_7.png','ranra_8.png','ranra_9.png','ranra_10.png'],
+  'gísli b. björnsson':           ['gisli_bjornsson_1.png','gisli_bjornsson_2.png','gisli_bjornsson_3.png','gisli_bjornsson_4.png','gisli_bjornsson_5.png','gisli_bjornsson_6.png'],
+  'helga lilja':                  ['helga_lilja_1.png','helga_lilja_2.png','helga_lilja_3.png'],
+  'krónan':                       ['kronan_1.png','kronan_2.png','kronan_3.png'],
+  'landslag and harry jóhannsson': ['landslag_harry_1.png','landslag_harry_2.png','landslag_harry_3.png'],
+  'þykjó':                        ['pykjo_1.png','pykjo_2.png','pykjo_3.png','pykjo_4.png','pykjo_5.jpg','pykjo_6.jpg','pykjo_7.jpg'],
+  'rán flygenring':               ['ran_flygenring_1.png','ran_flygenring_2.png','ran_flygenring_3.png','ran_flygenring_4.png','ran_flygenring_5.png','ran_flygenring_6.png'],
+  'sp(r)int studio':              ['sprint_studio_1.png','sprint_studio_2.png','sprint_studio_3.png'],
+  'studio frindrekar':            ['studio_frindrekar_1.png','studio_frindrekar_2.png','studio_frindrekar_3.png'],
+  'tetra':                        ['tetra_1.png','tetra_2.png','tetra_3.png','tetra_4.png','tetra_5.png'],
+  'the blue lagoon':              ['blue_lagoon_1.png','blue_lagoon_2.png','blue_lagoon_3.png','blue_lagoon_4.png'],
 };
 
 /* pool index is stored per-item and advanced each time the item wraps */
@@ -45,6 +55,7 @@ const items = Array.from(document.querySelectorAll('.item')).map((el, i) => {
   tag.className = 'category-tag';
   tag.textContent = `[ ${el.dataset.category || ''} ]`;
   el.insertBefore(tag, el.querySelector('.frame'));
+
 
   return {
     el, imgEl, pool, fgIdx, tag,
@@ -140,6 +151,27 @@ function markScrolling() {
   scrollStopTimer = setTimeout(() => { isScrolling = false; }, 150);
 }
 
+/* ─── Cursor Trail ───────────────────────────────────────────────────────────── */
+const galleryCursor = document.createElement('div');
+galleryCursor.id = 'gallery-cursor';
+galleryCursor.textContent = '[ View ]';
+document.body.appendChild(galleryCursor);
+
+let cursorX = 0, cursorY = 0;
+let trailX = 0, trailY = 0;
+
+document.addEventListener('mousemove', e => {
+  cursorX = e.clientX;
+  cursorY = e.clientY;
+});
+
+(function animateCursor() {
+  trailX += (cursorX - trailX) * 0.18;
+  trailY += (cursorY - trailY) * 0.18;
+  galleryCursor.style.transform = `translate(calc(${trailX}px + 10px), calc(${trailY}px + 10px))`;
+  requestAnimationFrame(animateCursor);
+})();
+
 items.forEach(item => {
   item.el.addEventListener('mouseenter', () => {
     if (isScrolling || item.dimTarget === 0) return;
@@ -147,12 +179,14 @@ items.forEach(item => {
     item.el.classList.add('hovered');
     item.el.style.zIndex = '1000';
     scene.classList.add('has-hover');
+    galleryCursor.classList.add('visible');
   });
   item.el.addEventListener('mouseleave', () => {
     hoveredItem = null;
     item.el.classList.remove('hovered');
     item.el.style.zIndex = '';
     scene.classList.remove('has-hover');
+    galleryCursor.classList.remove('visible');
   });
 });
 
@@ -235,15 +269,17 @@ const MAX_PREVIEWS = 4;
 const GAP = 16;
 let previewPool = [];
 
-function randomPreviewStyle() {
-  const startX = document.getElementById('filterOverlay').getBoundingClientRect().right + GAP;
-  const availW = window.innerWidth - startX - GAP;
-  const w      = Math.round(availW * (0.28 + Math.random() * 0.52));
-  const h      = Math.min(Math.round(w * (0.75 + Math.random() * 0.85)), window.innerHeight - GAP * 2);
-  const x      = startX + Math.random() * Math.max(0, window.innerWidth  - startX - w - GAP);
-  const y      = GAP    + Math.random() * Math.max(0, window.innerHeight - h - GAP * 2);
-  const rot    = (Math.random() - 0.5) * 12;
-  return { w, h, transform: `translate(${Math.round(x)}px,${Math.round(y)}px) rotate(${rot.toFixed(1)}deg)` };
+function randomPreviewStyle(naturalW, naturalH) {
+  const startX  = document.getElementById('filterOverlay').getBoundingClientRect().right + GAP;
+  const availW  = window.innerWidth - startX - GAP;
+  const ratio   = naturalH / naturalW;
+  const w       = Math.round(availW * (0.28 + Math.random() * 0.38));
+  const h       = Math.min(Math.round(w * ratio), window.innerHeight - GAP * 2);
+  const finalW  = Math.round(h / ratio);
+  const x       = startX + Math.random() * Math.max(0, window.innerWidth  - startX - finalW - GAP);
+  const y       = GAP    + Math.random() * Math.max(0, window.innerHeight - h - GAP * 2);
+  const rot     = (Math.random() - 0.5) * 12;
+  return { w: finalW, h, transform: `translate(${Math.round(x)}px,${Math.round(y)}px) rotate(${rot.toFixed(1)}deg)` };
 }
 
 function showPreview(src) {
@@ -252,17 +288,21 @@ function showPreview(src) {
     oldest.classList.remove('visible');
     setTimeout(() => oldest.remove(), 250);
   }
-  const { w, h, transform } = randomPreviewStyle();
-  const el = document.createElement('div');
-  el.className        = 'img-preview';
-  el.style.width      = w + 'px';
-  el.style.height     = h + 'px';
-  el.style.transform  = transform;
-  el.style.zIndex     = 3500 + previewPool.length;
-  el.innerHTML        = `<img src="${src}" alt="">`;
-  document.body.appendChild(el);
-  requestAnimationFrame(() => el.classList.add('visible'));
-  previewPool.push(el);
+  const probe = new Image();
+  probe.onload = () => {
+    const { w, h, transform } = randomPreviewStyle(probe.naturalWidth, probe.naturalHeight);
+    const el = document.createElement('div');
+    el.className       = 'img-preview';
+    el.style.width     = w + 'px';
+    el.style.height    = h + 'px';
+    el.style.transform = transform;
+    el.style.zIndex    = 3500 + previewPool.length;
+    el.innerHTML       = `<img src="${src}" alt="">`;
+    document.body.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('visible'));
+    previewPool.push(el);
+  };
+  probe.src = src;
 }
 
 function hidePreviews() {
@@ -277,33 +317,33 @@ function hidePreviews() {
 const I = 'src/img/Floating _Gallery/';
 const FILTER_DATA = {
   creator: [
-    { name: 'Albína Thordarson',            img: I + 'albina_thordarson_1.png' },
-    { name: 'Dýpi',                          img: I + 'DYPI_1.png' },
-    { name: 'Fischersund',                   img: I + 'fischersund_1.png' },
-    { name: 'Johanna Seelemann',             img: I + 'johanna_seelemann_1.png' },
-    { name: 'Lauf Cycles',                   img: I + 'lauf_cycling_1.png' },
-    { name: 'Nature Conservation Agency',    img: I + 'nature_conservation_agency_1.png' },
-    { name: 'Ranra',                         img: I + 'ranra_1.png' },
-    { name: 'S.AP Architects',               img: I + 'sap_architects_1.png' },
-    { name: 'Sp(r)int Studio',               img: I + 'sprint_studio_1.png' },
-    { name: 'Tetra',                         img: I + 'tetra_1.png' },
-    { name: 'Helga Lilja',                   img: I + 'helga_lilja_1.png' },
-    { name: 'Studio Granda',                 img: I + 'studio_granda_1.png' },
-    { name: 'Þykjó',                         img: I + 'pykjo_1.png' },
-    { name: 'Krónan',                        img: I + 'kronan_1.png' },
-    { name: 'Gísli B. Björnsson',            img: I + 'gisli_bjornsson_1.png' },
-    { name: 'Rán Flygenring',                img: I + 'ran_flygenring_1.png' },
-    { name: 'Eldjárn & Jón Helgi Hólmsson', img: I + 'eldjan_jon_helgi_1.png' },
-    { name: 'Landslag and Harry Jóhannsson', img: null },
-    { name: 'The Blue Lagoon',               img: I + 'blue_lagoon_1.png' },
-    { name: 'Studio Frindrekar',             img: I + 'studio_frindrekar_1.png' },
+    { name: 'Albína Thordarson',            imgs: [I+'albina_thordarson_1.png',I+'albina_thordarson_2.png',I+'albina_thordarson_3.png',I+'albina_thordarson_4.png',I+'albina_thordarson_5.png',I+'albina_thordarson_6.png'] },
+    { name: 'Dýpi',                          imgs: [I+'DYPI_1.png',I+'DYPI_2.png',I+'DYPI_3.png',I+'DYPI_4.png',I+'DYPI_5.png'] },
+    { name: 'Fischersund',                   imgs: [I+'fischersund_1.png',I+'fischersund_2.png',I+'fischersund_3.png',I+'fischersund_4.png',I+'fischersund_5.png',I+'fischersund_6.png',I+'fischersund_7.png'] },
+    { name: 'Johanna Seelemann',             imgs: [I+'johanna_seelemann_1.png',I+'johanna_seelemann_2.png',I+'johanna_seelemann_3.png'] },
+    { name: 'Lauf Cycles',                   imgs: [I+'lauf_cycling_1.png',I+'lauf_cycling_2.png',I+'lauf_cycling_3.png',I+'lauf_cycling_4.png',I+'lauf_cycling_5.png',I+'lauf_cycling_6.png',I+'lauf_cycling_7.png'] },
+    { name: 'Nature Conservation Agency',    imgs: [I+'nature_conservation_agency_1.png',I+'nature_conservation_agency_2.png',I+'nature_conservation_agency_3.png'] },
+    { name: 'Ranra',                         imgs: [I+'ranra_1.png',I+'ranra_2.png',I+'ranra_3.png',I+'ranra_4.png',I+'ranra_5.png',I+'ranra_6.png',I+'ranra_7.png',I+'ranra_8.png',I+'ranra_9.png',I+'ranra_10.png'] },
+    { name: 'S.AP Architects',               imgs: [I+'sap_architects_1.png',I+'sap_architects_2.png',I+'sap_architects_3.png',I+'sap_architects_4.png'] },
+    { name: 'Sp(r)int Studio',               imgs: [I+'sprint_studio_1.png',I+'sprint_studio_2.png',I+'sprint_studio_3.png'] },
+    { name: 'Tetra',                         imgs: [I+'tetra_1.png',I+'tetra_2.png',I+'tetra_3.png',I+'tetra_4.png',I+'tetra_5.png'] },
+    { name: 'Helga Lilja',                   imgs: [I+'helga_lilja_1.png',I+'helga_lilja_2.png',I+'helga_lilja_3.png'] },
+    { name: 'Studio Granda',                 imgs: [I+'studio_granda_1.png',I+'studio_granda_2.png',I+'studio_granda_3.png'] },
+    { name: 'Þykjó',                         imgs: [I+'pykjo_1.png',I+'pykjo_2.png',I+'pykjo_3.png',I+'pykjo_4.png',I+'pykjo_5.jpg',I+'pykjo_6.jpg',I+'pykjo_7.jpg'] },
+    { name: 'Krónan',                        imgs: [I+'kronan_1.png',I+'kronan_2.png',I+'kronan_3.png'] },
+    { name: 'Gísli B. Björnsson',            imgs: [I+'gisli_bjornsson_1.png',I+'gisli_bjornsson_2.png',I+'gisli_bjornsson_3.png',I+'gisli_bjornsson_4.png',I+'gisli_bjornsson_5.png',I+'gisli_bjornsson_6.png'] },
+    { name: 'Rán Flygenring',                imgs: [I+'ran_flygenring_1.png',I+'ran_flygenring_2.png',I+'ran_flygenring_3.png',I+'ran_flygenring_4.png',I+'ran_flygenring_5.png',I+'ran_flygenring_6.png'] },
+    { name: 'Eldjárn & Jón Helgi Hólmsson', imgs: [I+'eldjan_jon_helgi_1.png',I+'eldjan_jon_helgi_2.png',I+'eldjan_jon_helgi_3.png'] },
+    { name: 'Landslag and Harry Jóhannsson', imgs: [I+'landslag_harry_1.png',I+'landslag_harry_2.png',I+'landslag_harry_3.png'] },
+    { name: 'The Blue Lagoon',               imgs: [I+'blue_lagoon_1.png',I+'blue_lagoon_2.png',I+'blue_lagoon_3.png',I+'blue_lagoon_4.png'] },
+    { name: 'Studio Frindrekar',             imgs: [I+'studio_frindrekar_1.png',I+'studio_frindrekar_2.png',I+'studio_frindrekar_3.png'] },
   ],
   category: [
-    { name: 'Best Investment in Design', img: I + 'kronan_1.png' },
-    { name: 'Honorary Award',            img: I + 'gisli_bjornsson_1.png' },
-    { name: 'Place',                     img: I + 'studio_granda_1.png' },
-    { name: 'Product',                   img: I + 'lauf_cycling_1.png' },
-    { name: 'Project',                   img: I + 'ranra_1.png' },
+    { name: 'Best Investment in Design', imgs: [I+'kronan_1.png',I+'kronan_2.png',I+'kronan_3.png',I+'nature_conservation_agency_1.png',I+'nature_conservation_agency_2.png',I+'nature_conservation_agency_3.png'] },
+    { name: 'Honorary Award',            imgs: [I+'gisli_bjornsson_1.png'] },
+    { name: 'Place',                     imgs: [I+'studio_granda_1.png', I+'studio_granda_2.png', I+'sap_architects_1.png'] },
+    { name: 'Product',                   imgs: [I+'lauf_cycling_1.png', I+'lauf_cycling_2.png', I+'DYPI_1.png'] },
+    { name: 'Project',                   imgs: [I+'ranra_1.png', I+'ranra_2.png', I+'fischersund_1.png', I+'johanna_seelemann_1.png'] },
   ],
 };
 
@@ -333,16 +373,60 @@ function makeTickerContent(text) {
 }
 
 function showSubOptions(filter) {
-  filterRight.innerHTML = FILTER_DATA[filter].map(({ name, img }) => {
+  filterRight.innerHTML = FILTER_DATA[filter].map(({ name, imgs }) => {
     const { half, dur } = makeTickerContent(name);
-    return `<button class="filter-sub-option" style="--tick-dur:${dur}s" data-img="${img || ''}" data-value="${name.toLowerCase()}">
+    return `<button class="filter-sub-option" style="--tick-dur:${dur}s" data-value="${name.toLowerCase()}">
       <span class="sub-label">${name.toUpperCase()}</span>
       <div class="sub-scroll"><span>${half}</span><span>${half}</span></div>
     </button>`;
   }).join('');
   filterRight.classList.add('visible');
+
+  const dataMap = (() => {
+    if (filter === 'creator') {
+      return Object.fromEntries(
+        FILTER_DATA.creator.map(({ name }) => {
+          const key = name.toLowerCase();
+          const imgs = (FG_IMAGES[key] || []).map(f => FG + f);
+          return [key, imgs];
+        })
+      );
+    }
+    // category: seed from manually specified imgs, then add matching gallery items
+    const map = {};
+    FILTER_DATA.category.forEach(({ name, imgs }) => {
+      map[name.toLowerCase()] = [...imgs];
+    });
+    items.forEach(item => {
+      const cat = (item.el.dataset.category || '').toLowerCase();
+      if (map[cat]) map[cat].push(...item.pool.map(f => FG + f));
+    });
+    return map;
+  })();
+
+  let previewDripTimer = null;
+
+  function startDrip(imgs) {
+    if (!imgs.length) return;
+    const shuffled = [...imgs].sort(() => Math.random() - 0.5);
+    let idx = 0;
+    function drip() {
+      if (idx >= shuffled.length) return;
+      showPreview(shuffled[idx++]);
+      if (idx < shuffled.length) previewDripTimer = setTimeout(drip, 900);
+    }
+    drip();
+  }
+
+  function stopDrip() {
+    clearTimeout(previewDripTimer);
+    previewDripTimer = null;
+  }
+
   filterRight.querySelectorAll('.filter-sub-option').forEach(btn => {
     btn.addEventListener('click', () => {
+      stopDrip();
+      hidePreviews();
       filterInteracted = true;
       const isActive = btn.classList.contains('active');
       filterRight.querySelectorAll('.filter-sub-option').forEach(b => b.classList.remove('active'));
@@ -350,7 +434,14 @@ function showSubOptions(filter) {
       closeFilter();
     });
     btn.addEventListener('mouseenter', () => {
-      if (btn.dataset.img) showPreview(btn.dataset.img);
+      stopDrip();
+      hidePreviews();
+      const imgs = dataMap[btn.dataset.value] || [];
+      startDrip(imgs);
+    });
+    btn.addEventListener('mouseleave', () => {
+      stopDrip();
+      hidePreviews();
     });
   });
 }

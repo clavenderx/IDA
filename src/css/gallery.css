@@ -1,3 +1,28 @@
+/* ─── Hover Cursor Trail ─────────────────────────────────────────────────────── */
+#gallery-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  font-family: 'Steps-Mono', monospace;
+  font-weight: 400;
+  font-size: 11px;
+  background: var(--color-light-orange);
+  color: var(--color-charcoal);
+  border: 1.5px solid var(--color-charcoal);
+  padding: 5px 8px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  transform: translate(10px, 10px);
+  letter-spacing: 0.04em;
+}
+
+#gallery-cursor.visible {
+  opacity: 1;
+}
+
 /* ─── Gallery Scene ─────────────────────────────────────────────────────────── */
 .scene {
   position: relative;
@@ -11,6 +36,7 @@
 
 .scene.has-hover {
   background-color: #2a2a2a;
+  cursor: none;
 }
 
 /* ─── Gallery Items ─────────────────────────────────────────────────────────── */
@@ -75,6 +101,11 @@
   transform: translateX(-4px);
   transition: opacity 0.25s ease, transform 0.25s ease;
   pointer-events: none;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 8px 12px;
+  border-radius: 4px;
 }
 
 .item.hovered .label {
@@ -376,7 +407,7 @@
   opacity: 0;
   z-index: 3500;
   scale: 0.94;
-  transition: opacity 0.2s ease, scale 0.2s ease;
+  transition: opacity 0.7s ease, scale 0.7s ease;
 }
 
 .img-preview.visible {
@@ -387,7 +418,7 @@
 .img-preview img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 

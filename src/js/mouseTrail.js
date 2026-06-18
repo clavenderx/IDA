@@ -1,6 +1,6 @@
 /* ─── Mouse Trail (global) ──────────────────────────────────────────────────── */
 (function () {
-  const MT_GRID = 8, MT_MAX = 50, MT_DUR = 1000;
+  const MT_GRID = 24, MT_MAX = 50, MT_DUR = 1000;
   let mtGrid = [], mtActive = [], mtPrevX = null, mtPrevY = null;
 
   function mtInitGrid() {

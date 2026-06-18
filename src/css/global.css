@@ -202,8 +202,8 @@ body {
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  width: 8px;
-  height: 8px;
+  width: 24px;
+  height: 24px;
   background-color: var(--color-light-green);
   animation: mtFade 1s ease-out forwards;
 }
