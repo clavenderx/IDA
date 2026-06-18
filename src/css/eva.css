@@ -64,6 +64,7 @@ body {
 .eva-story__submit {
   display: inline-block;
   align-self: center;
+  transform: translateX(-52px);
   font-family: "Steps-Mono", "Courier New", monospace;
   font-size: 18px;
   letter-spacing: 0.1em;
