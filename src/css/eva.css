@@ -61,16 +61,27 @@ body {
 }
 
 .eva-story__submit {
-  display: inline-flex;
+  display: inline-block;
   align-self: flex-start;
-  padding: 1rem 8px;
-  text-transform: uppercase;
-  transition: background 0.2s ease;
+  font-family: "Steps-Mono", "Courier New", monospace;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  color: var(--color-charcoal);
+  background: var(--color-white);
+  text-decoration: none;
+  border: 2px solid var(--color-charcoal);
+  padding: 5px 21px;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .eva-story__submit:hover {
-  background: #FFCDA9;
+  background: var(--color-light-orange);
   color: var(--color-charcoal);
+  border-color: var(--color-charcoal);
 }
 
 .eva-back-arrow {
