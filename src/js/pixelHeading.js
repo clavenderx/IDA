@@ -75,21 +75,23 @@ export const initPixelHeading = (heading, tileSize = 75) => {
     let mx = -9999, my = -9999;
     let prevMx = -9999, prevMy = -9999;
     let vx = 0, vy = 0;
-
-    canvas.addEventListener('mousemove', e => {
-      const cr = canvas.getBoundingClientRect();
-      mx = e.clientX - cr.left;
-      my = e.clientY - cr.top;
-    });
-    canvas.addEventListener('mouseleave', () => {
-      mx = -9999; my = -9999;
-      prevMx = -9999; prevMy = -9999;
-    });
+    let rafId = null;
+    let hovering = false;
 
     const totalW = W + RIGHT_BLEED;
     const totalH = H + TOP_BLEED;
 
-    (function tick() {
+    function drawStatic() {
+      ctx.clearRect(0, 0, totalW, totalH);
+      tiles.forEach(tile => {
+        ctx.drawImage(off,
+          tile.c * TILE, tile.r * TILE, TILE, TILE,
+          tile.c * TILE, tile.r * TILE, TILE, TILE
+        );
+      });
+    }
+
+    function tick() {
       if (mx !== -9999) {
         if (prevMx !== -9999) {
           vx = mx - prevMx;
@@ -102,6 +104,7 @@ export const initPixelHeading = (heading, tileSize = 75) => {
         vy *= 0.94;
       }
 
+      let anyActive = false;
       ctx.clearRect(0, 0, totalW, totalH);
       tiles.forEach(tile => {
         const cx   = tile.c * TILE + TILE * 0.5;
@@ -112,12 +115,40 @@ export const initPixelHeading = (heading, tileSize = 75) => {
         const targetY = vy * 5 * infl;
         tile.ox += (targetX - tile.ox) * 0.055;
         tile.oy += (targetY - tile.oy) * 0.055;
+        if (Math.abs(tile.ox) > 0.1 || Math.abs(tile.oy) > 0.1) anyActive = true;
         ctx.drawImage(off,
           tile.c * TILE, tile.r * TILE, TILE, TILE,
           tile.c * TILE + tile.ox, tile.r * TILE + tile.oy, TILE, TILE
         );
       });
-      requestAnimationFrame(tick);
-    })();
+
+      if (hovering || anyActive) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        rafId = null;
+        drawStatic();
+      }
+    }
+
+    function startLoop() {
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    canvas.addEventListener('mouseenter', () => {
+      hovering = true;
+      startLoop();
+    });
+    canvas.addEventListener('mousemove', e => {
+      const cr = canvas.getBoundingClientRect();
+      mx = e.clientX - cr.left;
+      my = e.clientY - cr.top;
+    });
+    canvas.addEventListener('mouseleave', () => {
+      hovering = false;
+      mx = -9999; my = -9999;
+      prevMx = -9999; prevMy = -9999;
+    });
+
+    drawStatic();
   });
 };

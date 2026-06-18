@@ -61,13 +61,16 @@ html {
 }
 
 .jury-hero {
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   position: relative;
+  overflow: hidden;
 }
 
 .jury-hero__img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
@@ -83,7 +86,7 @@ html {
 
 .jury-hero__heading {
   position: absolute;
-  bottom: calc(6% + 100px);
+  bottom: 5vh;
   left: 5%;
   pointer-events: none;
   white-space: nowrap;
@@ -359,6 +362,7 @@ a {
   left: 0;
   top: 0;
   transform-style: preserve-3d;
+  will-change: transform, opacity;
 }
 
 .card {

@@ -92,10 +92,10 @@ const createScrollAnimation = (carousel) => {
     ) // Subtle 3D tilt
     .fromTo(
       cards,
-      { filter: "brightness(250%)" },
-      { filter: "brightness(80%)", ease: "power3" },
+      { opacity: 1 },
+      { opacity: 0.7, ease: "power3" },
       0,
-    ) // Brightness dimming
+    ) // Fade on scroll
     .fromTo(cards, { rotationZ: 10 }, { rotationZ: -10, ease: "none" }, 0); // Rotate cards around Z
 
   // Animate title characters in on scroll
