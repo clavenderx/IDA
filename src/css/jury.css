@@ -803,25 +803,6 @@ a {
   overflow: hidden;
 }
 
-.jury-final-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.jury-final-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.jury-final-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: rgba(20, 20, 20, 0.55);
-}
 
 #jury-final-content {
   position: absolute;
