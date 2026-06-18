@@ -121,7 +121,7 @@ html {
 .jury-intro {
   display: flex;
   justify-content: flex-end;
-  transform: translateY(calc(-50% - 50px));
+  transform: translateY(calc(-50% - 110px));
   padding-right: 5%;
 }
 
