@@ -5,20 +5,31 @@ gsap.registerPlugin(SplitText);
 
 const splitMap = new Map();
 
-const applyCoverflowLayout = (imgs, currentIndex, count) => {
+const applyCoverflowLayout = (imgs, currentIndex, count, animate = false, forward = true) => {
   const GAP = 500;
   const SIDE_ROTATE = 20;
   const SIDE_SCALE = 0.85;
+  const half = count / 2;
 
   imgs.forEach((img, i) => {
     const offset = ((i - currentIndex) % count + count) % count;
-    const wrapped = offset > count / 2 ? offset - count : offset;
+    let wrapped = offset > half ? offset - count : offset;
+
+    // The "opposite" image (exactly halfway around) has an ambiguous side.
+    // Send it in the same direction as the scroll so it never crosses the screen.
+    if (offset === half) wrapped = forward ? -half : half;
+
     const x = wrapped * GAP;
     const rotY = wrapped === 0 ? 0 : wrapped > 0 ? -SIDE_ROTATE : SIDE_ROTATE;
     const scale = Math.abs(wrapped) >= 1 ? SIDE_SCALE : 1;
     const zIndex = Math.round(10 - Math.abs(wrapped));
     const opacity = Math.abs(wrapped) > 1.5 ? 0 : 1;
-    gsap.set(img, { x, rotateY: rotY, scale, zIndex, opacity });
+
+    if (animate) {
+      gsap.to(img, { x, rotateY: rotY, scale, zIndex, opacity, duration: 0.7, ease: "power2.inOut" });
+    } else {
+      gsap.set(img, { x, rotateY: rotY, scale, zIndex, opacity });
+    }
   });
 };
 
@@ -62,6 +73,7 @@ const initEvaStory = (ringRef) => {
 
   const ringImgs = ringRef ? ringRef.imgs : [];
   const ringCount = ringRef ? ringRef.count : 0;
+  let prevRingIndex = 1; // matches initRing's starting index
 
   const goToSlide = (index) => {
     if (animating) return;
@@ -71,11 +83,24 @@ const initEvaStory = (ringRef) => {
     const nextSlide = ((index % slideCount) + slideCount) % slideCount;
     const isForwardWrap = prevSlide === slideCount - 1 && nextSlide === 0;
     const isBackwardWrap = prevSlide === 0 && nextSlide === slideCount - 1;
+    const forward = isForwardWrap || (!isBackwardWrap && nextSlide > prevSlide);
 
     if (ringCount) {
       const pinned = slides[nextSlide].dataset.ring;
-      const ringIndex = pinned !== undefined ? parseInt(pinned, 10) % ringCount : (nextSlide + 1) % ringCount;
-      applyCoverflowLayout(ringImgs, ringIndex, ringCount);
+      const ringIndex = pinned !== undefined
+        ? parseInt(pinned, 10) % ringCount
+        : (nextSlide + 1) % ringCount;
+
+      if (ringIndex !== prevRingIndex) {
+        // Snap the incoming side image to the correct off-screen edge before animating
+        const incomingIdx = forward
+          ? (ringIndex + 1) % ringCount
+          : (ringIndex + ringCount - 1) % ringCount;
+        gsap.set(ringImgs[incomingIdx], { x: forward ? window.innerWidth * 0.8 : -window.innerWidth * 0.8 });
+      }
+
+      applyCoverflowLayout(ringImgs, ringIndex, ringCount, true, forward);
+      prevRingIndex = ringIndex;
     }
 
     const fill = document.getElementById("previewScrollFill");
@@ -131,9 +156,7 @@ const initEvaStory = (ringRef) => {
       e.preventDefault();
       if (wheelLock) return;
       wheelLock = true;
-      setTimeout(() => {
-        wheelLock = false;
-      }, 900);
+      setTimeout(() => { wheelLock = false; }, 900);
 
       if (e.deltaY > 0 || e.deltaX > 0) {
         goToSlide(currentSlide + 1);

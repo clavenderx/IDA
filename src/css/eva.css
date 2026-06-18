@@ -12,6 +12,10 @@ body {
   overflow: hidden;
 }
 
+.eva-main__header .preview__title {
+  text-transform: none;
+}
+
 .eva-main__header {
   display: flex;
   flex-direction: column;
@@ -54,4 +58,35 @@ body {
   text-transform: none;
   margin: 40px 0 0;
   color: var(--color-white);
+}
+
+.eva-story__submit {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 1rem 8px;
+  text-transform: uppercase;
+  transition: background 0.2s ease;
+}
+
+.eva-story__submit:hover {
+  background: #FFCDA9;
+  color: var(--color-charcoal);
+}
+
+.eva-back-arrow {
+  position: fixed;
+  top: calc(1.5rem + 40px);
+  left: calc(2rem + 23px);
+  z-index: 1001;
+  text-decoration: none;
+  color: #C3FA95;
+  font-size: 4em;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.eva-back-arrow:hover {
+  color: #000;
+  background: #FFCDA9;
 }
