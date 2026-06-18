@@ -5,6 +5,7 @@
   const detailNavFill = document.getElementById('detailNavFill');
   const track         = laufDetail.querySelector('.detail-track');
 
+  track.scrollLeft = 0;
   gsap.fromTo(laufDetail, { opacity: 0 }, { opacity: 1, duration: 0.35 });
 
   track.addEventListener('scroll', () => {
