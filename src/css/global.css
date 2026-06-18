@@ -1,3 +1,9 @@
+/* ─── Typewriter ─────────────────────────────────────────────────────────────── */
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 /* ─── Reset ─────────────────────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;

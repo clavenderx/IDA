@@ -42,8 +42,9 @@ export const initTypewriter = (selector, opts = {}) => {
 
   elements.forEach((el) => {
     const split = SplitText.create(el, {
-      type: "chars",
+      type: "words,chars",
       charsClass: "char",
+      wordsClass: "word",
       autoSplit: true,
     });
     map.set(el, split);
