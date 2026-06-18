@@ -1,0 +1,53 @@
+/* Standalone Eva page layout — overrides jury.css overlay positioning */
+
+body {
+  overflow: hidden;
+}
+
+.eva-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.eva-main__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  margin-top: calc(8rem - 30px);
+  width: 100%;
+  pointer-events: auto;
+}
+
+.eva-main .preview-ring-container {
+  margin-top: 60px;
+}
+
+/* Final slide: two side-by-side text columns */
+.eva-story__slide--final {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6vw;
+  padding: 0 10vw;
+}
+
+.eva-story__final-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+  flex: 1;
+  max-width: 420px;
+}
+
+.eva-story__cta-lead {
+  text-transform: none;
+  margin: 0;
+  opacity: 0.7;
+}

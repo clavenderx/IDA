@@ -441,11 +441,12 @@ const animatePreviewTexts = (
  * @param {Event} e - Click event triggered from `.scene__title`
  */
 const activatePreviewFromCarousel = (e) => {
+  const titleEl = e.currentTarget;
+  const href = titleEl.querySelector("a")?.getAttribute("href");
+  if (!href || !href.startsWith("#")) return;
   e.preventDefault();
   if (isAnimating) return;
   isAnimating = true;
-
-  const titleEl = e.currentTarget;
   const { wrapper, carousel, cards, chars } =
     getSceneElementsFromTitle(titleEl);
 
