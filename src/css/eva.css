@@ -14,6 +14,7 @@ body {
 
 .eva-main__header .preview__title {
   text-transform: none;
+  font-size: 64px;
 }
 
 .eva-main__header {
@@ -33,7 +34,7 @@ body {
 }
 
 .eva-story__body {
-  margin-top: 40px;
+  margin-top: 25px;
 }
 
 /* Final slide: two side-by-side text columns */
