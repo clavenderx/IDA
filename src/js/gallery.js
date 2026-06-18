@@ -347,6 +347,7 @@ function showSubOptions(filter) {
       const isActive = btn.classList.contains('active');
       filterRight.querySelectorAll('.filter-sub-option').forEach(b => b.classList.remove('active'));
       if (!isActive) btn.classList.add('active');
+      closeFilter();
     });
     btn.addEventListener('mouseenter', () => {
       if (btn.dataset.img) showPreview(btn.dataset.img);
@@ -453,3 +454,18 @@ items.forEach(item => {
     });
   }
 });
+
+/* ─── Pre-apply filter from URL param ───────────────────────────────────── */
+(function applyURLFilter() {
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get('category');
+  if (!category) return;
+
+  const match = FILTER_DATA.category.find(
+    d => d.name.toLowerCase() === category.toLowerCase()
+  );
+  if (!match) return;
+
+  activeFilter = { type: 'category', value: match.name.toLowerCase() };
+  applyGalleryFilter();
+})();

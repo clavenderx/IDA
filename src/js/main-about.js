@@ -105,6 +105,17 @@ document.getElementById('ap-gallery-cta').addEventListener('click', (e) => {
   exitWithPixels('gallery.html');
 });
 
+/* ─── Category Panel Click → Gallery with Filter ────────────────────────── */
+document.querySelectorAll('.ap[id^="ap-"]').forEach(section => {
+  const titleEl = section.querySelector('.ap-title');
+  if (!titleEl) return;
+  section.style.cursor = 'pointer';
+  section.addEventListener('click', () => {
+    const category = titleEl.textContent.trim().toLowerCase();
+    exitWithPixels(`gallery.html?category=${encodeURIComponent(category)}`);
+  });
+});
+
 apFinal.addEventListener('wheel', (e) => {
   e.preventDefault();
   if (e.deltaY < 0) {
