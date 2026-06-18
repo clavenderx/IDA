@@ -8,7 +8,7 @@
     'var(--color-charcoal,#1E1E1E)',
   ];
 
-  function generateLayout(cols, rows) {
+  function generateLayout(cols, rows, colors = TILE_COLORS, tileOpacityFn = null) {
     const filled = Array.from({ length: rows }, () => new Array(cols).fill(false));
     const layout = [];
     for (let r = 0; r < rows; r++) {
@@ -29,18 +29,19 @@
         for (let dr = 0; dr < span; dr++)
           for (let dc = 0; dc < span; dc++)
             filled[r + dr][c + dc] = true;
+        const color = colors[Math.floor(Math.random() * colors.length)];
         layout.push({
-          c, r, span,
-          color:   TILE_COLORS[Math.floor(Math.random() * TILE_COLORS.length)],
-          opacity: 1,
+          c, r, span, color,
+          opacity: tileOpacityFn ? tileOpacityFn(color) : 1,
         });
       }
     }
     return layout;
   }
 
-  function buildTiles(container, savedLayout) {
+  function buildTiles(container, savedLayout, { colors, overlayOpacity, tileOpacityFn } = {}) {
     container.innerHTML = '';
+    if (overlayOpacity != null) container.style.opacity = overlayOpacity;
     const cols = Math.ceil(window.innerWidth  / BASE);
     const rows = Math.ceil(window.innerHeight / BASE);
     const wrap = document.createElement('div');
@@ -52,7 +53,7 @@
       `grid-template-rows:repeat(${rows},${BASE}px);`,
     ].join('');
 
-    const layout = savedLayout || generateLayout(cols, rows);
+    const layout = savedLayout || generateLayout(cols, rows, colors, tileOpacityFn);
     const tiles = [];
 
     for (const { c, r, span, color, opacity } of layout) {
@@ -84,14 +85,14 @@
   }
 
   /* Fill IN — tiles fade in one by one; layout is saved to sessionStorage for the next page */
-  function fillIn({ container, duration = 0.8, tileFade = 0.18, onComplete } = {}) {
+  function fillIn({ container, duration = 0.8, tileFade = 0.18, colors, overlayOpacity, tileOpacityFn, onComplete } = {}) {
     const el = getContainer(container);
     el.style.pointerEvents = 'all';
-    const { tiles, layout } = buildTiles(el);
-    sessionStorage.setItem('px-layout', JSON.stringify(layout));
+    const { tiles, layout } = buildTiles(el, null, { colors, overlayOpacity, tileOpacityFn });
+    if (!container) sessionStorage.setItem('px-layout', JSON.stringify(layout));
     gsap.set(tiles, { opacity: 0 });
     gsap.to(tiles, {
-      opacity: 1,
+      opacity: (i) => parseFloat(tiles[i].dataset.baseOpacity),
       duration: tileFade,
       ease: 'power1.in',
       stagger: { amount: duration, from: 'random' },
@@ -100,14 +101,16 @@
     return tiles;
   }
 
-  /* Fill OUT — restores the same mosaic from sessionStorage, then fades it as one element */
-  function fillOut({ container, duration = 0.7, onComplete } = {}) {
+  /* Fill OUT — fades the overlay out; rebuilds mosaic unless rebuild:false */
+  function fillOut({ container, duration = 0.7, colors, overlayOpacity, rebuild = true, onComplete } = {}) {
     const el = getContainer(container);
     el.style.pointerEvents = 'all';
-    const saved = sessionStorage.getItem('px-layout');
-    sessionStorage.removeItem('px-layout');
-    buildTiles(el, saved ? JSON.parse(saved) : null);
-    gsap.set(el, { opacity: 1 });
+    if (rebuild) {
+      const saved = !container && sessionStorage.getItem('px-layout');
+      if (saved) sessionStorage.removeItem('px-layout');
+      buildTiles(el, saved ? JSON.parse(saved) : null, { colors, overlayOpacity });
+    }
+    gsap.set(el, { opacity: overlayOpacity != null ? overlayOpacity : 1 });
     gsap.to(el, {
       opacity: 0,
       duration,

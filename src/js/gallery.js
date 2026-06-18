@@ -503,7 +503,23 @@ function openFilter() {
   filterBackdrop.classList.add('open');
   filterClose.classList.add('open');
   filterToggle.classList.add('open');
-  PixelTransition.fillIn({ container: filterBackdrop, duration: 0.5 });
+  PixelTransition.fillIn({
+    container: filterBackdrop,
+    duration: 0.5,
+    colors: [
+      'var(--color-charcoal)',
+      'var(--color-charcoal)',
+      'var(--color-charcoal)',
+      'var(--color-charcoal)',
+      'var(--color-charcoal)',
+      'var(--color-charcoal)',
+      'var(--color-charcoal)',
+      'var(--color-charcoal)',
+      'var(--color-light-green)',
+      'var(--color-blue)',
+    ],
+    tileOpacityFn: (color) => color === 'var(--color-charcoal)' ? 0.97 : 0.85,
+  });
 }
 
 function closeFilter() {
@@ -520,6 +536,7 @@ function closeFilter() {
   PixelTransition.fillOut({
     container: filterBackdrop,
     duration: 0.4,
+    rebuild: false,
     onComplete: () => filterBackdrop.classList.remove('open'),
   });
 
