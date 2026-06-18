@@ -92,10 +92,10 @@ const createScrollAnimation = (carousel) => {
     ) // Subtle 3D tilt
     .fromTo(
       cards,
-      { opacity: 1 },
-      { opacity: 0.7, ease: "power3" },
+      { filter: "brightness(250%)" },
+      { filter: "brightness(80%)", ease: "power3" },
       0,
-    ) // Fade on scroll
+    ) // Brightness dimming
     .fromTo(cards, { rotationZ: 10 }, { rotationZ: -10, ease: "none" }, 0); // Rotate cards around Z
 
   // Animate title characters in on scroll
@@ -855,6 +855,7 @@ const init = () => {
 preloadImages(".card__face").then(() => {
   document.body.classList.remove("loading"); // Remove loading state from body
   init(); // Begin initialization
-  initPixelHeading(document.querySelector(".jury-hero__heading"));
+  initPixelHeading(document.getElementById("jury-heading"), 75);
+  initPixelHeading(document.getElementById("jury-year"), 20);
   preloadImages(".ring-img"); // Preload preview ring images in background
 });
