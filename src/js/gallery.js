@@ -1,3 +1,27 @@
+/* ─── Gallery Landing ────────────────────────────────────────────────────────── */
+(function () {
+  const landing = document.getElementById('gallery-landing');
+  if (!landing) return;
+
+  // Typewriter on body paragraph
+  const body = landing.querySelector('.gallery-landing-body');
+  if (body && typeof SplitText !== 'undefined') {
+    const split = SplitText.create(body, { type: 'chars', charsClass: 'char', autoSplit: true });
+    gsap.set(split.chars, { autoAlpha: 0 });
+    gsap.to(split.chars, { autoAlpha: 1, duration: 0.02, ease: 'none', stagger: { each: 0.035, from: 'start' }, delay: 0.3 });
+  }
+
+function dismiss() {
+    landing.classList.add('hidden');
+    landing.addEventListener('transitionend', () => landing.remove(), { once: true });
+  }
+
+  window.addEventListener('wheel', dismiss, { once: true, passive: true });
+  window.addEventListener('touchmove', dismiss, { once: true, passive: true });
+  document.getElementById('gallery-landing-scroll-cta')
+    ?.addEventListener('click', dismiss, { once: true });
+})();
+
 /* ─── Floating Gallery Images ───────────────────────────────────────────────── */
 const FG = 'src/img/Floating _Gallery/';
 const FG_IMAGES = {
@@ -511,19 +535,8 @@ function openFilter() {
   PixelTransition.fillIn({
     container: filterBackdrop,
     duration: 0.5,
-    colors: [
-      'var(--color-charcoal)',
-      'var(--color-charcoal)',
-      'var(--color-charcoal)',
-      'var(--color-charcoal)',
-      'var(--color-charcoal)',
-      'var(--color-charcoal)',
-      'var(--color-charcoal)',
-      'var(--color-charcoal)',
-      'var(--color-light-green)',
-      'var(--color-blue)',
-    ],
-    tileOpacityFn: (color) => color === 'var(--color-charcoal)' ? 0.97 : 0.85,
+    colors: ['var(--color-charcoal)'],
+    tileOpacityFn: () => 0.97,
   });
 }
 
