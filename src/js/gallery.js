@@ -89,6 +89,14 @@ const PIXEL_COLORS = [
 function spawnPixelReveal(item, delay = 0) {
   const frame = item.el.querySelector('.frame');
   if (!frame) return;
+
+  // Tag always animates in regardless of the pixel-reveal slot gate
+  const tag = item.el.querySelector('.category-tag');
+  if (tag) {
+    gsap.set(tag, { opacity: 0, y: 5 });
+    gsap.to(tag, { opacity: 1, y: 0, duration: 0.4, delay: delay + 0.3, ease: 'power2.out' });
+  }
+
   const leftPct = parseFloat(item.el.style.left) || 0;
   const side = leftPct < 50 ? 'left' : 'right';
   if (revealSlots[side]) return;
@@ -113,12 +121,6 @@ function spawnPixelReveal(item, delay = 0) {
   frame.appendChild(cover);
 
   gsap.set(tiles, { opacity: 1 });
-
-  const tag = item.el.querySelector('.category-tag');
-  if (tag) {
-    gsap.set(tag, { opacity: 0, y: 5 });
-    gsap.to(tag, { opacity: 1, y: 0, duration: 0.4, delay: delay + 0.3, ease: 'power2.out' });
-  }
 
   gsap.to(tiles, {
     opacity: 0,
@@ -293,13 +295,16 @@ function randomPreviewStyle(naturalW, naturalH) {
   const startX  = document.getElementById('filterOverlay').getBoundingClientRect().right + GAP;
   const availW  = window.innerWidth - startX - GAP;
   const ratio   = naturalH / naturalW;
-  const w       = Math.round(availW * (0.28 + Math.random() * 0.38));
-  const h       = Math.min(Math.round(w * ratio), window.innerHeight - GAP * 2);
-  const finalW  = Math.round(h / ratio);
-  const x       = startX + Math.random() * Math.max(0, window.innerWidth  - startX - finalW - GAP);
-  const y       = GAP    + Math.random() * Math.max(0, window.innerHeight - h - GAP * 2);
+  // Size from height so frames fill the vertical space
+  const minH    = window.innerHeight * 0.45;
+  const maxH    = window.innerHeight * 0.78;
+  const h       = Math.round(minH + Math.random() * (maxH - minH));
+  const w       = Math.min(Math.round(h / ratio), availW * 0.62);
+  const finalH  = Math.round(w * ratio);
+  const x       = startX + Math.random() * Math.max(0, availW - w - GAP);
+  const y       = GAP    + Math.random() * Math.max(0, window.innerHeight - finalH - GAP * 2);
   const rot     = (Math.random() - 0.5) * 12;
-  return { w: finalW, h, transform: `translate(${Math.round(x)}px,${Math.round(y)}px) rotate(${rot.toFixed(1)}deg)` };
+  return { w, h: finalH, transform: `translate(${Math.round(x)}px,${Math.round(y)}px) rotate(${rot.toFixed(1)}deg)` };
 }
 
 function showPreview(src) {
@@ -433,7 +438,7 @@ function showSubOptions(filter) {
     function drip() {
       if (idx >= shuffled.length) return;
       showPreview(shuffled[idx++]);
-      if (idx < shuffled.length) previewDripTimer = setTimeout(drip, 900);
+      if (idx < shuffled.length) previewDripTimer = setTimeout(drip, 380);
     }
     drip();
   }

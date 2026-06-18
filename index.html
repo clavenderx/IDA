@@ -18,43 +18,101 @@
         scroll-snap-type: y mandatory;
         scrollbar-width: none;
       }
-      #main-page::-webkit-scrollbar { display: none; }
+      #main-page::-webkit-scrollbar {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <!-- Navigation -->
     <nav id="site-nav">
       <a href="about.html" class="paragraph-3 nav-link nav-left">[ About ]</a>
-      <a href="gallery.html" class="paragraph-3 nav-link nav-left">[ Gallery ]</a>
-      <a href="index.html" class="paragraph-3 nav-center">Icelandic Design Awards</a>
+      <a href="gallery.html" class="paragraph-3 nav-link nav-left"
+        >[ Gallery ]</a
+      >
+      <a href="index.html" class="paragraph-3 nav-center"
+        >Icelandic Design Awards</a
+      >
       <a href="jury.html" class="paragraph-3 nav-link nav-right">[ Jury ]</a>
       <a href="#" class="paragraph-3 nav-link nav-right">[ Submit My Work ]</a>
     </nav>
 
     <!-- Landing page -->
     <div id="landing-overlay">
-      <img src="src/img/landing_page/landing_page_1.png" alt="Icelandic Design Awards" />
+      <img
+        src="src/img/landing_page/landing_page_1.png"
+        alt="Icelandic Design Awards"
+      />
       <div id="landing-bg-a"></div>
       <div id="landing-bg-b"></div>
       <img id="landing-noise" src="src/img/landing_page/NOISE.png" alt="" />
       <svg id="landing-lines"></svg>
       <div id="landing-heading">
-        <span class="landing-line">I<span id="ltr-craft">C</span>ELA<span id="ltr-modern">N</span><span id="ltr-design">D</span>IC</span>
+        <span class="landing-line"
+          >I<span id="ltr-craft">C</span>ELA<span id="ltr-modern">N</span
+          ><span id="ltr-design">D</span>IC</span
+        >
         <span class="landing-line landing-line-design">
-          <span id="ltr-digital">D</span>ESIGN<span class="landing-year">20<span id="ltr-future">2</span>5</span>
+          <span id="ltr-digital">D</span>ESIGN<span class="landing-year"
+            >20<span id="ltr-future">2</span>5</span
+          >
         </span>
-        <span class="landing-line">A<span id="ltr-innovation">W</span>AR<span id="ltr-technology">D</span>S</span>
+        <span class="landing-line"
+          >A<span id="ltr-innovation">W</span>AR<span id="ltr-technology"
+            >D</span
+          >S</span
+        >
       </div>
-      <a href="#" class="landing-tag heading-4" id="tag-craft" style="left:202px; top:151px;">[ Craft ]</a>
-      <a href="#" class="landing-tag heading-4" id="tag-modern" style="left:516px; top:105px;">[ Modern ]</a>
-      <a href="#" class="landing-tag heading-4" id="tag-design" style="left:860px; top:105px;">[ Design ]</a>
-      <a href="#" class="landing-tag heading-4" id="tag-future" style="left:1116px; top:244px;">[ Future ]</a>
-      <a href="#" class="landing-tag heading-4" id="tag-digital" style="left:236px; top:585px;">[ Digital ]</a>
-      <a href="#" class="landing-tag heading-4" id="tag-innovation" style="left:548px; top:670px;">[ Innovation ]</a>
-      <a href="#" class="landing-tag heading-4" id="tag-technology" style="left:1036px; top:670px;">[ Culture ]</a>
-      <div id="landing-cta" class="paragraph-3">
-        [ Scroll to Explore / Click to Visit Gallery ]
-      </div>
+      <a
+        href="#"
+        class="landing-tag heading-4"
+        id="tag-craft"
+        style="left: 202px; top: 151px"
+        >[ Craft ]</a
+      >
+      <a
+        href="#"
+        class="landing-tag heading-4"
+        id="tag-modern"
+        style="left: 516px; top: 105px"
+        >[ Modern ]</a
+      >
+      <a
+        href="#"
+        class="landing-tag heading-4"
+        id="tag-design"
+        style="left: 860px; top: 105px"
+        >[ Design ]</a
+      >
+      <a
+        href="#"
+        class="landing-tag heading-4"
+        id="tag-future"
+        style="left: 1116px; top: 244px"
+        >[ Future ]</a
+      >
+      <a
+        href="#"
+        class="landing-tag heading-4"
+        id="tag-digital"
+        style="left: 236px; top: 585px"
+        >[ Digital ]</a
+      >
+      <a
+        href="#"
+        class="landing-tag heading-4"
+        id="tag-innovation"
+        style="left: 548px; top: 670px"
+        >[ Innovation ]</a
+      >
+      <a
+        href="#"
+        class="landing-tag heading-4"
+        id="tag-technology"
+        style="left: 1036px; top: 670px"
+        >[ Culture ]</a
+      >
+      <div id="landing-cta" class="paragraph-3">[ Scroll to Explore ]</div>
     </div>
 
     <!-- Pixel transition squares -->
@@ -74,11 +132,10 @@
 
     <!-- About sections (revealed on scroll) -->
     <div id="main-page">
-
       <!-- Section 1: Full bleed video -->
       <section id="about-entry">
         <video id="about-video" autoplay muted loop playsinline>
-          <source src="src/about/designmarch_vid.mp4" type="video/mp4">
+          <source src="src/about/designmarch_vid.mp4" type="video/mp4" />
         </video>
         <div class="about-vignette"></div>
       </section>
@@ -94,7 +151,15 @@
           </div>
           <div id="about-body-col">
             <p class="about-desc">
-              In November of every year at the Reykjavík Art Museum, Iceland, the Iceland Design Awards of the Iceland DesignMarch Festival takes place to award Icelandic designers and architects who have greatly contributed to the Icelandic design and architecture scene. The Iceland Design Award was created by Iceland Design, the Iceland Academy of the Arts, and the Museum of Design and Applied Arts. It has been supported by Business Iceland, SI - the Federation of Icelandic Industries, the Housing and Construction Authorities, Gróska and Science Park of the University of Iceland.
+              In November of every year at the Reykjavík Art Museum, Iceland,
+              the Iceland Design Awards of the Iceland DesignMarch Festival
+              takes place to award Icelandic designers and architects who have
+              greatly contributed to the Icelandic design and architecture
+              scene. The Iceland Design Award was created by Iceland Design, the
+              Iceland Academy of the Arts, and the Museum of Design and Applied
+              Arts. It has been supported by Business Iceland, SI - the
+              Federation of Icelandic Industries, the Housing and Construction
+              Authorities, Gróska and Science Park of the University of Iceland.
             </p>
           </div>
         </div>
@@ -102,72 +167,102 @@
 
       <!-- Section 3: Panel 1 — Product -->
       <section class="ap" id="ap-1">
-        <div class="ap-bg"><img src="src/about/about 1.png" alt=""></div>
+        <div class="ap-bg"><img src="src/about/about 1.png" alt="" /></div>
         <div class="ap-overlay"></div>
-        <span class="ap-top-label about-mono">DESIGN CATEGORIES FOR NOMINATIONS</span>
+        <span class="ap-top-label about-mono"
+          >DESIGN CATEGORIES FOR NOMINATIONS</span
+        >
         <div class="ap-content">
           <h2 class="ap-title">Product</h2>
-          <p class="ap-body">This category is about projects from<br>different materials, garments, furniture,<br>prints, clay, textiles, jewelry or services.</p>
+          <p class="ap-body">
+            This category is about projects from<br />different materials,
+            garments, furniture,<br />prints, clay, textiles, jewelry or
+            services.
+          </p>
         </div>
       </section>
 
       <!-- Section 4: Panel 2 — Place -->
       <section class="ap" id="ap-2">
-        <div class="ap-bg"><img src="src/about/about 2.png" alt=""></div>
+        <div class="ap-bg"><img src="src/about/about 2.png" alt="" /></div>
         <div class="ap-overlay"></div>
-        <span class="ap-top-label about-mono">DESIGN CATEGORIES FOR NOMINATIONS</span>
+        <span class="ap-top-label about-mono"
+          >DESIGN CATEGORIES FOR NOMINATIONS</span
+        >
         <div class="ap-content">
           <h2 class="ap-title">Place</h2>
-          <p class="ap-body">The category highlights designed<br>spaces, buildings, districts, squares,<br>parks and places around Iceland.</p>
+          <p class="ap-body">
+            The category highlights designed<br />spaces, buildings, districts,
+            squares,<br />parks and places around Iceland.
+          </p>
         </div>
       </section>
 
       <!-- Section 5: Panel 3 — Project -->
       <section class="ap" id="ap-3">
-        <div class="ap-bg"><img src="src/about/about 3.png" alt=""></div>
+        <div class="ap-bg"><img src="src/about/about 3.png" alt="" /></div>
         <div class="ap-overlay"></div>
-        <span class="ap-top-label about-mono">DESIGN CATEGORIES FOR NOMINATIONS</span>
+        <span class="ap-top-label about-mono"
+          >DESIGN CATEGORIES FOR NOMINATIONS</span
+        >
         <div class="ap-content">
           <h2 class="ap-title">Project</h2>
-          <p class="ap-body">The category includes projects that<br>have a variety of ideas, communication,<br>experiences, exhibitions and solutions.</p>
+          <p class="ap-body">
+            The category includes projects that<br />have a variety of ideas,
+            communication,<br />experiences, exhibitions and solutions.
+          </p>
         </div>
       </section>
 
       <!-- Section 6: Panel 4 — Honorary Award -->
       <section class="ap" id="ap-4">
-        <div class="ap-bg"><img src="src/about/about 4.png" alt=""></div>
+        <div class="ap-bg"><img src="src/about/about 4.png" alt="" /></div>
         <div class="ap-overlay"></div>
-        <span class="ap-top-label about-mono">DESIGN CATEGORIES FOR NOMINATIONS</span>
+        <span class="ap-top-label about-mono"
+          >DESIGN CATEGORIES FOR NOMINATIONS</span
+        >
         <div class="ap-content">
           <h2 class="ap-title">Honorary Award</h2>
-          <p class="ap-body">The category includes projects that<br>have a variety of ideas, communication,<br>experiences, exhibitions and solutions.</p>
+          <p class="ap-body">
+            The category includes projects that<br />have a variety of ideas,
+            communication,<br />experiences, exhibitions and solutions.
+          </p>
         </div>
       </section>
 
       <!-- Section 7: Panel 5 — Best Investment In Design -->
       <section class="ap" id="ap-5">
-        <div class="ap-bg"><img src="src/about/about 5.png" alt=""></div>
+        <div class="ap-bg"><img src="src/about/about 5.png" alt="" /></div>
         <div class="ap-overlay"></div>
-        <span class="ap-top-label about-mono">DESIGN CATEGORIES FOR NOMINATIONS</span>
+        <span class="ap-top-label about-mono"
+          >DESIGN CATEGORIES FOR NOMINATIONS</span
+        >
         <div class="ap-content">
           <h2 class="ap-title">Best Investment In Design</h2>
-          <p class="ap-body">The category includes projects that<br>have a variety of ideas, communication,<br>experiences, exhibitions and solutions.</p>
+          <p class="ap-body">
+            The category includes projects that<br />have a variety of ideas,
+            communication,<br />experiences, exhibitions and solutions.
+          </p>
         </div>
       </section>
-
-    </div><!-- /#main-page -->
+    </div>
+    <!-- /#main-page -->
 
     <!-- Final overlay — fixed, slides up over ap-5 -->
     <section id="ap-final">
       <div class="ap-bg">
-        <img src="src/about/final_overlay.png" alt="">
+        <img src="src/about/final_overlay.png" alt="" />
       </div>
       <div class="ap-overlay"></div>
       <div id="ap-final-content">
-        <h2 id="ap-final-heading">Tell your story. Be part of this year's awards.</h2>
+        <h2 id="ap-final-heading">
+          Tell your story. Be part of this year's awards.
+        </h2>
         <a href="#" class="ap-submit-btn">[ Submit a Project ]</a>
       </div>
-      <a href="gallery.html" class="ap-gallery-cta" id="ap-gallery-cta">[ Scroll To Visit Gallery ]</a>
+      <a href="gallery.html" class="ap-gallery-cta" id="ap-gallery-cta"
+        >[ Scroll to Explore ]</a
+      >
     </section>
 
     <script src="src/js/mouseTrail.js"></script>

@@ -263,8 +263,9 @@
   flex-shrink: 0;
 }
 
+.active-filter-display:hover .afd-type,
 .afd-value:hover {
-  background: #f0f0f0;
+  background: var(--color-light-orange);
 }
 
 /* ─── Filter Backdrop ───────────────────────────────────────────────────────── */
