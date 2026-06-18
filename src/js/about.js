@@ -2,30 +2,7 @@ import { initPixelHeading } from './pixelHeading.js';
 import { animateTypewriter } from './typewriter.js';
 
 /* ─── Pixel Entry Transition ─────────────────────────────────────────────── */
-(function () {
-  const container = document.getElementById('square_container');
-  const SQ = 100;
-  const cols = Math.ceil(window.innerWidth / SQ);
-  const rows = Math.ceil(window.innerHeight / SQ);
-  container.style.width  = cols * SQ + 'px';
-  container.style.height = rows * SQ + 'px';
-
-  const squares = [];
-  for (let i = 0; i < cols * rows; i++) {
-    const sq = document.createElement('div');
-    sq.className = 'square';
-    container.appendChild(sq);
-    squares.push(sq);
-  }
-
-  gsap.to(squares, {
-    opacity: 0,
-    delay: 0.3,
-    duration: 0.0005,
-    stagger: { each: 0.004, from: 'random' },
-    onComplete: () => { container.style.display = 'none'; },
-  });
-})();
+PixelTransition.fillOut({ duration: 0.5 });
 
 /* ─── Pixel Heading ──────────────────────────────────────────────────────── */
 initPixelHeading(document.getElementById('about-heading'), 75);
@@ -98,18 +75,7 @@ let exiting = false;
 function exitWithPixels(href) {
   if (exiting) return;
   exiting = true;
-  const container = document.getElementById('square_container');
-  container.style.display = 'flex';
-  const squares = Array.from(container.querySelectorAll('.square'));
-  gsap.fromTo(squares,
-    { opacity: 0 },
-    {
-      opacity: 1,
-      duration: 0.0005,
-      stagger: { each: 0.004, from: 'random' },
-      onComplete: () => { window.location.href = href; },
-    }
-  );
+  PixelTransition.navigateTo(href);
 }
 
 /* Wheel listener on the overlay itself — fires when it covers the screen */

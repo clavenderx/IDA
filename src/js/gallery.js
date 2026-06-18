@@ -2,13 +2,13 @@
 const FG = 'src/img/Floating _Gallery/';
 const FG_IMAGES = {
   'albína thordarson':            ['albina_thordarson_1.png','albina_thordarson_2.png'],
-  's.ap architects':              ['sap_architects_1.png','sap_architects_2.png'],
+  's.ap architects':              ['sap_architects_1.png','sap_architects_2.png','sap_architects_3.png','sap_architects_4.png'],
   'studio granda':                ['studio_granda_1.png','studio_granda_2.png','studio_granda_3.png'],
   'fischersund':                  ['fischersund_1.png','fischersund_5.png','fichersund_2.png','fichersund_3.png','fichersund_4.png','fichersund_6.png','fichersund_7.png'],
   'dýpi':                         ['DYPI_1.png','DYPI_2.png','DYPI_3.png','DYPI_4.png','DYPI_5.png'],
   'johanna seelemann':            ['johanna_seelemann_1.png','johanna_seelemann_2.png','johanna_seelemann_3.png'],
   'lauf cycles':                  ['lauf_cycling_1.png','lauf_cycling_2.png','lauf_cycling_3.png'],
-  'eldjárn & jón helgi hólmsson': ['image 1095.png','image 1096.png'],
+  'eldjárn & jón helgi hólmsson': ['eldjan_jon_helgi_1.png','eldjan_jon_helgi_2.png','eldjan_jon_helgi_3.png'],
   'nature conservation agency':   ['nature_conservation_agency_1.png','nature_conservation_agency_2.png','nature_conservation_agency_3.png'],
   'ranra':                        ['ranra_1.png','ranra_2.png','ranra_3.png','ranra_4.png','ranra_5.png','ranra_6.png','ranra_7.png','ranra_8.png','ranra_9.png','ranra_10.png'],
 };
@@ -258,7 +258,7 @@ function showPreview(src) {
   el.style.width      = w + 'px';
   el.style.height     = h + 'px';
   el.style.transform  = transform;
-  el.style.zIndex     = 500 + previewPool.length;
+  el.style.zIndex     = 3500 + previewPool.length;
   el.innerHTML        = `<img src="${src}" alt="">`;
   document.body.appendChild(el);
   requestAnimationFrame(() => el.classList.add('visible'));
@@ -274,36 +274,36 @@ function hidePreviews() {
 }
 
 /* ─── Filter Data ────────────────────────────────────────────────────────────── */
-const I = 'src/img/gallery/';
+const I = 'src/img/Floating _Gallery/';
 const FILTER_DATA = {
   creator: [
-    { name: 'Albína Thordarson',            img: I + 'Albína_Thordarson_Architect.png' },
-    { name: 'Dýpi',                          img: null },
-    { name: 'Fischersund',                   img: I + 'Oase_vases.png' },
-    { name: 'Johanna Seelemann',             img: I + 'Faux_Fauna.png' },
-    { name: 'Lauf Cycles',                   img: I + 'Lauf_Elja_Bike.png' },
-    { name: 'Nature Conservation Agency',    img: I + 'Seaweed.png' },
-    { name: 'Ranra',                         img: I + 'Ranra_2025_Fall.png' },
-    { name: 'S.AP Architects',               img: I + 'H59_Social_Housing.png' },
-    { name: 'Sp(r)int Studio',               img: null },
-    { name: 'Tetra',                         img: null },
-    { name: 'Helga Lilja',                   img: null },
-    { name: 'Studio Granda',                 img: I + 'Stöng_Ruins.png' },
-    { name: 'Þykjó',                         img: null },
-    { name: 'Krónan',                        img: null },
-    { name: 'Gísli B. Björnsson',            img: null },
-    { name: 'Rán Flygenring',                img: null },
-    { name: 'Eldjárn & Jón Helgi Hólmsson', img: I + 'Elliðaárstöð_Power_Station.png' },
+    { name: 'Albína Thordarson',            img: I + 'albina_thordarson_1.png' },
+    { name: 'Dýpi',                          img: I + 'DYPI_1.png' },
+    { name: 'Fischersund',                   img: I + 'fischersund_1.png' },
+    { name: 'Johanna Seelemann',             img: I + 'johanna_seelemann_1.png' },
+    { name: 'Lauf Cycles',                   img: I + 'lauf_cycling_1.png' },
+    { name: 'Nature Conservation Agency',    img: I + 'nature_conservation_agency_1.png' },
+    { name: 'Ranra',                         img: I + 'ranra_1.png' },
+    { name: 'S.AP Architects',               img: I + 'sap_architects_1.png' },
+    { name: 'Sp(r)int Studio',               img: I + 'sprint_studio_1.png' },
+    { name: 'Tetra',                         img: I + 'tetra_1.png' },
+    { name: 'Helga Lilja',                   img: I + 'helga_lilja_1.png' },
+    { name: 'Studio Granda',                 img: I + 'studio_granda_1.png' },
+    { name: 'Þykjó',                         img: I + 'pykjo_1.png' },
+    { name: 'Krónan',                        img: I + 'kronan_1.png' },
+    { name: 'Gísli B. Björnsson',            img: I + 'gisli_bjornsson_1.png' },
+    { name: 'Rán Flygenring',                img: I + 'ran_flygenring_1.png' },
+    { name: 'Eldjárn & Jón Helgi Hólmsson', img: I + 'eldjan_jon_helgi_1.png' },
     { name: 'Landslag and Harry Jóhannsson', img: null },
-    { name: 'The Blue Lagoon',               img: null },
-    { name: 'Studio Frindrekar',             img: null },
+    { name: 'The Blue Lagoon',               img: I + 'blue_lagoon_1.png' },
+    { name: 'Studio Frindrekar',             img: I + 'studio_frindrekar_1.png' },
   ],
   category: [
-    { name: 'Best Investment in Design', img: null },
-    { name: 'Honorary Award',            img: null },
-    { name: 'Place',                     img: I + 'Gígur_Visitor_Centre.png' },
-    { name: 'Product',                   img: I + 'Lauf_Elja_Bike.png' },
-    { name: 'Project',                   img: I + 'Dragons_Nest.png' },
+    { name: 'Best Investment in Design', img: I + 'kronan_1.png' },
+    { name: 'Honorary Award',            img: I + 'gisli_bjornsson_1.png' },
+    { name: 'Place',                     img: I + 'studio_granda_1.png' },
+    { name: 'Product',                   img: I + 'lauf_cycling_1.png' },
+    { name: 'Project',                   img: I + 'ranra_1.png' },
   ],
 };
 
@@ -390,6 +390,8 @@ function openFilter() {
   filterOverlay.classList.add('open');
   filterBackdrop.classList.add('open');
   filterClose.classList.add('open');
+  filterToggle.classList.add('open');
+  PixelTransition.fillIn({ container: filterBackdrop, duration: 0.5 });
 }
 
 function closeFilter() {
@@ -403,9 +405,15 @@ function closeFilter() {
     }
   }
 
+  PixelTransition.fillOut({
+    container: filterBackdrop,
+    duration: 0.4,
+    onComplete: () => filterBackdrop.classList.remove('open'),
+  });
+
   filterOverlay.classList.remove('open');
-  filterBackdrop.classList.remove('open');
   filterClose.classList.remove('open');
+  filterToggle.classList.remove('open');
   filterOptions.forEach(b => b.classList.remove('active'));
   hideSubOptions();
   hidePreviews();

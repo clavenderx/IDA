@@ -130,7 +130,14 @@
   padding: 0;
   cursor: pointer;
   letter-spacing: 0.06em;
-  z-index: 300;
+  z-index: 3400;
+}
+
+.filter-toggle:hover,
+.filter-toggle:active,
+.filter-toggle.open {
+  background: var(--color-light-orange);
+  color: var(--color-charcoal);
 }
 
 /* ─── Active Filter Display ─────────────────────────────────────────────────── */
@@ -141,7 +148,7 @@
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  z-index: 300;
+  z-index: 3400;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
@@ -150,6 +157,44 @@
 .active-filter-display.visible {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* ─── Filter Close Button ───────────────────────────────────────────────────── */
+.filter-close {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: 1px solid transparent;
+  padding: 4px;
+  cursor: pointer;
+  z-index: 3400;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.filter-close svg line {
+  stroke: var(--color-white);
+  transition: stroke 0.15s ease;
+}
+
+.filter-close.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.filter-close:hover,
+.filter-close:active {
+  background-color: var(--color-light-orange);
+  border-color: var(--color-white);
+}
+
+.filter-close:hover svg line,
+.filter-close:active svg line {
+  stroke: var(--color-charcoal);
 }
 
 .afd-type,
@@ -189,15 +234,11 @@
 .filter-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 199;
-  opacity: 0;
+  z-index: 3100;
   pointer-events: none;
-  transition: opacity 0.25s ease;
 }
 
 .filter-backdrop.open {
-  opacity: 1;
   pointer-events: all;
 }
 
@@ -206,7 +247,7 @@
   position: fixed;
   top: 24px;
   left: 24px;
-  z-index: 200;
+  z-index: 3200;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -333,6 +374,7 @@
   left: 0;
   pointer-events: none;
   opacity: 0;
+  z-index: 3500;
   scale: 0.94;
   transition: opacity 0.2s ease, scale 0.2s ease;
 }
