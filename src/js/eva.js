@@ -27,11 +27,15 @@ const applyCoverflowLayout = (imgs, currentIndex, count, animate = false, forwar
     const scale = Math.abs(wrapped) >= 1 ? SIDE_SCALE : 1;
     const zIndex = Math.round(10 - Math.abs(wrapped));
     const opacity = Math.abs(wrapped) > 1.5 ? 0 : 1;
+    const overlayOpacity = wrapped === 0 ? 0 : 0.65;
+    const overlay = img.querySelector('.ring-img-overlay');
 
     if (animate) {
       gsap.to(img, { x, rotateY: rotY, scale, zIndex, opacity, duration: 0.7, ease: "power2.inOut" });
+      if (overlay) gsap.to(overlay, { opacity: overlayOpacity, duration: 0.7, ease: "power2.inOut" });
     } else {
       gsap.set(img, { x, rotateY: rotY, scale, zIndex, opacity });
+      if (overlay) gsap.set(overlay, { opacity: overlayOpacity });
     }
   });
 };
@@ -50,6 +54,13 @@ const initRing = () => {
     top: 0,
     left: "50%",
     xPercent: -50,
+  });
+
+  imgs.forEach(img => {
+    const overlay = document.createElement('div');
+    overlay.className = 'ring-img-overlay';
+    overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.65);pointer-events:none;';
+    img.appendChild(overlay);
   });
 
   applyCoverflowLayout(imgs, 1, count);
@@ -78,9 +89,30 @@ const initEvaStory = (ringRef) => {
   const ringCount = ringRef ? ringRef.count : 0;
   let prevRingIndex = 1; // matches initRing's starting index
 
+  const animateSlideBody = (slideEl) => {
+    const body = slideEl?.querySelector(".eva-story__body");
+    if (!body) return;
+    const split = splitMap.get(body);
+    if (split) animateTypewriter(split.chars, "in");
+  };
+
+  slides.forEach((slide) => {
+    const body = slide.querySelector(".eva-story__body");
+    if (!body) return;
+    const split = splitMap.get(body);
+    if (split) gsap.set(split.chars, { autoAlpha: 0 });
+  });
+  animateSlideBody(slides[0]);
+
   const goToSlide = (index) => {
     if (animating) return;
     animating = true;
+
+    const outBody = slides[currentSlide]?.querySelector(".eva-story__body");
+    if (outBody) {
+      const outSplit = splitMap.get(outBody);
+      if (outSplit) gsap.set(outSplit.chars, { autoAlpha: 0 });
+    }
 
     const prevSlide = currentSlide;
     const nextSlide = ((index % slideCount) + slideCount) % slideCount;
@@ -121,6 +153,7 @@ const initEvaStory = (ringRef) => {
           currentSlide = 0;
           gsap.set(track, { x: 0 });
           animating = false;
+          animateSlideBody(slides[nextSlide]);
         },
       });
     } else if (isBackwardWrap) {
@@ -136,6 +169,7 @@ const initEvaStory = (ringRef) => {
           currentSlide = slideCount - 1;
           gsap.set(track, { x: `-${(slideCount - 1) * 100}vw` });
           animating = false;
+          animateSlideBody(slides[nextSlide]);
         },
       });
     } else {
@@ -146,6 +180,7 @@ const initEvaStory = (ringRef) => {
         ease: "power3.inOut",
         onComplete: () => {
           animating = false;
+          animateSlideBody(slides[nextSlide]);
         },
       });
     }
@@ -173,6 +208,10 @@ const initEvaStory = (ringRef) => {
 
 const init = () => {
   initTypewriter(document.querySelectorAll(".preview__title span"), {
+    map: splitMap,
+  });
+
+  initTypewriter(document.querySelectorAll(".eva-story__body"), {
     map: splitMap,
   });
 
