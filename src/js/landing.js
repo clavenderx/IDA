@@ -375,3 +375,4 @@
   }, { threshold: 0.1 });
   observer.observe(video.closest('section') || video);
 })();
+

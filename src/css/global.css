@@ -209,6 +209,28 @@ body {
   color: var(--color-charcoal);
 }
 
+/* ─── Scroll CTA (bouncing chevron) ─────────────────────────────────────────── */
+.scroll-cta {
+  position: absolute;
+  bottom: 27px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-light-green);
+  pointer-events: none;
+  animation: scroll-cta-bounce 1.6s ease-in-out infinite;
+}
+
+.scroll-cta svg {
+  width: 40px;
+  height: 24px;
+  display: block;
+}
+
+@keyframes scroll-cta-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(8px); }
+}
+
 /* ─── Mouse Trail ───────────────────────────────────────────────────────────── */
 .mt-block {
   position: fixed;

@@ -1,152 +1,206 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About — Icelandic Design Awards</title>
-  <link rel="stylesheet" href="src/css/global.css">
-  <link rel="stylesheet" href="src/css/about.css">
-  <script src="src/js/vendor/gsap.min.js"></script>
-  <script src="src/js/pixelTransition.js"></script>
-  <script src="src/js/vendor/SplitText.min.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — Icelandic Design Awards</title>
+    <link rel="stylesheet" href="src/css/global.css" />
+    <link rel="stylesheet" href="src/css/about.css" />
+    <script src="src/js/vendor/gsap.min.js"></script>
+    <script src="src/js/pixelTransition.js"></script>
+    <script src="src/js/vendor/SplitText.min.js"></script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav id="site-nav">
+      <a href="about.html" class="paragraph-3 nav-link nav-left nav-active"
+        >[ About ]</a
+      >
+      <a href="gallery.html" class="paragraph-3 nav-link nav-left"
+        >[ Gallery ]</a
+      >
+      <a href="index.html" class="paragraph-3 nav-center"
+        >Icelandic Design Awards</a
+      >
+      <a href="jury.html" class="paragraph-3 nav-link nav-right">[ Jury ]</a>
+      <a href="#" class="paragraph-3 nav-link nav-right">[ Submit My Work ]</a>
+    </nav>
 
-<!-- Navigation -->
-<nav id="site-nav">
-  <a href="about.html" class="paragraph-3 nav-link nav-left nav-active">[ About ]</a>
-  <a href="gallery.html" class="paragraph-3 nav-link nav-left">[ Gallery ]</a>
-  <a href="index.html" class="paragraph-3 nav-center">Icelandic Design Awards</a>
-  <a href="jury.html" class="paragraph-3 nav-link nav-right">[ Jury ]</a>
-  <a href="#" class="paragraph-3 nav-link nav-right">[ Submit My Work ]</a>
-</nav>
+    <!-- Pixel entry transition -->
+    <div id="square_container"></div>
 
-<!-- Pixel entry transition -->
-<div id="square_container"></div>
-
-<!-- Fixed scroll indicator — visible only during panels -->
-<div id="about-scroll-nav">
-  <span class="about-mono">Scroll To Explore</span>
-  <div class="about-nav-track">
-    <span class="about-mono">[</span>
-    <div class="about-nav-line">
-      <div class="about-nav-fill" id="aboutNavFill"></div>
-    </div>
-    <span class="about-mono">]</span>
-  </div>
-</div>
-
-<!-- Page snap-scroll container -->
-<div id="about-page">
-
-  <!-- Section 1: Full bleed video with pixel entry -->
-  <section id="about-entry">
-    <video id="about-video" autoplay muted loop playsinline>
-      <source src="src/about/designmarch_vid.mp4" type="video/mp4">
-    </video>
-    <div class="about-vignette"></div>
-    <button id="video-sound-btn" class="btn">[ Sound Off ]</button>
-  </section>
-
-  <!-- Section 2: ABOUT heading + description + CTA -->
-  <section id="about-intro">
-    <div id="about-intro-inner">
-      <div id="about-heading-col">
-        <div id="about-heading-wrap">
-          <h1 id="about-heading">ABOUT</h1>
-          <span class="about-eyebrow" id="about-year">[2025]</span>
+    <!-- Fixed scroll indicator — visible only during panels -->
+    <div id="about-scroll-nav">
+      <span class="about-mono">Scroll To Explore</span>
+      <div class="about-nav-track">
+        <span class="about-mono">[</span>
+        <div class="about-nav-line">
+          <div class="about-nav-fill" id="aboutNavFill"></div>
         </div>
-      </div>
-      <div id="about-body-col">
-        <p class="about-desc">
-          In November of every year at the Reykjavík Art Museum, Iceland, the Iceland Design Awards of the Iceland DesignMarch Festival takes place to award Icelandic designers and architects who have greatly contributed to the Icelandic design and architecture scene. The Iceland Design Award was created by Iceland Design, the Iceland Academy of the Arts, and the Museum of Design and Applied Arts. It has been supported by Business Iceland, SI - the Federation of Icelandic Industries, the Housing and Construction Authorities, Gróska and Science Park of the University of Iceland.
-        </p>
+        <span class="about-mono">]</span>
       </div>
     </div>
-  </section>
 
-  <!-- Section 3: About Panel 1 — Product -->
-  <section class="ap" id="ap-1">
-    <div class="ap-bg">
-      <img src="src/about/about 1.png" alt="">
-    </div>
-    <div class="ap-overlay"></div>
-    <span class="ap-top-label about-mono">DESIGN CATEGORIES FOR NOMINATIONS</span>
-    <div class="ap-content">
-      <h2 class="ap-title">Product</h2>
-      <p class="ap-body">This category is about projects from<br>different materials, garments, furniture,<br>prints, clay, textiles, jewelry or services.</p>
-    </div>
-  </section>
+    <!-- Page snap-scroll container -->
+    <div id="about-page">
+      <!-- Section 1: Full bleed video with pixel entry -->
+      <section id="about-entry">
+        <video id="about-video" autoplay muted loop playsinline>
+          <source src="src/about/designmarch_vid.mp4" type="video/mp4" />
+        </video>
+        <div class="about-vignette"></div>
+        <button id="video-sound-btn" class="btn">[ Sound Off ]</button>
+      </section>
 
-  <!-- Section 4: About Panel 2 — Place -->
-  <section class="ap" id="ap-2">
-    <div class="ap-bg">
-      <img src="src/about/about 2.png" alt="">
-    </div>
-    <div class="ap-overlay"></div>
-    <span class="ap-top-label about-mono">DESIGN CATEGORIES FOR NOMINATIONS</span>
-    <div class="ap-content">
-      <h2 class="ap-title">Place</h2>
-      <p class="ap-body">The category highlights designed<br>spaces, buildings, districts, squares,<br>parks and places around Iceland.</p>
-    </div>
-  </section>
+      <!-- Section 2: ABOUT heading + description + CTA -->
+      <section id="about-intro">
+        <div id="about-intro-inner">
+          <div id="about-heading-col">
+            <div id="about-heading-wrap">
+              <h1 id="about-heading">ABOUT</h1>
+              <span class="about-eyebrow" id="about-year">[2025]</span>
+            </div>
+          </div>
+          <div id="about-body-col">
+            <p class="about-desc">
+              In November of every year at the Reykjavík Art Museum, Iceland,
+              the Iceland Design Awards of the Iceland DesignMarch Festival
+              takes place to award Icelandic designers and architects who have
+              greatly contributed to the Icelandic design and architecture
+              scene. The Iceland Design Award was created by Iceland Design, the
+              Iceland Academy of the Arts, and the Museum of Design and Applied
+              Arts. It has been supported by Business Iceland, SI - the
+              Federation of Icelandic Industries, the Housing and Construction
+              Authorities, Gróska and Science Park of the University of Iceland.
+            </p>
+          </div>
+        </div>
+      </section>
 
-  <!-- Section 5: About Panel 3 — Project -->
-  <section class="ap" id="ap-3">
-    <div class="ap-bg">
-      <img src="src/about/about 3.png" alt="">
-    </div>
-    <div class="ap-overlay"></div>
-    <span class="ap-top-label about-mono">DESIGN CATEGORIES FOR NOMINATIONS</span>
-    <div class="ap-content">
-      <h2 class="ap-title">Project</h2>
-      <p class="ap-body">The category includes projects that<br>have a variety of ideas, communication,<br>experiences, exhibitions and solutions.</p>
-    </div>
-  </section>
+      <!-- Section 3: About Panel 1 — Product -->
+      <section class="ap" id="ap-1">
+        <div class="ap-bg">
+          <img src="src/about/about 1.png" alt="" />
+        </div>
+        <div class="ap-overlay"></div>
+        <span class="ap-top-label about-mono"
+          >Design Categories for Nominations</span
+        >
+        <div class="ap-content">
+          <h2 class="ap-title">Product</h2>
+          <p class="ap-body">
+            This category is about projects from<br />different materials,
+            garments, furniture,<br />prints, clay, textiles, jewelry or
+            services.
+          </p>
+        </div>
+      </section>
 
-  <!-- Section 6: About Panel 4 — Honorary Award -->
-  <section class="ap" id="ap-4">
-    <div class="ap-bg">
-      <img src="src/about/about 4.png" alt="">
-    </div>
-    <div class="ap-overlay"></div>
-    <span class="ap-top-label about-mono">DESIGN CATEGORIES FOR NOMINATIONS</span>
-    <div class="ap-content">
-      <h2 class="ap-title">Honorary Award</h2>
-      <p class="ap-body">The category includes projects that<br>have a variety of ideas, communication,<br>experiences, exhibitions and solutions.</p>
-    </div>
-  </section>
+      <!-- Section 4: About Panel 2 — Place -->
+      <section class="ap" id="ap-2">
+        <div class="ap-bg">
+          <img src="src/about/about 2.png" alt="" />
+        </div>
+        <div class="ap-overlay"></div>
+        <span class="ap-top-label about-mono"
+          >Design Categories for Nominations</span
+        >
+        <div class="ap-content">
+          <h2 class="ap-title">Place</h2>
+          <p class="ap-body">
+            The category highlights designed<br />spaces, buildings, districts,
+            squares,<br />parks and places around Iceland.
+          </p>
+        </div>
+      </section>
 
-  <!-- Section 7: About Panel 5 — Best Investment In Design -->
-  <section class="ap" id="ap-5">
-    <div class="ap-bg">
-      <img src="src/about/about 5.png" alt="">
+      <!-- Section 5: About Panel 3 — Project -->
+      <section class="ap" id="ap-3">
+        <div class="ap-bg">
+          <img src="src/about/about 3.png" alt="" />
+        </div>
+        <div class="ap-overlay"></div>
+        <span class="ap-top-label about-mono"
+          >Design Categories for Nominations</span
+        >
+        <div class="ap-content">
+          <h2 class="ap-title">Project</h2>
+          <p class="ap-body">
+            The category includes projects that<br />have a variety of ideas,
+            communication,<br />experiences, exhibitions and solutions.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 6: About Panel 4 — Honorary Award -->
+      <section class="ap" id="ap-4">
+        <div class="ap-bg">
+          <img src="src/about/about 4.png" alt="" />
+        </div>
+        <div class="ap-overlay"></div>
+        <span class="ap-top-label about-mono"
+          >Design Categories for Nominations</span
+        >
+        <div class="ap-content">
+          <h2 class="ap-title">Honorary Award</h2>
+          <p class="ap-body">
+            The category includes projects that<br />have a variety of ideas,
+            communication,<br />experiences, exhibitions and solutions.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 7: About Panel 5 — Best Investment In Design -->
+      <section class="ap" id="ap-5">
+        <div class="ap-bg">
+          <img src="src/about/about 5.png" alt="" />
+        </div>
+        <div class="ap-overlay"></div>
+        <span class="ap-top-label about-mono"
+          >Design categories for nominations</span
+        >
+        <div class="ap-content">
+          <h2 class="ap-title">Best Investment In Design</h2>
+          <p class="ap-body">
+            The category includes projects that<br />have a variety of ideas,
+            communication,<br />experiences, exhibitions and solutions.
+          </p>
+        </div>
+      </section>
     </div>
-    <div class="ap-overlay"></div>
-    <span class="ap-top-label about-mono">DESIGN CATEGORIES FOR NOMINATIONS</span>
-    <div class="ap-content">
-      <h2 class="ap-title">Best Investment In Design</h2>
-      <p class="ap-body">The category includes projects that<br>have a variety of ideas, communication,<br>experiences, exhibitions and solutions.</p>
-    </div>
-  </section>
+    <!-- /#about-page -->
 
-</div><!-- /#about-page -->
+    <!-- Final overlay — fixed, slides up over ap-5 -->
+    <section id="ap-final">
+      <div class="ap-bg">
+        <img src="src/about/final_overlay.png" alt="" />
+      </div>
+      <div class="ap-overlay"></div>
+      <div id="ap-final-content">
+        <h2 id="ap-final-heading">
+          Tell your story. Be part of this year's awards.
+        </h2>
+        <a href="#" class="ap-submit-btn">[ Submit My Work ]</a>
+      </div>
+      <a
+        href="gallery.html"
+        class="ap-gallery-cta scroll-cta"
+        id="ap-gallery-cta"
+      >
+        <svg viewBox="0 0 60 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline
+            points="4,4 30,32 56,4"
+            stroke="currentColor"
+            stroke-width="5"
+            stroke-linecap="square"
+            stroke-linejoin="miter"
+          />
+        </svg>
+      </a>
+    </section>
 
-<!-- Final overlay — fixed, slides up over ap-5 -->
-<section id="ap-final">
-  <div class="ap-bg">
-    <img src="src/about/final_overlay.png" alt="">
-  </div>
-  <div class="ap-overlay"></div>
-  <div id="ap-final-content">
-    <h2 id="ap-final-heading">Tell your story. Be part of this year's awards.</h2>
-    <a href="#" class="ap-submit-btn">[ Submit a Project ]</a>
-  </div>
-  <a href="gallery.html" class="ap-gallery-cta" id="ap-gallery-cta">[ Scroll To Visit Gallery ]</a>
-</section>
-
-<script src="src/js/mouseTrail.js"></script>
-<script src="src/js/about.js" type="module"></script>
-<script src="src/js/nav-transitions.js"></script>
-</body>
+    <script src="src/js/mouseTrail.js"></script>
+    <script src="src/js/about.js" type="module"></script>
+    <script src="src/js/nav-transitions.js"></script>
+  </body>
 </html>

@@ -71,33 +71,7 @@ let exiting = false;
 function exitWithPixels(href) {
   if (exiting) return;
   exiting = true;
-  const container = document.getElementById('square_container');
-
-  // Build squares if the user scrolled past the landing (never clicked it)
-  if (!container.querySelector('.square')) {
-    const SQ = 100;
-    const cols = Math.ceil(window.innerWidth / SQ);
-    const rows = Math.ceil(window.innerHeight / SQ);
-    container.style.width  = cols * SQ + 'px';
-    container.style.height = rows * SQ + 'px';
-    for (let i = 0; i < cols * rows; i++) {
-      const sq = document.createElement('div');
-      sq.className = 'square';
-      container.appendChild(sq);
-    }
-  }
-
-  container.style.display = 'flex';
-  const squares = Array.from(container.querySelectorAll('.square'));
-  gsap.fromTo(squares,
-    { opacity: 0 },
-    {
-      opacity: 1,
-      duration: 0.0005,
-      stagger: { each: 0.004, from: 'random' },
-      onComplete: () => { window.location.href = href; },
-    }
-  );
+  PixelTransition.navigateTo(href);
 }
 
 document.getElementById('ap-gallery-cta').addEventListener('click', (e) => {
