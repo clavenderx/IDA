@@ -61,6 +61,22 @@
   pointer-events: none;
 }
 
+/* ─── Video Sound Toggle ─────────────────────────────────────────────────── */
+#video-sound-btn {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  color: var(--color-light-green);
+  z-index: 20;
+  font-family: 'Steps-Mono', monospace;
+  font-size: 18px;
+}
+
+#video-sound-btn:hover,
+#video-sound-btn:active {
+  color: var(--color-charcoal);
+}
+
 /* ─── Section 2: About Intro ─────────────────────────────────────────────── */
 #about-intro {
   scroll-snap-align: start;

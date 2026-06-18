@@ -4,6 +4,18 @@ import { animateTypewriter } from './typewriter.js';
 /* ─── Pixel Entry Transition ─────────────────────────────────────────────── */
 PixelTransition.fillOut({ duration: 0.8 });
 
+/* ─── Video Sound Toggle ─────────────────────────────────────────────────── */
+(function () {
+  const video = document.getElementById('about-video');
+  const btn   = document.getElementById('video-sound-btn');
+  if (!video || !btn) return;
+  btn.addEventListener('click', () => {
+    video.muted = !video.muted;
+    btn.textContent = video.muted ? '[ Sound Off ]' : '[ Sound On ]';
+    btn.classList.toggle('sound-on', !video.muted);
+  });
+})();
+
 /* ─── Pixel Heading ──────────────────────────────────────────────────────── */
 initPixelHeading(document.getElementById('about-heading'), 75);
 initPixelHeading(document.getElementById('about-year'), 20);

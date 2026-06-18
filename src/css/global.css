@@ -193,7 +193,17 @@ body {
 }
 
 /* ─── Buttons ───────────────────────────────────────────────────────────────── */
+.btn {
+  background: none;
+  border: none;
+  padding: 5px 21px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
 .btn:hover,
+.btn:active,
 .landing-tag:hover {
   background-color: var(--color-light-orange);
   color: var(--color-charcoal);
