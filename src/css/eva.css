@@ -37,6 +37,10 @@ body {
   margin-top: 25px;
 }
 
+.eva-story__body.heading-2 {
+  font-size: 18px;
+}
+
 /* Final slide: two side-by-side text columns */
 .eva-story__slide--final {
   flex-direction: row;
