@@ -25,7 +25,11 @@ body {
 }
 
 .eva-main .preview-ring-container {
-  margin-top: 60px;
+  margin-top: 10px;
+}
+
+.eva-story__body {
+  margin-top: 40px;
 }
 
 /* Final slide: two side-by-side text columns */
@@ -48,6 +52,6 @@ body {
 
 .eva-story__cta-lead {
   text-transform: none;
-  margin: 0;
-  opacity: 0.7;
+  margin: 40px 0 0;
+  color: var(--color-white);
 }
