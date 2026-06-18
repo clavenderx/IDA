@@ -16,10 +16,14 @@ function dismiss() {
     landing.addEventListener('transitionend', () => landing.remove(), { once: true });
   }
 
-  window.addEventListener('wheel', dismiss, { once: true, passive: true });
-  window.addEventListener('touchmove', dismiss, { once: true, passive: true });
-  document.getElementById('gallery-landing-scroll-cta')
-    ?.addEventListener('click', dismiss, { once: true });
+  if (window.location.hash === '#gallery-scene') {
+    landing.remove();
+  } else {
+    window.addEventListener('wheel', dismiss, { once: true, passive: true });
+    window.addEventListener('touchmove', dismiss, { once: true, passive: true });
+    document.getElementById('gallery-landing-scroll-cta')
+      ?.addEventListener('click', dismiss, { once: true });
+  }
 })();
 
 /* ─── Floating Gallery Images ───────────────────────────────────────────────── */

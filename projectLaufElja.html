@@ -1,122 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lauf Elja — Lauf Cycles</title>
-  <link rel="stylesheet" href="src/css/global.css">
-  <link rel="stylesheet" href="src/css/projectLaufElja.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="src/js/pixelTransition.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lauf Elja — Lauf Cycles</title>
+    <link rel="stylesheet" href="src/css/global.css" />
+    <link rel="stylesheet" href="src/css/projectLaufElja.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="src/js/pixelTransition.js"></script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav id="site-nav">
+      <a href="about.html" class="paragraph-3 nav-link nav-left">[ About ]</a>
+      <a href="gallery.html" class="paragraph-3 nav-link nav-left"
+        >[ Gallery ]</a
+      >
+      <a href="index.html" class="paragraph-3 nav-center"
+        >Icelandic Design Awards</a
+      >
+      <a href="jury.html" class="paragraph-3 nav-link nav-right">[ Jury ]</a>
+      <a
+        href="https://www.honnunarmidstod.is/login?returnUrl=/keppnir/13"
+        class="paragraph-3 nav-link nav-right"
+        >[ Submit My Work ]</a
+      >
+    </nav>
 
-<!-- Navigation -->
-<nav id="site-nav">
-  <a href="about.html" class="paragraph-3 nav-link nav-left">[ About ]</a>
-  <a href="gallery.html" class="paragraph-3 nav-link nav-left">[ Gallery ]</a>
-  <a href="index.html" class="paragraph-3 nav-center">Icelandic Design Awards</a>
-  <a href="jury.html" class="paragraph-3 nav-link nav-right">[ Jury ]</a>
-  <a href="https://www.honnunarmidstod.is/login?returnUrl=/keppnir/13" class="paragraph-3 nav-link nav-right">[ Submit My Work ]</a>
-</nav>
+    <!-- Lauf Elja detail close button -->
+    <button id="detail-close" aria-label="Back">
+      <svg viewBox="0 0 60 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline
+          points="4,4 30,32 56,4"
+          stroke="currentColor"
+          stroke-width="5"
+          stroke-linecap="square"
+          stroke-linejoin="miter"
+          transform="rotate(90, 30, 18)"
+        />
+      </svg>
+    </button>
 
-<!-- Lauf Elja detail close button -->
-<button id="detail-close" class="paragraph-3">&lt;</button>
-
-<!-- Persistent scroll indicator for detail view -->
-<div id="detail-nav">
-  <span class="dp-mono">Scroll To Explore</span>
-  <div class="detail-nav-track">
-    <span class="dp-mono">[</span>
-    <div class="detail-nav-line">
-      <div class="detail-nav-fill" id="detailNavFill"></div>
-    </div>
-    <span class="dp-mono">]</span>
-  </div>
-</div>
-
-<!-- Lauf Elja horizontal detail view -->
-<div id="lauf-detail">
-  <div class="detail-track">
-
-    <!-- 01 Hero: noise grain left + group photo right + text bottom -->
-    <section class="dp dp-hero">
-      <div class="dp-hero-main">
-        <img class="dp-hero-bg" src="src/img/lauf_elja_page/lauf_cycling1.png" alt="">
-        <div class="dp-hero-bottom">
-          <h1 class="heading-2 dp-hero-title">
-            <span class="dp-hero-title-line">Where biking passion meets</span>
-            <span class="dp-hero-title-line dp-hero-title-line--2">technical engineering</span>
-            <span class="dp-hero-title-line dp-hero-title-line--3">and performance</span>
-          </h1>
-          <p class="paragraph-4 dp-hero-credit dp-hero-credit--indent">Elja by Lauf Cycles wins Product of the<br>Year at the 2025 Icelandic Awards</p>
+    <!-- Persistent scroll indicator for detail view -->
+    <div id="detail-nav">
+      <span class="dp-mono">Scroll To Explore</span>
+      <div class="detail-nav-track">
+        <span class="dp-mono">[</span>
+        <div class="detail-nav-line">
+          <div class="detail-nav-fill" id="detailNavFill"></div>
         </div>
-      </div>
-      <div class="dp-hero-side">
-        <img src="src/img/lauf_elja_page/lauf_cycling2.png" alt="">
-      </div>
-      <div class="dp-hero-text">
-        <p class="paragraph-1">[2025]<br><br>Elja by Lauf Cycles is their first mountain bike. It is a full suspension bike with characteristics from a mountain bike, a racing bike, and an urban commute, merging performance, versatility, and everyday usability in one design.<br><br>Every aspect of its design is guided by the goal of delivering an exceptional riding experience, allowing riders to move between environments, from rugged trails to city streets due to quality and durable product materials, without compromising performance or comfort. Thoughtful user-centered design, advanced engineering, and sustainable craftsmanship has allowed for innovative impact by Lauf Cycles in the bike industry.</p>
-      </div>
-      <div class="dp-hero-portrait">
-        <img src="src/img/lauf_elja_page/lauf_cycling3.png" alt="">
-        <div class="dp-cycling3-text">
-          <h2 class="heading-2 dp-cycling3-left">Meet the duos<br>redefining</h2>
-          <img class="dp-guy dp-guy1" src="src/img/lauf_elja_page/guy1.png" alt="">
-          <img class="dp-guy dp-guy2" src="src/img/lauf_elja_page/guy2.png" alt="">
-          <h2 class="heading-2 dp-cycling3-right">and rocking<br>the bike industry...</h2>
-        </div>
-        <div class="dp-hero-portrait-text">
-          <p class="paragraph-1">Founded in 2011 out from a garage by two lifelong friends, Benedikt Skúlason and Guðberg Björnsson, their journey started based on their love for biking in the Icelandic natural lands and driven by a dream to create better bikes. Lauf Cycles create bikes with the Icelandic environment condition in mind, where the riding experience is the pinnacle of their work. The co-founders are driven by the desire to reinvent for the better and leave a lasting impact in the bike industry.</p>
-          <p class="paragraph-1">Benedikt Skúlason holds a Master's degree in engineering from Manhattan, Columbia, USA. He is also a biking enthusiast and a weekend XC MTB racer. Guðberg Björnsson is a product designer.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 04 Origin: quote left, body text right -->
-    <section class="dp dp-origin" data-nav="blue">
-      <div class="dp-origin-quote">
-        <blockquote class="dp-display dp-origin-q"><span>The motivation</span><br><span class="dp-origin-q-indent">that keeps them going...</span></blockquote>
-      </div>
-      <div class="dp-origin-body">
-        <p class="paragraph-1">In the beginning, Benedikt was driven by understanding composites—that was how he had entered the bike industry. He was studying how to make his own carbon bike, and through extensive research and fascination with the material, he decided to start from the ground up to make his own.</p>
-      </div>
-    </section>
-
-
-    <div class="dp-panels-group">
-      <div class="dp-panel-img dp-noise-quote">
-        <img src="src/img/lauf_elja_page/noise_background.png" alt="">
-        <div class="dp-noise-text">
-          <span class="heading-6 dp-noise-attr">[Benedikt Skúlason]</span>
-          <blockquote class="heading-2 dp-noise-q">"We strive on <mark class="dp-mark">outside-of-the-box</mark> thinking when it comes to engineering and creating products that are incredibly fun to play with. We are a company team with fresh, <mark class="dp-mark">youthful spirit</mark> like an engineering kindergarten, and also avid cyclists."</blockquote>
-        </div>
-      </div>
-      <div class="dp-panel-img dp-blue-noise-quote">
-        <img src="src/img/lauf_elja_page/blue_noise_background.png" alt="">
-        <div class="dp-blue-noise-text">
-          <blockquote class="heading-7 dp-blue-noise-heading">The legacy in<br><span class="dp-blue-noise-indent">the bike industry...</span></blockquote>
-          <p class="paragraph-1 dp-blue-noise-body">Being able to produce bikes right at home in Iceland, Elja has made a positive impact on the local cycling community in a way it gets people excited about it. We want to create bike technology that is pure and harmonious. We are all about performance, but fundamentally Lauf is about riding more. And, riding more means you have more fun, and when you have more fun, you go faster.</p>
-        </div>
-      </div>
-      <div class="dp-panel-img dp-cycling5">
-        <img src="src/img/lauf_elja_page/lauf_cycling5.png" alt="">
-      </div>
-      <div class="dp-panel-img dp-long-noise dp-long-noise-quote">
-        <img src="src/img/lauf_elja_page/long_noise_background.png" alt="">
-        <div class="dp-long-noise-text">
-          <span class="heading-6 dp-long-noise-attr">[Benedikt Skúlason]</span>
-          <blockquote class="heading-2 dp-long-noise-q"><mark class="dp-mark">"Our cycling passion is contagious and we hope riders would feel it</mark> too when riding with us. On our bikes, you would only hear the beautiful sounds of nature and enjoy fresh air as you explore the Icelandic landscapes."</blockquote>
-        </div>
-        <a href="#" class="dp-next-project">[ See Next Project ]</a>
+        <span class="dp-mono">]</span>
       </div>
     </div>
 
-  </div>
-</div>
+    <!-- Lauf Elja horizontal detail view -->
+    <div id="lauf-detail">
+      <div class="detail-track">
+        <!-- 01 Hero: noise grain left + group photo right + text bottom -->
+        <section class="dp dp-hero">
+          <div class="dp-hero-main">
+            <img
+              class="dp-hero-bg"
+              src="src/img/lauf_elja_page/lauf_cycling1.png"
+              alt=""
+            />
+            <div class="dp-hero-bottom">
+              <h1 class="heading-2 dp-hero-title">
+                <span class="dp-hero-title-line"
+                  >Where biking passion meets</span
+                >
+                <span class="dp-hero-title-line dp-hero-title-line--2"
+                  >technical engineering</span
+                >
+                <span class="dp-hero-title-line dp-hero-title-line--3"
+                  >and performance</span
+                >
+              </h1>
+              <p class="paragraph-4 dp-hero-credit dp-hero-credit--indent">
+                Elja by Lauf Cycles wins Product of the<br />Year at the 2025
+                Icelandic Awards
+              </p>
+            </div>
+          </div>
+          <div class="dp-hero-side">
+            <img src="src/img/lauf_elja_page/lauf_cycling2.png" alt="" />
+          </div>
+          <div class="dp-hero-text">
+            <p class="paragraph-1">
+              [2025]<br /><br />Elja by Lauf Cycles is their first mountain
+              bike. It is a full suspension bike with characteristics from a
+              mountain bike, a racing bike, and an urban commute, merging
+              performance, versatility, and everyday usability in one design.<br /><br />Every
+              aspect of its design is guided by the goal of delivering an
+              exceptional riding experience, allowing riders to move between
+              environments, from rugged trails to city streets due to quality
+              and durable product materials, without compromising performance or
+              comfort. Thoughtful user-centered design, advanced engineering,
+              and sustainable craftsmanship has allowed for innovative impact by
+              Lauf Cycles in the bike industry.
+            </p>
+          </div>
+          <div class="dp-hero-portrait">
+            <img src="src/img/lauf_elja_page/lauf_cycling3.png" alt="" />
+            <div class="dp-cycling3-text">
+              <h2 class="heading-2 dp-cycling3-left">
+                Meet the duos<br />redefining
+              </h2>
+              <img
+                class="dp-guy dp-guy1"
+                src="src/img/lauf_elja_page/guy1.png"
+                alt=""
+              />
+              <img
+                class="dp-guy dp-guy2"
+                src="src/img/lauf_elja_page/guy2.png"
+                alt=""
+              />
+              <h2 class="heading-2 dp-cycling3-right">
+                and rocking<br />the bike industry...
+              </h2>
+            </div>
+            <div class="dp-hero-portrait-text">
+              <p class="paragraph-1">
+                Founded in 2011 out from a garage by two lifelong friends,
+                Benedikt Skúlason and Guðberg Björnsson, their journey started
+                based on their love for biking in the Icelandic natural lands
+                and driven by a dream to create better bikes. Lauf Cycles create
+                bikes with the Icelandic environment condition in mind, where
+                the riding experience is the pinnacle of their work. The
+                co-founders are driven by the desire to reinvent for the better
+                and leave a lasting impact in the bike industry.
+              </p>
+              <p class="paragraph-1">
+                Benedikt Skúlason holds a Master's degree in engineering from
+                Manhattan, Columbia, USA. He is also a biking enthusiast and a
+                weekend XC MTB racer. Guðberg Björnsson is a product designer.
+              </p>
+            </div>
+          </div>
+        </section>
 
-<script src="src/js/mouseTrail.js"></script>
-<script src="src/js/projectLaufElja.js"></script>
-<script src="src/js/nav-transitions.js"></script>
-</body>
+        <!-- 04 Origin: quote left, body text right -->
+        <section class="dp dp-origin" data-nav="blue">
+          <div class="dp-origin-quote">
+            <blockquote class="dp-display dp-origin-q">
+              <span>The motivation</span><br /><span class="dp-origin-q-indent"
+                >that keeps them going...</span
+              >
+            </blockquote>
+          </div>
+          <div class="dp-origin-body">
+            <p class="paragraph-1">
+              In the beginning, Benedikt was driven by understanding
+              composites—that was how he had entered the bike industry. He was
+              studying how to make his own carbon bike, and through extensive
+              research and fascination with the material, he decided to start
+              from the ground up to make his own.
+            </p>
+          </div>
+        </section>
+
+        <div class="dp-panels-group">
+          <div class="dp-panel-img dp-noise-quote">
+            <img src="src/img/lauf_elja_page/noise_background.png" alt="" />
+            <div class="dp-noise-text">
+              <span class="heading-6 dp-noise-attr">[Benedikt Skúlason]</span>
+              <blockquote class="heading-2 dp-noise-q">
+                "We strive on
+                <mark class="dp-mark">outside-of-the-box</mark> thinking when it
+                comes to engineering and creating products that are incredibly
+                fun to play with. We are a company team with fresh,
+                <mark class="dp-mark">youthful spirit</mark> like an engineering
+                kindergarten, and also avid cyclists."
+              </blockquote>
+            </div>
+          </div>
+          <div class="dp-panel-img dp-blue-noise-quote">
+            <img
+              src="src/img/lauf_elja_page/blue_noise_background.png"
+              alt=""
+            />
+            <div class="dp-blue-noise-text">
+              <blockquote class="heading-7 dp-blue-noise-heading">
+                The legacy in<br /><span class="dp-blue-noise-indent"
+                  >the bike industry...</span
+                >
+              </blockquote>
+              <p class="paragraph-1 dp-blue-noise-body">
+                Being able to produce bikes right at home in Iceland, Elja has
+                made a positive impact on the local cycling community in a way
+                it gets people excited about it. We want to create bike
+                technology that is pure and harmonious. We are all about
+                performance, but fundamentally Lauf is about riding more. And,
+                riding more means you have more fun, and when you have more fun,
+                you go faster.
+              </p>
+            </div>
+          </div>
+          <div class="dp-panel-img dp-cycling5">
+            <img src="src/img/lauf_elja_page/lauf_cycling5.png" alt="" />
+          </div>
+          <div class="dp-panel-img dp-long-noise dp-long-noise-quote">
+            <img
+              src="src/img/lauf_elja_page/long_noise_background.png"
+              alt=""
+            />
+            <div class="dp-long-noise-text">
+              <span class="heading-6 dp-long-noise-attr"
+                >[Benedikt Skúlason]</span
+              >
+              <blockquote class="heading-2 dp-long-noise-q">
+                <mark class="dp-mark"
+                  >"Our cycling passion is contagious and we hope riders would
+                  feel it</mark
+                >
+                too when riding with us. On our bikes, you would only hear the
+                beautiful sounds of nature and enjoy fresh air as you explore
+                the Icelandic landscapes."
+              </blockquote>
+            </div>
+            <a href="#" class="dp-next-project">[ See Next Project ]</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="src/js/mouseTrail.js"></script>
+    <script src="src/js/projectLaufElja.js"></script>
+    <script src="src/js/nav-transitions.js"></script>
+  </body>
 </html>

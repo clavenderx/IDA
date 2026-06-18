@@ -72,7 +72,7 @@
       opacity: 0,
       duration: 0.25,
       onComplete: () => {
-        window.location.href = 'gallery.html';
+        window.location.href = 'gallery.html#gallery-scene';
       },
     });
   });
