@@ -512,7 +512,8 @@ function applyGalleryFilter() {
   });
 
   if (activeFilter) {
-    afdType.textContent  = `[ ${activeFilter.type} ]`;
+    const cap = s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+    afdType.textContent  = `[ ${cap(activeFilter.type)} ]`;
     afdValue.textContent = '';
     const txt = document.createElement('span');
     txt.textContent = activeFilter.value.toUpperCase();
