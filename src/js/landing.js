@@ -1,5 +1,19 @@
 /* ─── Pixel Entry Transition ─────────────────────────────────────────────── */
-PixelTransition.fillOut({ duration: 0.8 });
+// Skip entry transition on initial landing page load — only play it when arriving from another page.
+
+/* ─── Tag Typewriter Animation ──────────────────────────────────────────────── */
+// (function () {
+//   const tagIds = ['tag-craft', 'tag-modern', 'tag-design', 'tag-future', 'tag-digital', 'tag-innovation', 'tag-technology'];
+//   tagIds.forEach((id, i) => {
+//     const el = document.getElementById(id);
+//     if (!el) return;
+//     const split = SplitText.create(el, { type: 'chars', charsClass: 'char', autoSplit: true });
+//     gsap.fromTo(split.chars,
+//       { autoAlpha: 0 },
+//       { autoAlpha: 1, duration: 0.04, ease: 'none', delay: i * 0.2, stagger: { each: 0.08, from: 'start' } }
+//     );
+//   });
+// })();
 
 /* ─── Tag Hover Background Swap ─────────────────────────────────────────────── */
 (function () {
@@ -302,54 +316,13 @@ PixelTransition.fillOut({ duration: 0.8 });
 
 /* ─── Landing Page ───────────────────────────────────────────────────────────── */
 (function () {
-  const overlay   = document.getElementById('landing-overlay');
-  const container = document.getElementById('square_container');
-  const SQ = 100;
-  let squares = [];
+  const overlay = document.getElementById('landing-overlay');
   let transitioning = false;
-
-  function buildSquares() {
-    container.innerHTML = '';
-    squares = [];
-    const cols = Math.ceil(window.innerWidth  / SQ);
-    const rows = Math.ceil(window.innerHeight / SQ);
-    container.style.width  = cols * SQ + 'px';
-    container.style.height = rows * SQ + 'px';
-    for (let i = 0; i < cols * rows; i++) {
-      const sq = document.createElement('div');
-      sq.className = 'square';
-      container.appendChild(sq);
-      squares.push(sq);
-    }
-  }
 
   overlay.addEventListener('click', () => {
     if (transitioning) return;
     transitioning = true;
-    buildSquares();
-
-    gsap.fromTo(squares, { opacity: 0 }, {
-      opacity: 1,
-      delay: 0.5,
-      duration: 0.0005,
-      stagger: { each: 0.004, from: 'random' },
-    });
-
-    gsap.to(squares, {
-      opacity: 0,
-      delay: 1.5,
-      duration: 0.0005,
-      stagger: { each: 0.004, from: 'random' },
-    });
-
-    gsap.to(overlay, {
-      opacity: 0,
-      delay: 1.15,
-      duration: 0.3,
-      onComplete: () => {
-        window.location.href = 'gallery.html';
-      },
-    });
+    PixelTransition.navigateTo('gallery.html');
   });
 })();
 
@@ -374,4 +347,31 @@ PixelTransition.fillOut({ duration: 0.8 });
   document.addEventListener('wheel', (e) => {
     if (!dismissed && e.deltaY > 0) dismissLanding();
   }, { passive: true });
+})();
+
+/* ─── Video Sound Toggle ─────────────────────────────────────────────────── */
+(function () {
+  const video = document.getElementById('about-video');
+  const btn   = document.getElementById('video-sound-btn');
+  if (!video || !btn) return;
+  btn.addEventListener('click', () => {
+    video.muted = !video.muted;
+    btn.textContent = video.muted ? '[ Sound Off ]' : '[ Sound On ]';
+    btn.classList.toggle('sound-on', !video.muted);
+  });
+})();
+
+/* ─── Reset video to start each time about-entry enters the viewport ─────── */
+(function () {
+  const video = document.getElementById('about-video');
+  if (!video) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        video.currentTime = 0;
+        video.play();
+      }
+    });
+  }, { threshold: 0.1 });
+  observer.observe(video.closest('section') || video);
 })();

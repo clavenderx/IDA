@@ -14,9 +14,19 @@
   left: 50%;
   transform: translateX(-50%);
   color: var(--color-light-green);
-  letter-spacing: 0.06em;
-  white-space: nowrap;
   pointer-events: none;
+  animation: cta-bounce 1.6s ease-in-out infinite;
+}
+
+#landing-cta svg {
+  width: 40px;
+  height: 24px;
+  display: block;
+}
+
+@keyframes cta-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(8px); }
 }
 
 #landing-heading {
