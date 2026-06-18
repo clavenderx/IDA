@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="src/css/gallery.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="src/js/pixelTransition.js"></script>
+  <script src="src/js/nav-transitions.js"></script>
 </head>
 <body>
 
@@ -144,6 +145,7 @@
   <div class="filter-left">
     <button class="filter-option" data-filter="creator">[ Creator ]</button>
     <button class="filter-option" data-filter="category">[ Category ]</button>
+
   </div>
   <div class="filter-right" id="filterRight"></div>
 </div>
@@ -157,7 +159,7 @@
 </button>
 
 <!-- Filter toggle + active filter display -->
-<button class="filter-toggle" id="filterToggle">[ ] Filter &amp; Sort</button>
+<button class="filter-toggle" id="filterToggle">[ Filter &amp; Sort ]</button>
 <div class="active-filter-display" id="activeFilterDisplay">
   <span class="afd-type" id="afdType"></span>
   <span class="afd-value" id="afdValue"></span>

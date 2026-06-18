@@ -1,3 +1,6 @@
+/* ─── Pixel Entry Transition ─────────────────────────────────────────────── */
+PixelTransition.fillOut({ duration: 0.8 });
+
 /* ─── Tag Hover Background Swap ─────────────────────────────────────────────── */
 (function () {
   const layers = [

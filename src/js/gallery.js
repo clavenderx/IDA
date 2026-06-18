@@ -70,10 +70,29 @@ const items = Array.from(document.querySelectorAll('.item')).map((el, i) => {
    Fires once on initial load, then re-fires every time an item fades back
    in after having faded out (the gallery loops items endlessly). ──────────── */
 const TILE = 20;
+// one reveal slot per side — keeps animations spread across the gallery
+const revealSlots = { left: false, right: false };
+// charcoal appears ~70% of the time; green, blue, orange share the rest
+const PIXEL_COLORS = [
+  'var(--color-charcoal)',
+  'var(--color-charcoal)',
+  'var(--color-charcoal)',
+  'var(--color-charcoal)',
+  'var(--color-charcoal)',
+  'var(--color-charcoal)',
+  'var(--color-charcoal)',
+  'var(--color-light-green)',
+  'var(--color-blue)',
+  'var(--color-light-orange)',
+];
 
 function spawnPixelReveal(item, delay = 0) {
   const frame = item.el.querySelector('.frame');
   if (!frame) return;
+  const leftPct = parseFloat(item.el.style.left) || 0;
+  const side = leftPct < 50 ? 'left' : 'right';
+  if (revealSlots[side]) return;
+  revealSlots[side] = true;
 
   const cols = Math.ceil(frame.offsetWidth / TILE);
   const rows = Math.ceil(frame.offsetHeight / TILE);
@@ -85,8 +104,9 @@ function spawnPixelReveal(item, delay = 0) {
   for (let t = 0; t < cols * rows; t++) {
     const tile = document.createElement('div');
     tile.className = 'tile';
-    tile.style.width  = (100 / cols) + '%';
-    tile.style.height = (100 / rows) + '%';
+    tile.style.width      = (100 / cols) + '%';
+    tile.style.height     = (100 / rows) + '%';
+    tile.style.background = PIXEL_COLORS[Math.floor(Math.random() * PIXEL_COLORS.length)];
     cover.appendChild(tile);
     tiles.push(tile);
   }
@@ -105,7 +125,7 @@ function spawnPixelReveal(item, delay = 0) {
     delay,
     duration: 0.0005,
     stagger: { each: 0.004, from: 'random' },
-    onComplete: () => cover.remove(),
+    onComplete: () => { cover.remove(); revealSlots[side] = false; },
   });
 }
 

@@ -10,7 +10,7 @@
   font-size: 11px;
   background: var(--color-light-orange);
   color: var(--color-charcoal);
-  border: 1.5px solid var(--color-charcoal);
+  border: none;
   padding: 5px 8px;
   white-space: nowrap;
   opacity: 0;
@@ -153,15 +153,21 @@
   position: fixed;
   bottom: 24px;
   left: 24px;
-  font-family: 'Steps-Mono', 'Courier New', monospace;
+  font-family: 'Steps-Mono', monospace;
   font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
   color: var(--color-charcoal);
   background: var(--color-light-green);
   border: none;
-  padding: 0;
+  box-shadow: none;
+  width: 238px;
+  box-sizing: border-box;
+  padding: 5px 21px;
+  line-height: 1.2;
   cursor: pointer;
-  letter-spacing: 0.06em;
   z-index: 3400;
+  white-space: nowrap;
 }
 
 .filter-toggle:hover,
@@ -297,7 +303,7 @@
 .filter-left {
   display: flex;
   flex-direction: column;
-  width: 278px;
+  width: 238px;
   flex-shrink: 0;
   border: 3px solid var(--color-charcoal);
 }
@@ -329,7 +335,6 @@
   font-size: 20px;
   font-weight: 400;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
   color: var(--color-charcoal);
   background: var(--color-white);
   border: none;

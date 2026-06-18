@@ -1,3 +1,6 @@
+/* ─── Pixel Entry Transition ─────────────────────────────────────────────── */
+PixelTransition.fillOut({ duration: 0.8 });
+
 import { preloadImages } from "./utils.js";
 import { initTypewriter, animateTypewriter } from "./typewriter.js";
 

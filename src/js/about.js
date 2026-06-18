@@ -2,7 +2,7 @@ import { initPixelHeading } from './pixelHeading.js';
 import { animateTypewriter } from './typewriter.js';
 
 /* ─── Pixel Entry Transition ─────────────────────────────────────────────── */
-PixelTransition.fillOut({ duration: 0.5 });
+PixelTransition.fillOut({ duration: 0.8 });
 
 /* ─── Pixel Heading ──────────────────────────────────────────────────────── */
 initPixelHeading(document.getElementById('about-heading'), 75);

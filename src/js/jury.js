@@ -1,3 +1,6 @@
+/* ─── Pixel Entry Transition ─────────────────────────────────────────────── */
+PixelTransition.fillOut({ duration: 0.8 });
+
 // Import utility function for preloading images
 import { preloadImages } from "./utils.js";
 import { initSwirlEffects } from "./swirl.js";

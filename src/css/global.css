@@ -6,6 +6,10 @@
 }
 
 /* ─── Base ──────────────────────────────────────────────────────────────────── */
+html {
+  background: var(--color-charcoal);
+}
+
 body {
   background: var(--color-charcoal);
   width: 100vw;
